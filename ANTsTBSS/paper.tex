@@ -317,7 +317,7 @@ Our proposed modification to standard TBSS is illustrated in Figure \ref{fig:wor
   \item Perform distortion correction on the FA to anatomical mapping 
         by localized nonrigid registration
         of rigidly transformed FA map ($=R^i_{dwi} \mathrm{FA}$) using
-        the white matter mask obtained in step 3 ($T^i_{FA}$).
+        the white matter mask obtained in step 3(a) ($T^i_{FA}$).
   \item For each subject, concatenate the transforms which maps each
         subject's FA to the template ($T^i_{total} = T^i_{template} \circ 
         T^i_{FA} \circ R^i_{dwi} \mathrm{FA}$).
@@ -433,7 +433,7 @@ Our proposed modification to standard TBSS is illustrated in Figure \ref{fig:wor
 
 The tensorial data associated with each of the following data sets were reconstructed from the diffusion weighted sequence using Camino%
 \footnote{
-http://web4.cs.ucl.ac.uk/research/medic/camino/pmwiki/
+http://camino.org.uk/
 }---an open source toolkit for diffusion MRI processing and analysis \cite{Cook2006} in combination with ANTs-based registration for motion correction of the DTI sequence.
 
 \subsubsection{Data from the International Neuroimaging Data-sharing Initiative (INDI)}
@@ -503,7 +503,7 @@ voxel size = $3 \times 3 \times 3$ mm$^3$) and a T1 anatomical scan (parameters:
 %
 \subsubsection{Diffuse Traumatic Brain Injury Data}
 
-A third data set was obtained as port of a larger effort investigating the relationship between various neuroimaging indices and cognitive and functional abilities in chronic survivors of TBI (principal investigator: John Whyte). A more detailed data description can be found in \cite{Avants2008}. The following is a brief description relevant to our particular study.  
+A third data set was obtained as port of a larger effort investigating the relationship between various neuroimaging indices and cognitive and functional abilities in long-term survivors of TBI (principal investigator: John Whyte). A more detailed data description can be found in \cite{Avants2008}. The following is a brief description relevant to our particular study.  
 17 controls and 16 patients with TBI were used for the analysis presented in this
 work.  Each patient had a history of non-penetrating traumatic brain injury 
 of at least moderate severity defined by significant and well-documented
