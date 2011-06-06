@@ -127,7 +127,7 @@
 
 @ARTICLE{Assaf2008,
   author = {Yaniv Assaf and Ofer Pasternak},
-  title = {Diffusion tensor imaging (DTI)-based white matter mapping in brain
+  title = {Diffusion tensor imaging ({DTI})-based white matter mapping in brain
 	research: a review.},
   journal = {J Mol Neurosci},
   year = {2008},
@@ -172,6 +172,67 @@
   pmid = {18157658},
   timestamp = {2011.02.08},
   url = {http://dx.doi.org/10.1007/s12031-007-0029-0}
+}
+
+@ARTICLE{Aubert-Broche2006,
+  author = {Berengère Aubert-Broche and Mark Griffin and G. Bruce Pike and Alan
+	C Evans and D. Louis Collins},
+  title = {Twenty new digital brain phantoms for creation of validation image
+	data bases.},
+  journal = {IEEE Trans Med Imaging},
+  year = {2006},
+  volume = {25},
+  pages = {1410--1416},
+  number = {11},
+  month = {Nov},
+  abstract = {Simulations provide a way of generating data where ground truth is
+	known, enabling quantitative testing of image processing methods.
+	In this paper, we present the construction of 20 realistic digital
+	brain phantoms that can be used to simulate medical imaging data.
+	The phantoms are made from 20 normal adults to take into account
+	intersubject anatomical variabilities. Each digital brain phantom
+	was created by registering and averaging four T1, T2, and proton
+	density (PD)-weighted magnetic resonance imaging (MRI) scans from
+	each subject. A fuzzy minimum distance classification was used to
+	classify voxel intensities from T1, T2, and PD average volumes into
+	grey-matter, white matter, cerebro-spinal fluid, and fat. Automatically
+	generated mask volumes were required to separate brain from nonbrain
+	structures and ten fuzzy tissue volumes were created: grey matter,
+	white matter, cerebro-spinal fluid, skull, marrow within the bone,
+	dura, fat, tissue around the fat, muscles, and skin/muscles. A fuzzy
+	vessel class was also obtained from the segmentation of the magnetic
+	resonance angiography scan of the subject. These eleven fuzzy volumes
+	that describe the spatial distribution of anatomical tissues define
+	the digital phantom, where voxel intensity is proportional to the
+	fraction of tissue within the voxel. These fuzzy volumes can be used
+	to drive simulators for different modalities including MRI, PET,
+	or SPECT. These phantoms were used to construct 20 simulated T1-weighted
+	MR scans. To evaluate the realism of these simulations, we propose
+	two approaches to compare them to real data acquired with the same
+	acquisition parameters. The first approach consists of comparing
+	the intensities within the segmented classes in both real and simulated
+	data. In the second approach, a whole brain voxel-wise comparison
+	between simulations and real T1-weighted data is performed. The first
+	comparison underlines that segmented classes appear to properly represent
+	the anatomy on average, and that inside these classes, the simulated
+	and real intensity values are quite similar. The second comparison
+	enables the study of the regional variations with no a priori class.
+	The experiments demonstrate that these variations are small when
+	real data are corrected for intensity nonuniformity.},
+  doi = {10.1109/TMI.2006.883453},
+  institution = {Montreal Neurological Institute Brain Imaging Center, McGill University,
+	Montreal, QC H3A 2B4, Canada.},
+  keywords = {Adult; Brain, anatomy /&/ histology; Databases, Factual; Female; Humans;
+	Image Interpretation, Computer-Assisted, methods/standards; Magnetic
+	Resonance Imaging, methods/standards; Male; Medical Records Systems,
+	Computerized; Models, Anatomic; Models, Neurological; Phantoms, Imaging;
+	Reference Values; Signal Processing, Computer-Assisted},
+  language = {eng},
+  medline-pst = {ppublish},
+  owner = {ntustison},
+  pmid = {17117770},
+  timestamp = {2011.06.03},
+  url = {http://dx.doi.org/10.1109/TMI.2006.883453}
 }
 
 @ARTICLE{Avants2008,
@@ -223,6 +284,54 @@
   url = {http://dx.doi.org/10.1016/j.acra.2008.07.007}
 }
 
+@ARTICLE{Avants2008a,
+  author = {B. B. Avants and C. L. Epstein and M. Grossman and J. C. Gee},
+  title = {Symmetric diffeomorphic image registration with cross-correlation:
+	evaluating automated labeling of elderly and neurodegenerative brain.},
+  journal = {Med Image Anal},
+  year = {2008},
+  volume = {12},
+  pages = {26--41},
+  number = {1},
+  month = {Feb},
+  abstract = {One of the most challenging problems in modern neuroimaging is detailed
+	characterization of neurodegeneration. Quantifying spatial and longitudinal
+	atrophy patterns is an important component of this process. These
+	spatiotemporal signals will aid in discriminating between related
+	diseases, such as frontotemporal dementia (FTD) and Alzheimer's disease
+	(AD), which manifest themselves in the same at-risk population. Here,
+	we develop a novel symmetric image normalization method (SyN) for
+	maximizing the cross-correlation within the space of diffeomorphic
+	maps and provide the Euler-Lagrange equations necessary for this
+	optimization. We then turn to a careful evaluation of our method.
+	Our evaluation uses gold standard, human cortical segmentation to
+	contrast SyN's performance with a related elastic method and with
+	the standard ITK implementation of Thirion's Demons algorithm. The
+	new method compares favorably with both approaches, in particular
+	when the distance between the template brain and the target brain
+	is large. We then report the correlation of volumes gained by algorithmic
+	cortical labelings of FTD and control subjects with those gained
+	by the manual rater. This comparison shows that, of the three methods
+	tested, SyN's volume measurements are the most strongly correlated
+	with volume measurements gained by expert labeling. This study indicates
+	that SyN, with cross-correlation, is a reliable method for normalizing
+	and making anatomical measurements in volumetric MRI of patients
+	and at-risk elderly individuals.},
+  doi = {10.1016/j.media.2007.06.004},
+  institution = {Department of Radiology, University of Pennsylvania, 3600 Market
+	Street, Philadelphia, PA 19104, United States. avants@grasp.cis.upenn.edu},
+  keywords = {Algorithms; Atrophy; Cerebral Cortex, pathology; Dementia, pathology;
+	Humans; Image Enhancement, methods; Image Interpretation, Computer-Assisted,
+	methods; Magnetic Resonance Imaging},
+  language = {eng},
+  medline-pst = {ppublish},
+  owner = {ntustison},
+  pii = {S1361-8415(07)00060-6},
+  pmid = {17659998},
+  timestamp = {2011.05.18},
+  url = {http://dx.doi.org/10.1016/j.media.2007.06.004}
+}
+
 @INPROCEEDINGS{Avants2010a,
   author = {Brian B. Avants and Arno Klein and Nicholas J. Tustison and Jue Woo
 	and James C. Gee},
@@ -237,8 +346,8 @@
 @ARTICLE{Avants2011,
   author = {Brian B Avants and Nicholas J Tustison and Gang Song and Philip A
 	Cook and Arno Klein and James C Gee},
-  title = {A reproducible evaluation of ANTs similarity metric performance in
-	brain image registration.},
+  title = {A reproducible evaluation of {ANTs} similarity metric performance
+	in brain image registration.},
   journal = {Neuroimage},
   year = {2011},
   volume = {54},
@@ -372,7 +481,7 @@
 
 @ARTICLE{Basser1994,
   author = {P. J. Basser and J. Mattiello and D. LeBihan},
-  title = {MR diffusion tensor spectroscopy and imaging.},
+  title = {{MR} diffusion tensor spectroscopy and imaging.},
   journal = {Biophys J},
   year = {1994},
   volume = {66},
@@ -416,8 +525,8 @@
 
 @ARTICLE{Basser1994a,
   author = {P. J. Basser and J. Mattiello and D. LeBihan},
-  title = {Estimation of the effective self-diffusion tensor from the NMR spin
-	echo.},
+  title = {Estimation of the effective self-diffusion tensor from the {NMR}
+	spin echo.},
   journal = {J Magn Reson B},
   year = {1994},
   volume = {103},
@@ -452,7 +561,7 @@
 @ARTICLE{Basser1996,
   author = {P. J. Basser and C. Pierpaoli},
   title = {Microstructural and physiological features of tissues elucidated
-	by quantitative-diffusion-tensor MRI.},
+	by quantitative-diffusion-tensor {MRI}.},
   journal = {J Magn Reson B},
   year = {1996},
   volume = {111},
@@ -492,6 +601,28 @@
   owner = {ntustison},
   pmid = {8661285},
   timestamp = {2011.02.08}
+}
+
+@ARTICLE{Beg2005,
+  author = {Beg, M. Faisal and Miller, Michael I. and Trouv\'{e}, Alain and Younes,
+	Laurent},
+  title = {Computing Large Deformation Metric Mappings via Geodesic Flows of
+	Diffeomorphisms},
+  journal = {Int. J. Comput. Vision},
+  year = {2005},
+  volume = {61},
+  pages = {139--157},
+  month = {February},
+  acmid = {1026580},
+  address = {Hingham, MA, USA},
+  doi = {10.1023/B:VISI.0000043755.93987.aa},
+  issn = {0920-5691},
+  issue = {2},
+  keywords = {Computational Anatomy, Deformable Template, Euler-Lagrange Equation,
+	Metrics, Variational Optimization},
+  numpages = {19},
+  publisher = {Kluwer Academic Publishers},
+  url = {http://portal.acm.org/citation.cfm?id=1026574.1026580}
 }
 
 @ARTICLE{Biswal2010,
@@ -564,10 +695,66 @@
   url = {http://dx.doi.org/10.1073/pnas.0911855107}
 }
 
+@ARTICLE{Bodini2009,
+  author = {Benedetta Bodini and Zhaleh Khaleeli and Mara Cercignani and David
+	H Miller and Alan J Thompson and Olga Ciccarelli},
+  title = {Exploring the relationship between white matter and gray matter damage
+	in early primary progressive multiple sclerosis: an in vivo study
+	with TBSS and VBM.},
+  journal = {Hum Brain Mapp},
+  year = {2009},
+  volume = {30},
+  pages = {2852--2861},
+  number = {9},
+  month = {Sep},
+  abstract = {We investigated the relationship between the damage occurring in the
+	brain normal-appearing white matter (NAWM) and in the gray matter
+	(GM) in patients with early Primary Progressive multiple sclerosis
+	(PPMS), using Tract-Based Spatial Statistics (TBSS) and an optimized
+	voxel-based morphometry (VBM) approach. Thirty-five patients with
+	early PPMS underwent diffusion tensor and conventional imaging and
+	were clinically assessed. TBSS and VBM were employed to localize
+	regions of lower fractional anisotropy (FA) and lower GM volume in
+	patients compared with controls. Areas of anatomical and quantitative
+	correlation between NAWM and GM damage were detected. Multiple regression
+	analyses were performed to investigate whether NAWM FA or GM volume
+	of regions correlated with clinical scores independently from the
+	other and from age and gender. In patients, we found 11 brain regions
+	that showed an anatomical correspondence between reduced NAWM FA
+	and GM atrophy; of these, four showed a quantitative correlation
+	(i.e., the right sensory motor region with the adjacent corticospinal
+	tract, the left and right thalamus with the corresponding thalamic
+	radiations and the left insula with the adjacent WM). Either the
+	NAWM FA or the GM volume in each of these regions correlated with
+	disability. These results demonstrate a link between the pathological
+	processes occurring in the NAWM and in the GM in PPMS in specific,
+	clinically relevant brain areas. Longitudinal studies will determine
+	whether the GM atrophy precedes or follows the NAWM damage. The methodology
+	that we described may be useful to investigate other neurological
+	disorders affecting both the WM and the GM.},
+  doi = {10.1002/hbm.20713},
+  institution = {Department of Brain Repair and Rehabilitation, Institute of Neurology,
+	University College London, Queen Square, London, United Kingdom.},
+  keywords = {Adult; Age Distribution; Age Factors; Age of Onset; Brain Mapping,
+	methods; Brain, pathology/physiopathology; Diffusion Magnetic Resonance
+	Imaging; Disease Progression; Female; Humans; Magnetic Resonance
+	Imaging, methods; Male; Middle Aged; Multiple Sclerosis, Chronic
+	Progressive, pathology/physiopathology; Nerve Fibers, Myelinated,
+	pathology; Neural Pathways, pathology/physiopathology; Predictive
+	Value of Tests; Prognosis; Sensitivity and Specificity; Severity
+	of Illness Index; Wallerian Degeneration, pathology/physiopathology},
+  language = {eng},
+  medline-pst = {ppublish},
+  owner = {ntustison},
+  pmid = {19172648},
+  timestamp = {2011.05.14},
+  url = {http://dx.doi.org/10.1002/hbm.20713}
+}
+
 @ARTICLE{Bookstein2001,
   author = {F. L. Bookstein},
-  title = {"Voxel-based morphometry" should not be used with imperfectly registered
-	images.},
+  title = {``{V}oxel-based morphometry'' should not be used with imperfectly
+	registered images.},
   journal = {Neuroimage},
   year = {2001},
   volume = {14},
@@ -607,7 +794,7 @@
 	Taymans and Catharine Vander Linden and Bouwien C M Smits-Engelsman
 	and Stefan Sunaert and Stephan P Swinnen},
   title = {Brain-behavior relationships in young traumatic brain injury patients:
-	DTI metrics are highly correlated with postural control.},
+	{DTI} metrics are highly correlated with postural control.},
   journal = {Hum Brain Mapp},
   year = {2010},
   volume = {31},
@@ -655,8 +842,8 @@
 @ARTICLE{Chung2008,
   author = {Sungwon Chung and Daniel Pelletier and Michael Sdika and Ying Lu
 	and Jeffrey I Berman and Roland G Henry},
-  title = {Whole brain voxel-wise analysis of single-subject serial DTI by permutation
-	testing.},
+  title = {Whole brain voxel-wise analysis of single-subject serial {DTI} by
+	permutation testing.},
   journal = {Neuroimage},
   year = {2008},
   volume = {39},
@@ -708,15 +895,121 @@
   url = {http://dx.doi.org/10.1016/j.neuroimage.2007.10.039}
 }
 
+@ARTICLE{Collins1994,
+  author = {D. L. Collins and P. Neelin and T. M. Peters and A. C. Evans},
+  title = {Automatic {3D} intersubject registration of {MR} volumetric data
+	in standardized Talairach space.},
+  journal = {J Comput Assist Tomogr},
+  year = {1994},
+  volume = {18},
+  pages = {192--205},
+  number = {2},
+  abstract = {In both diagnostic and research applications, the interpretation of
+	MR images of the human brain is facilitated when different data sets
+	can be compared by visual inspection of equivalent anatomical planes.
+	Quantitative analysis with predefined atlas templates often requires
+	the initial alignment of atlas and image planes. Unfortunately, the
+	axial planes acquired during separate scanning sessions are often
+	different in their relative position and orientation, and these slices
+	are not coplanar with those in the atlas. We have developed a completely
+	automatic method to register a given volumetric data set with Talairach
+	stereotaxic coordinate system.The registration method is based on
+	multi-scale, three-dimensional (3D) cross-correlation with an average
+	(n > 300) MR brain image volume aligned with the Talariach stereotaxic
+	space. Once the data set is re-sampled by the transformation recovered
+	by the algorithm, atlas slices can be directly superimposed on the
+	corresponding slices of the re-sampled volume. the use of such a
+	standardized space also allows the direct comparison, voxel to voxel,
+	of two or more data sets brought into stereotaxic space.With use
+	of a two-tailed Student t test for paired samples, there was no significant
+	difference in the transformation parameters recovered by the automatic
+	algorithm when compared with two manual landmark-based methods (p
+	> 0.1 for all parameters except y-scale, where p > 0.05). Using root-mean-square
+	difference between normalized voxel intensities as an unbiased measure
+	of registration, we show that when estimated and averaged over 60
+	volumetric MR images in standard space, this measure was 30\% lower
+	for the automatic technique than the manual method, indicating better
+	registrations. Likewise, the automatic method showed a 57\% reduction
+	in standard deviation, implying a more stable technique. The algorithm
+	is able to recover the transformation even when data are missing
+	from the top or bottom of the volume.We present a fully automatic
+	registration method to map volumetric data into stereotaxic space
+	that yields results comparable with those of manually based techniques.
+	The method requires no manual identification of points or contours
+	and therefore does not suffer the drawbacks involved in user intervention
+	such as reproducibility and interobserver variability.},
+  institution = {Department of Biomedical Engineering, McConnell Brain Imaging Center,
+	Montreal Neurological Institute, McGill University, Quebec, Canada.},
+  keywords = {Algorithms; Basal Ganglia, anatomy /&/ histology; Brain Mapping; Brain,
+	anatomy /&/ histology; Cerebellum, anatomy /&/ histology; Cerebral
+	Cortex, anatomy /&/ histology; Cerebral Ventricles, anatomy /&/ histology;
+	Corpus Callosum, anatomy /&/ histology; Humans; Image Enhancement,
+	methods; Image Processing, Computer-Assisted, methods/statistics
+	/&/ numerical data; Magnetic Resonance Imaging, methods; Models,
+	Structural; Stereotaxic Techniques},
+  language = {eng},
+  medline-pst = {ppublish},
+  owner = {ntustison},
+  pmid = {8126267},
+  timestamp = {2011.05.17}
+}
+
 @INPROCEEDINGS{Cook2006,
   author = {P. A. Cook and Y. Bai and S. Nedjati-Gilani and K. K. Seunarine and
 	M. G. Hall and G. J. Parker and D. C. Alexander},
-  title = {Camino: Open-Source Diffusion-MRI Reconstruction and Processing},
+  title = {Camino: Open-Source Diffusion-{MRI} Reconstruction and Processing},
   booktitle = {Proceedings of the 14th Scientific Meeting of the International Society
 	for Magnetic Resonance in Medicine},
   year = {2006},
   owner = {ntustison},
   timestamp = {2011.02.10}
+}
+
+@ARTICLE{Crum2006,
+  author = {William R Crum and Oscar Camara and Derek L G Hill},
+  title = {Generalized overlap measures for evaluation and validation in medical
+	image analysis.},
+  journal = {IEEE Trans Med Imaging},
+  year = {2006},
+  volume = {25},
+  pages = {1451--1461},
+  number = {11},
+  month = {Nov},
+  abstract = {Measures of overlap of labelled regions of images, such as the Dice
+	and Tanimoto coefficients, have been extensively used to evaluate
+	image registration and segmentation algorithms. Modern studies can
+	include multiple labels defined on multiple images yet most evaluation
+	schemes report one overlap per labelled region, simply averaged over
+	multiple images. In this paper, common overlap measures are generalized
+	to measure the total overlap of ensembles of labels defined on multiple
+	test images and account for fractional labels using fuzzy set theory.
+	This framework allows a single "figure-of-merit" to be reported which
+	summarises the results of a complex experiment by image pair, by
+	label or overall. A complementary measure of error, the overlap distance,
+	is defined which captures the spatial extent of the nonoverlapping
+	part and is related to the Hausdorff distance computed on grey level
+	images. The generalized overlap measures are validated on synthetic
+	images for which the overlap can be computed analytically and used
+	as similarity measures in nonrigid registration of three-dimensional
+	magnetic resonance imaging (MRI) brain images. Finally, a pragmatic
+	segmentation ground truth is constructed by registering a magnetic
+	resonance atlas brain to 20 individual scans, and used with the overlap
+	measures to evaluate publicly available brain segmentation algorithms.},
+  doi = {10.1109/TMI.2006.880587},
+  institution = {Center for Medical Image Computing, University College London, London
+	WC1E 6BT, UK. b.crum@ucl.ac.uk},
+  keywords = {Algorithms; Brain, anatomy /&/ histology; Humans; Image Enhancement,
+	methods; Image Interpretation, Computer-Assisted, methods; Information
+	Storage and Retrieval, methods; Magnetic Resonance Imaging, methods/standards;
+	Pattern Recognition, Automated, methods/standards; Quality Assurance,
+	Health Care, methods/standards; Reproducibility of Results; Sensitivity
+	and Specificity; Subtraction Technique},
+  language = {eng},
+  medline-pst = {ppublish},
+  owner = {ntustison},
+  pmid = {17117774},
+  timestamp = {2011.06.04},
+  url = {http://dx.doi.org/10.1109/TMI.2006.880587}
 }
 
 @ARTICLE{Das2009,
@@ -800,6 +1093,76 @@
   pmid = {15325347},
   timestamp = {2011.02.09},
   url = {http://dx.doi.org/10.1016/j.neuroimage.2004.05.010}
+}
+
+@ARTICLE{Fox1995,
+  author = {P. T. Fox},
+  title = {Spatial normalization origins: Objectives, applications, and alternatives},
+  journal = {Hum Brain Mapping},
+  year = {1995},
+  volume = {3},
+  pages = {161--164},
+  owner = {ntustison},
+  timestamp = {2011.05.17}
+}
+
+@ARTICLE{Geng2009,
+  author = {Xiujuan Geng and Gary E Christensen and Hong Gu and Thomas J Ross
+	and Yihong Yang},
+  title = {Implicit reference-based group-wise image registration and its application
+	to structural and functional {MRI}.},
+  journal = {Neuroimage},
+  year = {2009},
+  volume = {47},
+  pages = {1341--1351},
+  number = {4},
+  month = {Oct},
+  abstract = {In this study, an implicit reference group-wise (IRG) registration
+	with a small deformation, linear elastic model was used to jointly
+	estimate correspondences between a set of MRI images. The performance
+	of pair-wise and group-wise registration algorithms was evaluated
+	for spatial normalization of structural and functional MRI data.
+	Traditional spatial normalization is accomplished by group-to-reference
+	(G2R) registration in which a group of images are registered pair-wise
+	to a reference image. G2R registration is limited due to bias associated
+	with selecting a reference image. In contrast, implicit reference
+	group-wise (IRG) registration estimates correspondences between a
+	group of images by jointly registering the images to an implicit
+	reference corresponding to the group average. The implicit reference
+	is estimated during IRG registration eliminating the bias associated
+	with selecting a specific reference image. Registration performance
+	was evaluated using segmented T1-weighted magnetic resonance images
+	from the Nonrigid Image Registration Evaluation Project (NIREP),
+	DTI and fMRI images. Implicit reference pair-wise (IRP) registration-a
+	special case of IRG registration for two images-is shown to produce
+	better relative overlap than IRG for pair-wise registration using
+	the same small deformation, linear elastic registration model. However,
+	IRP-G2R registration is shown to have significant transitivity error,
+	i.e., significant inconsistencies between correspondences defined
+	by different pair-wise transformations. In contrast, IRG registration
+	produces consistent correspondence between images in a group at the
+	cost of slightly reduced pair-wise RO accuracy compared to IRP-G2R.
+	IRG spatial normalization of the fractional anisotropy (FA) maps
+	of DTI is shown to have smaller FA variance compared with G2R methods
+	using the same elastic registration model. Analyses of fMRI data
+	sets with sensorimotor and visual tasks show that IRG registration,
+	on average, increases the statistical detectability of brain activation
+	compared to G2R registration.},
+  doi = {10.1016/j.neuroimage.2009.04.024},
+  institution = {Neuroimaging Research Branch, National Institute on Drug Abuse, National
+	Institutes of Health, Baltimore, MD, USA. gengx@nida.nih.gov},
+  keywords = {Algorithms; Brain, anatomy /&/ histology/physiology; Diffusion Magnetic
+	Resonance Imaging, methods; Humans; Image Enhancement, methods; Image
+	Interpretation, Computer-Assisted, methods; Magnetic Resonance Imaging,
+	methods; Pattern Recognition, Automated, methods; Sensitivity and
+	Specificity; Subtraction Technique},
+  language = {eng},
+  medline-pst = {ppublish},
+  owner = {ntustison},
+  pii = {S1053-8119(09)00366-8},
+  pmid = {19371788},
+  timestamp = {2011.05.14},
+  url = {http://dx.doi.org/10.1016/j.neuroimage.2009.04.024}
 }
 
 @ARTICLE{Hecke2010,
@@ -891,7 +1254,7 @@
 
 @ARTICLE{Jiang2010,
   author = {Quan Jiang and Zheng Gang Zhang and Michael Chopp},
-  title = {MRI evaluation of white matter recovery after brain injury.},
+  title = {{MRI} evaluation of white matter recovery after brain injury.},
   journal = {Stroke},
   year = {2010},
   volume = {41},
@@ -923,7 +1286,7 @@
 
 @ARTICLE{Jones2005,
   author = {Derek K Jones and Mark R Symms and Mara Cercignani and Robert J Howard},
-  title = {The effect of filter size on VBM analyses of DT-MRI data.},
+  title = {The effect of filter size on {VBM} analyses of {DT-MRI} data.},
   journal = {Neuroimage},
   year = {2005},
   volume = {26},
@@ -974,13 +1337,107 @@
   url = {http://dx.doi.org/10.1016/j.neuroimage.2005.02.013}
 }
 
+@ARTICLE{Joshi2004,
+  author = {S. Joshi and Brad Davis and Matthieu Jomier and Guido Gerig},
+  title = {Unbiased diffeomorphic atlas construction for computational anatomy.},
+  journal = {Neuroimage},
+  year = {2004},
+  volume = {23 Suppl 1},
+  pages = {S151--S160},
+  abstract = {Construction of population atlases is a key issue in medical image
+	analysis, and particularly in brain mapping. Large sets of images
+	are mapped into a common coordinate system to study intra-population
+	variability and inter-population differences, to provide voxel-wise
+	mapping of functional sites, and help tissue and object segmentation
+	via registration of anatomical labels. Common techniques often include
+	the choice of a template image, which inherently introduces a bias.
+	This paper describes a new method for unbiased construction of atlases
+	in the large deformation diffeomorphic setting. A child neuroimaging
+	autism study serves as a driving application. There is lack of normative
+	data that explains average brain shape and variability at this early
+	stage of development. We present work in progress toward constructing
+	an unbiased MRI atlas of 2 years of children and the building of
+	a probabilistic atlas of anatomical structures, here the caudate
+	nucleus. Further, we demonstrate the segmentation of new subjects
+	via atlas mapping. Validation of the methodology is performed by
+	comparing the deformed probabilistic atlas with existing manual segmentations.},
+  doi = {10.1016/j.neuroimage.2004.07.068},
+  institution = {Department of Radiation Oncology, University of North Carolina, USA.
+	joshi@cs.unc.edu},
+  keywords = {Algorithms; Atlases as Topic; Autistic Disorder, pathology; Brain
+	Mapping, methods; Brain, anatomy /&/ histology/pathology; Caudate
+	Nucleus, anatomy /&/ histology/physiology; Child; Databases, Factual;
+	Humans; Image Processing, Computer-Assisted; Magnetic Resonance Imaging,
+	statistics /&/ numerical data; Models, Statistical; Reproducibility
+	of Results},
+  language = {eng},
+  medline-pst = {ppublish},
+  owner = {ntustison},
+  pii = {S1053-8119(04)00384-2},
+  pmid = {15501084},
+  timestamp = {2011.05.14},
+  url = {http://dx.doi.org/10.1016/j.neuroimage.2004.07.068}
+}
+
+@ARTICLE{Kakeda2010,
+  author = {Shingo Kakeda and Yukunori Korogi},
+  title = {The efficacy of a voxel-based morphometry on the analysis of imaging
+	in schizophrenia, temporal lobe epilepsy, and {A}lzheimer's disease/mild
+	cognitive impairment: a review.},
+  journal = {Neuroradiology},
+  year = {2010},
+  volume = {52},
+  pages = {711--721},
+  number = {8},
+  month = {Aug},
+  abstract = {Voxel-based morphometry (VBM) done by means of MRI have provided new
+	insights into the neuroanatomical basis for subjects with several
+	conditions. Recently, VBM has been applied to investigate not only
+	regional volumetric changes but also voxel-wise maps of fractional
+	anisotropy (FA) computed from diffusion tensor imaging (DTI). The
+	aim of this article is to review the recent work using VBM technique
+	in particular focusing on schizophrenia, temporal lobe epilepsy (TLE),
+	and Alzheimer's disease (AD)/mild cognitive impairment (MCI). In
+	patients with schizophrenia, VBM approach detects the structural
+	brain abnormalities that appear normal on conventional MRI. Moreover,
+	this technique also has the potential to emerge as a useful clinical
+	tool for early detection and monitoring of disease progression and
+	treatment response in patients with schizophrenia or AD/MCI. In TLE,
+	VBM approach may help elucidate some unresolved important research
+	questions such as how recurrent temporal lobe seizures affect hippocampal
+	and extrahippocampal morphology. Thus, in the future, large cohort
+	studies to monitor whole brain changes on a VBM basis will lead to
+	a further understanding of the neuropathology of several conditions.},
+  doi = {10.1007/s00234-010-0717-2},
+  institution = {Department of Radiology, University of Occupational and Environmental
+	Health School of Medicine, 1-1 Iseigaoka, Yahatanishi-ku, Kitakyushu,
+	807-8555, Japan. kakeda@med.uoeh-u.ac.jp},
+  keywords = {Adult; Aged; Algorithms; Alzheimer Disease, diagnosis/pathology; Anisotropy;
+	Basal Ganglia, pathology; Brain, pathology; Cerebellum, pathology;
+	Cerebral Cortex, pathology; Cognition Disorders, diagnosis/pathology;
+	Diffusion Magnetic Resonance Imaging, methods; Disease Progression;
+	Dominance, Cerebral, physiology; Early Diagnosis; Epilepsy, Temporal
+	Lobe, diagnosis/pathology; Female; Hippocampus, pathology; Humans;
+	Image Processing, Computer-Assisted, methods; Imaging, Three-Dimensional,
+	methods; Magnetic Resonance Imaging, methods; Male; Mathematical
+	Computing; Middle Aged; Organ Size, physiology; Reference Values;
+	Schizophrenia, diagnosis/pathology; Sensitivity and Specificity;
+	Software},
+  language = {eng},
+  medline-pst = {ppublish},
+  owner = {ntustison},
+  pmid = {20495793},
+  timestamp = {2011.05.13},
+  url = {http://dx.doi.org/10.1007/s00234-010-0717-2}
+}
+
 @ARTICLE{Kantarci2010,
   author = {K. Kantarci and R. Avula and M. L. Senjem and A. R. Samikoglu and
 	B. Zhang and S. D. Weigand and S. A. Przybelski and H. A. Edmonson
 	and P. Vemuri and D. S. Knopman and T. J. Ferman and B. F. Boeve
 	and R. C. Petersen and C. R. Jack},
-  title = {Dementia with Lewy bodies and Alzheimer disease: neurodegenerative
-	patterns characterized by DTI.},
+  title = {Dementia with {L}ewy bodies and {A}lzheimer disease: neurodegenerative
+	patterns characterized by {DTI}.},
   journal = {Neurology},
   year = {2010},
   volume = {74},
@@ -1096,7 +1553,7 @@
 	Thompson and Tom Vercauteren and Roger P Woods and J. John Mann and
 	Ramin V Parsey},
   title = {Evaluation of 14 nonlinear deformation algorithms applied to human
-	brain MRI registration.},
+	brain {MRI} registration.},
   journal = {Neuroimage},
   year = {2009},
   volume = {46},
@@ -1216,13 +1673,53 @@
   url = {http://dx.doi.org/10.1093/brain/awm216}
 }
 
+@ARTICLE{Kriegeskorte2010,
+  author = {Nikolaus Kriegeskorte and Martin A Lindquist and Thomas E Nichols
+	and Russell A Poldrack and Edward Vul},
+  title = {Everything you never wanted to know about circular analysis, but
+	were afraid to ask.},
+  journal = {J Cereb Blood Flow Metab},
+  year = {2010},
+  volume = {30},
+  pages = {1551--1557},
+  number = {9},
+  month = {Sep},
+  __markedentry = {[ntustison]},
+  abstract = {Over the past year, a heated discussion about 'circular' or 'nonindependent'
+	analysis in brain imaging has emerged in the literature. An analysis
+	is circular (or nonindependent) if it is based on data that were
+	selected for showing the effect of interest or a related effect.
+	The authors of this paper are researchers who have contributed to
+	the discussion and span a range of viewpoints. To clarify points
+	of agreement and disagreement in the community, we collaboratively
+	assembled a series of questions on circularity herein, to which we
+	provide our individual current answers in <or=100 words per question.
+	Although divergent views remain on some of the questions, there is
+	also a substantial convergence of opinion, which we have summarized
+	in a consensus box. The box provides the best current answers that
+	the five authors could agree upon.},
+  doi = {10.1038/jcbfm.2010.86},
+  institution = {MRC Cognition and Brain Sciences Unit, Cambridge, UK.},
+  keywords = {Brain Mapping, methods; Brain, anatomy /&/ histology/pathology; Data
+	Interpretation, Statistical; Guidelines as Topic; Image Processing,
+	Computer-Assisted, methods; Neurosciences, methods/statistics /&/
+	numerical data; Publications; Research Design; Selection Bias},
+  language = {eng},
+  medline-pst = {ppublish},
+  owner = {ntustison},
+  pii = {jcbfm201086},
+  pmid = {20571517},
+  timestamp = {2011.06.05},
+  url = {http://dx.doi.org/10.1038/jcbfm.2010.86}
+}
+
 @ARTICLE{Kubicki2005,
   author = {M. Kubicki and H. Park and C. F. Westin and P. G. Nestor and R. V.
 	Mulkern and S. E. Maier and M. Niznikiewicz and E. E. Connor and
 	J. J. Levitt and M. Frumin and R. Kikinis and F. A. Jolesz and R.
 	W. McCarley and M. E. Shenton},
-  title = {DTI and MTR abnormalities in schizophrenia: analysis of white matter
-	integrity.},
+  title = {{DTI} and {MTR} abnormalities in schizophrenia: analysis of white
+	matter integrity.},
   journal = {Neuroimage},
   year = {2005},
   volume = {26},
@@ -1278,19 +1775,104 @@
   url = {http://dx.doi.org/10.1016/j.neuroimage.2005.03.026}
 }
 
+@ARTICLE{Learned-Miller2006,
+  author = {Learned-Miller, E.G.},
+  title = {Data driven image models through continuous joint alignment},
+  journal = {Pattern Analysis and Machine Intelligence, IEEE Transactions on},
+  year = {2006},
+  volume = {28},
+  pages = {236 -250},
+  number = {2},
+  month = {feb. },
+  doi = {10.1109/TPAMI.2006.34},
+  issn = {0162-8828},
+  keywords = {bias removal;congealing;continuous joint alignment;data driven image
+	models;handwritten character recognition;handwritten digit classifier;magnetic
+	resonance images;nuisance variables;computer vision;handwritten character
+	recognition;image resolution;magnetic resonance imaging;nonparametric
+	statistics;Algorithms;Artificial Intelligence;Automatic Data Processing;Computer
+	Simulation;Documentation;Handwriting;Image Enhancement;Image Interpretation,
+	Computer-Assisted;Information Storage and Retrieval;Models, Theoretical;Pattern
+	Recognition, Automated;Subtraction Technique;}
+}
+
+@ARTICLE{Lorenzen2006,
+  author = {Peter Lorenzen and Marcel Prastawa and Brad Davis and Guido Gerig
+	and Elizabeth Bullitt and Sarang Joshi},
+  title = {Multi-modal image set registration and atlas formation.},
+  journal = {Med Image Anal},
+  year = {2006},
+  volume = {10},
+  pages = {440--451},
+  number = {3},
+  month = {Jun},
+  abstract = {In this paper, we present a Bayesian framework for both generating
+	inter-subject large deformation transformations between two multi-modal
+	image sets of the brain and for forming multi-class brain atlases.
+	In this framework, the estimated transformations are generated using
+	maximal information about the underlying neuroanatomy present in
+	each of the different modalities. This modality independent registration
+	framework is achieved by jointly estimating the posterior probabilities
+	associated with the multi-modal image sets and the high-dimensional
+	registration transformations mapping these posteriors. To maximally
+	use the information present in all the modalities for registration,
+	Kullback-Leibler divergence between the estimated posteriors is minimized.
+	Registration results for image sets composed of multi-modal MR images
+	of healthy adult human brains are presented. Atlas formation results
+	are presented for a population of five infant human brains.},
+  doi = {10.1016/j.media.2005.03.002},
+  institution = {Department of Computer Science, University of North Carolina, Chapel
+	Hill, NC 27599, USA. lorenzen@cs.unc.edu},
+  keywords = {Algorithms; Artificial Intelligence; Brain, anatomy /&/ histology;
+	Databases, Factual; Humans; Image Enhancement, methods; Image Interpretation,
+	Computer-Assisted, methods; Imaging, Three-Dimensional, methods;
+	Information Storage and Retrieval, methods; Magnetic Resonance Imaging,
+	methods; Pattern Recognition, Automated, methods; Reproducibility
+	of Results; Sensitivity and Specificity; Subtraction Technique},
+  language = {eng},
+  medline-pst = {ppublish},
+  owner = {ntustison},
+  pii = {S1361-8415(05)00044-7},
+  pmid = {15919231},
+  timestamp = {2011.05.14},
+  url = {http://dx.doi.org/10.1016/j.media.2005.03.002}
+}
+
 @ARTICLE{Maurer2003,
   author = {Maurer, C. R. , Jr. and Rensheng Qi and Raghavan, V.},
-  title = {A linear time algorithm for computing exact Euclidean distance transforms
-	of binary images in arbitrary dimensions},
+  title = {A linear time algorithm for computing exact {E}uclidean distance
+	transforms of binary images in arbitrary dimensions},
   journal = {IEEE Transactions on Pattern Analysis and Machine Intelligence},
   year = {2003},
   volume = {25},
   pages = {265--270},
   number = {2},
-  __markedentry = {[ntustison]},
   doi = {10.1109/TPAMI.2003.1177156},
   owner = {ntustison},
   timestamp = {2011.03.21}
+}
+
+@ARTICLE{Mazziotta1995,
+  author = {J. C. Mazziotta and A. W. Toga and A. Evans and P. Fox and J. Lancaster},
+  title = {A probabilistic atlas of the human brain: theory and rationale for
+	its development. The {International Consortium for Brain Mapping}
+	({ICBM}).},
+  journal = {Neuroimage},
+  year = {1995},
+  volume = {2},
+  pages = {89--101},
+  number = {2},
+  month = {Jun},
+  institution = {Division of Brain Mapping, UCLA School of Medicine 90024, USA.},
+  keywords = {Brain Mapping; Humans; Image Processing, Computer-Assisted; International
+	Cooperation; Magnetic Resonance Imaging; Models, Statistical; Reference
+	Values; Software; Stereotaxic Techniques; Terminology as Topic},
+  language = {eng},
+  medline-pst = {ppublish},
+  owner = {ntustison},
+  pii = {S1053811985710129},
+  pmid = {9343592},
+  timestamp = {2011.05.17}
 }
 
 @ARTICLE{Mori2009,
@@ -1343,7 +1925,7 @@
 	and Ron Kikinis and Ferenc A Jolesz and Robert W McCarley and Martha
 	E Shenton},
   title = {White matter hemisphere asymmetries in healthy subjects and in schizophrenia:
-	a diffusion tensor MRI study.},
+	a diffusion tensor {MRI} study.},
   journal = {Neuroimage},
   year = {2004},
   volume = {23},
@@ -1401,7 +1983,7 @@
 	Carme Junque and Leire Zubiarre-Elorza and Santiago Segovia and Angel
 	Gomez and Antonio Guillamon},
   title = {The microstructure of white matter in male to female transsexuals
-	before cross-sex hormonal treatment. A DTI study.},
+	before cross-sex hormonal treatment. A {DTI} study.},
   journal = {J Psychiatr Res},
   year = {2010},
   month = {Dec},
@@ -1436,6 +2018,83 @@
   pmid = {21195418},
   timestamp = {2011.02.08},
   url = {http://dx.doi.org/10.1016/j.jpsychires.2010.11.007}
+}
+
+@ARTICLE{Ridgway2008,
+  author = {Gerard R Ridgway and Susie M D Henley and Jonathan D Rohrer and Rachael
+	I Scahill and Jason D Warren and Nick C Fox},
+  title = {Ten simple rules for reporting voxel-based morphometry studies.},
+  journal = {Neuroimage},
+  year = {2008},
+  volume = {40},
+  pages = {1429--1435},
+  number = {4},
+  month = {May},
+  abstract = {Voxel-based morphometry [Ashburner, J. and Friston, K.J., 2000. Voxel-based
+	morphometry-the methods. NeuroImage 11(6 Pt 1), 805-821] is a commonly
+	used tool for studying patterns of brain change in development or
+	disease and neuroanatomical correlates of subject characteristics.
+	In performing a VBM study, many methodological options are available;
+	if the study is to be easily interpretable and repeatable, the processing
+	steps and decisions must be clearly described. Similarly, unusual
+	methods and parameter choices should be justified in order to aid
+	readers in judging the importance of such options or in comparing
+	the work with other studies. This editorial suggests core principles
+	that should be followed and information that should be included when
+	reporting a VBM study in order to make it transparent, replicable
+	and useful.},
+  doi = {10.1016/j.neuroimage.2008.01.003},
+  institution = {Centre for Medical Image Computing, University College London, UK.},
+  keywords = {Algorithms; Animals; Brain, anatomy /&/ histology/physiology; Humans;
+	Image Processing, Computer-Assisted, methods/statistics /&/ numerical
+	data},
+  language = {eng},
+  medline-pst = {ppublish},
+  owner = {ntustison},
+  pii = {S1053-8119(08)00043-8},
+  pmid = {18314353},
+  timestamp = {2011.06.03},
+  url = {http://dx.doi.org/10.1016/j.neuroimage.2008.01.003}
+}
+
+@ARTICLE{Rorden2007,
+  author = {Chris Rorden and Leonardo Bonilha and Thomas E Nichols},
+  title = {Rank-order versus mean based statistics for neuroimaging.},
+  journal = {Neuroimage},
+  year = {2007},
+  volume = {35},
+  pages = {1531--1537},
+  number = {4},
+  month = {May},
+  abstract = {Traditional analysis of neuroimaging data uses parametric statistics,
+	such as the t-test. These tests are designed to detect mean differences.
+	In fact, even nonparametric techniques such as Statistical non-Parametric
+	Mapping (SnPM) use the mean-based t statistic to measure effect size.
+	We note that these measures may not be particularly sensitive for
+	detecting differences when the mean is not an accurate measure of
+	central tendency--for example if one of the groups is experiencing
+	a ceiling or floor effect (causing a skewed data distribution). Here
+	we introduce a nonparametric approach for neuroimaging data analysis
+	that is based on the rank-order of data (and is therefore less influenced
+	by outliers than the t-test). We suggest that this approach may offer
+	a small benefit for datasets where the assumptions of the t-test
+	have been violated, for example datasets where data from one of the
+	groups exhibits a skewed distribution due to floor or ceiling effects.},
+  doi = {10.1016/j.neuroimage.2006.12.043},
+  institution = {Department of Communication Sciences and Disorders, University of
+	South Carolina, SC 29208, USA. chris@mricro.com},
+  keywords = {Algorithms; Brain, pathology; Computer Simulation; Data Interpretation,
+	Statistical; Epilepsy, Temporal Lobe, pathology; False Positive Reactions;
+	Hippocampus, pathology; Humans; Image Processing, Computer-Assisted,
+	statistics /&/ numerical data; Magnetic Resonance Imaging, statistics
+	/&/ numerical data; Sample Size; Statistics, Nonparametric},
+  language = {eng},
+  medline-pst = {ppublish},
+  owner = {ntustison},
+  pii = {S1053-8119(06)01220-1},
+  pmid = {17391987},
+  timestamp = {2011.06.03},
+  url = {http://dx.doi.org/10.1016/j.neuroimage.2006.12.043}
 }
 
 @ARTICLE{Rugg-Gunn2001,
@@ -1649,10 +2308,102 @@
   timestamp = {2011.03.22}
 }
 
+@ARTICLE{Takao2010,
+  author = {Hidemasa Takao and Osamu Abe and Hidenori Yamasue and Shigeki Aoki
+	and Kiyoto Kasai and Kuni Ohtomo},
+  title = {Cerebral asymmetry in patients with schizophrenia: a voxel-based
+	morphometry ({VBM}) and diffusion tensor imaging ({DTI}) study.},
+  journal = {J Magn Reson Imaging},
+  year = {2010},
+  volume = {31},
+  pages = {221--226},
+  number = {1},
+  month = {Jan},
+  abstract = {To evaluate the differences in gray- and white-matter asymmetry between
+	schizophrenia patients and normal subjects.Forty-eight right-handed
+	patients with chronic schizophrenia (24 males and 24 females) and
+	48 right-handed age- and sex-matched healthy controls (24 males and
+	24 females) were included in this study. The effects of diagnosis
+	on gray-matter volume asymmetry and white-matter fractional anisotropy
+	(FA) asymmetry were evaluated with use of voxel-based morphometry
+	(VBM) and voxel-based analysis of FA maps derived from diffusion
+	tensor imaging (DTI), respectively.The mean gray- and white-matter
+	volumes were significantly smaller in the schizophrenia group than
+	in the control group. The voxel-based morphometry (VBM) showed no
+	significant effect of diagnosis on gray-matter volume asymmetry.
+	The voxel-based analysis of DTI also showed no significant effect
+	of diagnosis on white-matter FA asymmetry.Our results of voxel-based
+	analyses showed no significant differences in either gray-matter
+	volume asymmetry or white-matter FA asymmetry between schizophrenia
+	patients and normal subjects.},
+  doi = {10.1002/jmri.22017},
+  institution = {Department of Radiology, Graduate School of Medicine, University
+	of Tokyo, Tokyo, Japan. takaoh-tky@umin.ac.jp},
+  keywords = {Adult; Algorithms; Cerebrum, pathology; Diffusion Magnetic Resonance
+	Imaging, methods; Female; Humans; Image Enhancement, methods; Image
+	Interpretation, Computer-Assisted, methods; Imaging, Three-Dimensional,
+	methods; Male; Reproducibility of Results; Schizophrenia, pathology;
+	Sensitivity and Specificity},
+  language = {eng},
+  medline-pst = {ppublish},
+  owner = {ntustison},
+  pmid = {20027592},
+  timestamp = {2011.05.13},
+  url = {http://dx.doi.org/10.1002/jmri.22017}
+}
+
+@BOOK{Talairach1988,
+  title = {Co-planar stereotaxic atlas of the human brain: 3-Dimensional proportional
+	system---An approach to cerebral imaging.},
+  publisher = {Thieme.},
+  year = {1988},
+  author = {J. Talairach and P. Tournoux},
+  owner = {ntustison},
+  timestamp = {2011.05.17}
+}
+
+@ARTICLE{Thirion1998,
+  author = {J. P. Thirion},
+  title = {Image matching as a diffusion process: an analogy with {M}axwell's
+	demons.},
+  journal = {Med Image Anal},
+  year = {1998},
+  volume = {2},
+  pages = {243--260},
+  number = {3},
+  month = {Sep},
+  abstract = {In this paper, we present the concept of diffusing models to perform
+	image-to-image matching. Having two images to match, the main idea
+	is to consider the objects boundaries in one image as semi-permeable
+	membranes and to let the other image, considered as a deformable
+	grid model, diffuse through these interfaces, by the action of effectors
+	situated within the membranes. We illustrate this concept by an analogy
+	with Maxwell's demons. We show that this concept relates to more
+	traditional ones, based on attraction, with an intermediate step
+	being optical flow techniques. We use the concept of diffusing models
+	to derive three different non-rigid matching algorithms, one using
+	all the intensity levels in the static image, one using only contour
+	points, and a last one operating on already segmented images. Finally,
+	we present results with synthesized deformations and real medical
+	images, with applications to heart motion tracking and three-dimensional
+	inter-patients matching.},
+  institution = {INRIA, Equipe Epidaure, Sophia-Antipolis, France. jean-philippe.thirion@inria.fr},
+  keywords = {Algorithms; Animals; Brain, anatomy /&/ histology; Computer Simulation;
+	Diagnostic Imaging, methods; Dogs; Heart, anatomy /&/ histology;
+	Humans; Image Processing, Computer-Assisted, methods; Models, Theoretical;
+	Thermodynamics},
+  language = {eng},
+  medline-pst = {ppublish},
+  owner = {ntustison},
+  pii = {S1361-8415(98)80022-4},
+  pmid = {9873902},
+  timestamp = {2011.06.03}
+}
+
 @ARTICLE{Tustison2010,
   author = {Nicholas J Tustison and Brian B Avants and Philip A Cook and Yuanjie
 	Zheng and Alexander Egan and Paul A Yushkevich and James C Gee},
-  title = {N4ITK: improved N3 bias correction.},
+  title = {{N4ITK}: improved {N3} bias correction.},
   journal = {IEEE Trans Med Imaging},
   year = {2010},
   volume = {29},
@@ -1746,7 +2497,7 @@
 	L. Collins and P. Neelin and J. Taylor and K. J. Worsley and A. C.
 	Evans},
   title = {Structural asymmetries in the human brain: a voxel-based statistical
-	analysis of 142 MRI scans.},
+	analysis of 142 {MRI} scans.},
   journal = {Cereb Cortex},
   year = {2001},
   volume = {11},
@@ -1785,11 +2536,48 @@
   timestamp = {2011.02.09}
 }
 
+@ARTICLE{Woods1998,
+  author = {R. P. Woods and S. T. Grafton and C. J. Holmes and S. R. Cherry and
+	J. C. Mazziotta},
+  title = {Automated image registration: I. General methods and intrasubject,
+	intramodality validation.},
+  journal = {J Comput Assist Tomogr},
+  year = {1998},
+  volume = {22},
+  pages = {139--152},
+  number = {1},
+  abstract = {We sought to describe and validate an automated image registration
+	method (AIR 3.0) based on matching of voxel intensities.Different
+	cost functions, different minimization methods, and various sampling,
+	smoothing, and editing strategies were compared. Internal consistency
+	measures were used to place limits on registration accuracy for MRI
+	data, and absolute accuracy was measured using a brain phantom for
+	PET data.All strategies were consistent with subvoxel accuracy for
+	intrasubject, intramodality registration. Estimated accuracy of registration
+	of structural MRI images was in the 75 to 150 microns range. Sparse
+	data sampling strategies reduced registration times to minutes with
+	only modest loss of accuracy.The registration algorithm described
+	is a robust and flexible tool that can be used to address a variety
+	of image registration problems. Registration strategies can be tailored
+	to meet different needs by optimizing tradeoffs between speed and
+	accuracy.},
+  institution = {Division of Brain Mapping, UCLA School of Medicine, USA.},
+  keywords = {Algorithms; Brain Mapping, methods; Humans; Image Processing, Computer-Assisted;
+	Magnetic Resonance Imaging; Mathematical Computing; Phantoms, Imaging;
+	Programming Languages; Reference Values; Reproducibility of Results;
+	Tomography, Emission-Computed},
+  language = {eng},
+  medline-pst = {ppublish},
+  owner = {ntustison},
+  pmid = {9448779},
+  timestamp = {2011.05.14}
+}
+
 @ARTICLE{Wu2008,
   author = {M. Wu and L. C. Chang and L. Walker and H. Lemaitre and A. S. Barnett
 	and S. Marenco and C. Pierpaoli},
-  title = {Comparison of EPI distortion correction methods in diffusion tensor
-	MRI using a novel framework.},
+  title = {Comparison of {EPI} distortion correction methods in diffusion tensor
+	{MRI} using a novel framework.},
   journal = {Med Image Comput Comput Assist Interv},
   year = {2008},
   volume = {11},
@@ -1824,10 +2612,64 @@
   timestamp = {2011.02.09}
 }
 
+@ARTICLE{Xie2006,
+  author = {S. Xie and J. X. Xiao and G. L. Gong and Y. F. Zang and Y. H. Wang
+	and H. K. Wu and X. X. Jiang},
+  title = {Voxel-based detection of white matter abnormalities in mild {A}lzheimer
+	disease.},
+  journal = {Neurology},
+  year = {2006},
+  volume = {66},
+  pages = {1845--1849},
+  number = {12},
+  month = {Jun},
+  abstract = {To detect white matter abnormalities in patients with mild Alzheimer
+	disease (AD) by diffusion tensor imaging and to determine their topographic
+	relationship with gray matter atrophy.Thirteen patients with mild
+	AD and 16 normal age-matched volunteers underwent diffusion tensor
+	imaging and three-dimensional spoiled gradient-recalled sequence
+	scanning. Voxel-based morphometry was conducted to detect regions
+	of gray matter atrophy in the AD group relative to the control group.
+	Fractional anisotropy (FA) maps were processed using SPM2 to make
+	voxel-wise comparison of anisotropy in whole brain between the two
+	groups. The relationship between locations of abnormalities in the
+	white and gray matter was examined.Significant reductions in anisotropy
+	were found in the white matter of both medial temporal lobes, bilateral
+	temporal stems, bilateral superior longitudinal fasciculi, bilateral
+	internal capsules, and cerebral peduncles, as well as the white matter
+	of left middle temporal gyrus and right superior parietal lobule,
+	the body and genu of the corpus callosum, and the right lateral capsule
+	in patients with AD. Although the decrease in FA was consistent with
+	cortical volumetric reduction in both temporal lobes, the widespread
+	involvement of bilateral superior longitudinal fasciculi was dominant
+	in these white matter findings.Voxel-wise comparison of whole-brain
+	anisotropy revealed widely distributed disintegration of white matter
+	in mild Alzheimer disease (AD). The white matter shows a different
+	pattern of degeneration from gray matter and may be an independent
+	factor in the progress of AD.},
+  doi = {10.1212/01.wnl.0000219625.77625.aa},
+  institution = {Radiology Department, Peking University First Hospital, 8 Xishiku
+	St, Xicheng District, Beijing, 100034, China. ouyangxu2004@vip.sina.com},
+  keywords = {Aged; Aged, 80 and over; Alzheimer Disease, classification/diagnosis;
+	Diffusion Magnetic Resonance Imaging, methods; Female; Humans; Image
+	Interpretation, Computer-Assisted, methods; Imaging, Three-Dimensional,
+	methods; Male; Middle Aged; Nerve Fibers, Myelinated, pathology;
+	Reproducibility of Results; Sensitivity and Specificity; Severity
+	of Illness Index; Signal Processing, Computer-Assisted; Subtraction
+	Technique},
+  language = {eng},
+  medline-pst = {ppublish},
+  owner = {ntustison},
+  pii = {66/12/1845},
+  pmid = {16801648},
+  timestamp = {2011.05.13},
+  url = {http://dx.doi.org/10.1212/01.wnl.0000219625.77625.aa}
+}
+
 @ARTICLE{Yushkevich2006,
   author = {Paul A Yushkevich and Joseph Piven and Heather Cody Hazlett and Rachel
 	Gimpel Smith and Sean Ho and James C Gee and Guido Gerig},
-  title = {User-guided 3D active contour segmentation of anatomical structures:
+  title = {User-guided {3D} active contour segmentation of anatomical structures:
 	significantly improved efficiency and reliability.},
   journal = {Neuroimage},
   year = {2006},
@@ -1872,7 +2714,7 @@
 @ARTICLE{Zalesky2011,
   author = {Andrew Zalesky},
   title = {Moderating registration misalignment in voxelwise comparisons of
-	DTI data: a performance evaluation of skeleton projection.},
+	{DTI} data: a performance evaluation of skeleton projection.},
   journal = {Magn Reson Imaging},
   year = {2011},
   volume = {29},
