@@ -172,30 +172,32 @@
 
 
 \begin{abstract}
-
-%% Text of abstract
-Critical to many studies investigating white matter differences across populations 
-is normalization of fractional anisotropy (FA) images to a common coordinate system
-for statistical analysis.  Although variations exist, common to several current 
-approaches is direct FA-to-FA registration whether it be to a chosen individual or
-a generated template.  This type of circular analysis 
-is susceptible to the general confounding 
-effect of minimizing data differences with nonrigid registration which are potentially 
-the precise differences to be statistically quantified.  We demonstrate that
-population normalization to a template explicitly optimizes certain voxelwise statistical 
-testing measures as opposed to maximizing anatomical alignment.  
-As a corrective, we advocate the use of the Symmetric Group Normalization strategy for 
-unbiased template construction from anatomical (e.g. T1-weighted) images which provides 
-the coordinate system for statistical inference of FA differences.
-Following template construction, individual FA images are warped to the template via 
-the corresponding anatomical image.  Performance is evaluated using open data from the International 
-Neuroimaging Data-sharing Initiative and a cohort of 16 traumatic brain injury survivors compared with 
-17 control subjects.  Alignment comparisons with the normalization component of the 
-popular tract-based spatial statistics (TBSS)
-show that our anatomically-based template approach produces good alignments despite
-the absence of any direct FA-to-FA registration.  Of practical consideration we note that the 
-software tools discussed in this work are provided to the public as part of the open source 
-Advanced Normalization Tools (ANTs) repository.
+Template-based normalization plays a critical role in many population
+studies based on diffusion tensor imaging (DTI).  Several current
+approaches compute the fractional anisotropy (FA) from the DTI and then
+directly register the FA image to a FA template before performing
+statistical comparison between different groups within a population.  In
+this paper, we demonstrate that this analysis strategy induces selection
+bias that varies in strength with the similarity metric used in
+registration.  Specifically, we show that the popular sum of squared
+difference intensity metric maximizes effect size, rather than
+anatomical alignment, and consistently overestimates statistical
+significance.  Consequently, we advocate a more traditional approach
+that normalizes a population of FA images through the associated T1
+anatomical images.  We show that the Symmetric Group Normalization
+strategy for unbiased template construction from anatomical (e.g.
+T1-weighted) images provides a valid and unbiased coordinate system for
+statistical inference of FA differences and yet retains detection power
+in comparison to FA-based normalization methods.  We establish this
+outcome by using open data in normal controls from the International
+Neuroimaging Data-sharing Initiative as well as a cohort of 16 traumatic
+brain injury survivors compared with 17 control subjects.  Alignment
+comparisons with the normalization component of the popular tract-based
+spatial statistics (TBSS) show that our anatomically-based template
+approach produces good alignments despite the absence of any direct
+FA-to-FA registration.  Of practical consideration we note that the
+software tools discussed in this work are provided to the public as part
+of the open source Advanced Normalization Tools (ANTs) repository.
 
 %We propose a modification of the popular tract-based spatial statistics (TBSS) framework \citep{Smith2006} for investigating diffusion tensor derived scalar measures across populations.   Whereas the current crucial alignment step is performed typically using the derived fractional anisotropy images, we propose using the Symmetric Group Normalization strategy for anatomical unbiased template construction from T1-weighted images which serves as the coordinate system for statistical inference.   A potential benefit of this modified approach is reduction of the general confounding effect of minimizing data differences via nonrigid registration which are potentially the precise differences to be statistically quantified.  Alignment performance is evaluated using open data sets from the International Neuroimaging Data-sharing Initiative.  This assessment demonstrated improved alignment in both fractional anisotropy (FA) and mean diffusivity (MD) images versus standard TBSS.  Further analyses evidencing increased regional sensitivity in peripheral white matter to FA differences include a DTI-based assessment of a cohort of 16 traumatic brain injury survivors compared with 17 control subjects.  Similar to the Oxford Centre for Functional MRI of the Brain (FMRIB) who provide TBSS to the public, the software tools discussed herein are provided to the public as part of the open source Advanced Normalization Tools (ANTs) repository. 
 \end{abstract}
@@ -226,6 +228,8 @@ Advanced Normalization Tools (ANTs) \sep diffusion tensor imaging \sep fractiona
 
 The seminal work of Basser et al. \cite{Basser1994a,Basser1994} established diffusion tensor imaging (DTI) as a viable investigatory MRI technique.  Continued quantitative development has furthered its applicability to probing clinical questions of interest particularly pertaining to the microstructure of white matter \cite{Basser1996,Assaf2008}.  Given this sensitivity to brain architecture, DTI has found multiple uses in assessing neuro-structural differences in cross-population studies \cite{Kubicki2005,Arnone2008,Kantarci2010,Rametti2010}
 including subjects with traumatic brain injury (TBI) \cite{Caeyenberghs2010,Jiang2010,Warner2010}.  
+
+Normalization (also known as image registration) maps each image in the population to a common coordinate system thus enabling statistical comparison across patient groups or association with other variables such as genetics, cognition or age.  
 
 Two popular comprehensive software packages for assessing population FA differences include 
 the SPM Matlab-based toolkit%
