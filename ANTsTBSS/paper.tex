@@ -189,7 +189,7 @@ strategy for unbiased template construction from anatomical (e.g.
 T1-weighted) images provides a valid and unbiased coordinate system for
 statistical inference of FA differences and yet retains detection power
 in comparison to FA-based normalization methods.  We establish this
-outcome by using open data in normal controls from the International
+outcome by using open data comprised of normal controls from the International
 Neuroimaging Data-sharing Initiative as well as a cohort of 16 traumatic
 brain injury survivors compared with 17 control subjects.  Alignment
 comparisons with the normalization component of the popular tract-based
@@ -235,17 +235,18 @@ and the tract-based spatial statistics (TBSS) framework \cite{Smith2006}.%
 \footnote{
 http://www.fmrib.ox.ac.uk/fsl/tbss/index.html
 } 
-VBM\cite{Ashburner2001} continues to find application to FA studies\cite{Kakeda2010,Takao2010} despite concerns about its validity\cite{Bookstein2001,Davatzikos2004} in DTI \cite{Jones2005,Chung2008}.  The TBSS framework was partially developed in response to these concerns in which voxel values are projected onto a template white matter skeleton for increased statistical power.  
+VBM \cite{Ashburner2001} continues to find application to FA studies \cite{Kakeda2010,Takao2010} despite concerns about its validity \cite{Bookstein2001,Davatzikos2004} in DTI \cite{Jones2005,Chung2008}.  The TBSS framework was partially developed in response to these concerns in which voxel values are projected onto a template white matter skeleton for increased statistical power.  
 %(e.g. \cite{Arnone2008,Bodini2009}).  
 
 Although there are substantive differences in normalization schemes
 between these and other image registration approaches, a core
-commonality includes direct FA-to-FA registration.  The sum of squared differences (SSD) image similarity metric is perhaps the easiest to interpret (it drives the image difference to zero), is computationally efficient (just compute the image difference and an image gradient) and is therefore widely used.  Some of the most popular registration methods (SPM, Demons, FSL's FNIRT) rely on this metric and provide reasonable performance levels \cite{Klein2009}.
+commonality includes direct FA-to-FA registration.  The sum of squared differences (SSD) image similarity metric is perhaps the easiest to interpret (it drives the image difference to zero), is computationally efficient (just compute the image difference and an image gradient) and is therefore widely used.  Some of the most popular registration methods (SPM, Demons, FSL's FNIRT) rely on this metric and produce reasonable performance levels \cite{Klein2009}.%
 \footnote{
 In addition to TBSS and SPM, other popular packages in the neuroimaging community 
-which use the SSD metric includes AIR \cite{Woods1998} and LDDMM \cite{Beg2005}.
+which use the SSD metric include AIR \cite{Woods1998} and LDDMM \cite{Beg2005}.
 }  
-Now, suppose the SSD metric is optimized to find a set of $M$ transformations that map a population of $M$ FA images, $\{I_1, I_2, \ldots, I_M\}$, to a representative FA template, $J$. Then, the algorithm will compute transformations
+
+However, suppose the SSD metric is optimized to find a set of $M$ transformations that map a population of $M$ FA images, $\{I_1, I_2, \ldots, I_M\}$, to a representative FA template, $J$. The algorithm will then compute the transformations,
 $\boldsymbol{\mathcal{T}} = \{\mathcal{T}_1, \mathcal{T}_2,\ldots,\mathcal{T}_M \}$, which minimize the SSD metric over the population, i.e.
 \begin{align}
   \boldsymbol{\mathcal{T}} = \underset{\mathcal{T}_1, \ldots, \mathcal{T}_M}{\operatorname{argmin}}
@@ -265,7 +266,8 @@ statistical testing, direct FA normalization explicitly conflates
 anatomical alignment with optimizing the very statistical testing
 results that one will ultimately use to assess hypotheses.  This immediately evokes a sense of circularity in the analysis \cite{Kriegeskorte2010}.
 According to Kriegeskrote et al., ``An analysis is circular (or nonindependent) if it is based on data that were selected for showing the effect of interest or a related effect.''  As illustrated with
-Eqn. \ref{eq:variance}, direct FA-to-FA registration will find transformations that align (or select) voxels such that the statistical testing result (or the effect of interest) is increased (assuming one is using Student's test).  While the SSD metric is able to provide visually attractive alignments across subjects, the voxel-level details (that is, which voxels are matched where) are, as we show in the following simulation study, strikingly important in terms of the effect on detection power.  
+Eqn. \ref{eq:variance}, direct FA-to-FA registration will find transformations that align (or select) voxels such that the statistical testing result (or the effect of interest) is increased (assuming one is using Student's 
+$t$-test).  While the SSD metric is able to provide visually attractive alignments across subjects, the voxel-level details (that is, which voxels are matched where) are, as we show in the following simulation study, strikingly important in terms of the effect on detection power.  
 
 %This results in a significant increase in the number of false positives for this type
 %of testing which we illustrate with the following example.
@@ -326,7 +328,7 @@ The true significance curves are drawn in black.  Elevated statistical power is 
 
 After creation of the simulated data set, we performed voxelwise testing (both $t$-testing
 and Wilcoxon rank-sum testing, one-tailed, $\alpha = 0.95$) with false discovery
-rate correction within the white matter to get ``true'' cumulative distribution functions (CDFs).  The CDF vertical axis shows the cumulative number of voxels with corrected p-values at or below a given significance level (horizontal axis) and thus may be used as a surrogate measure for spatial sensitivity.  From here, we denote these graphs as "statistical significance curves."  These curves are plotted in black in Fig. \ref{fig:simulated_testing}.  To illustrate the 
+rate correction within the white matter to get ``true'' cumulative distribution functions (CDFs).  The CDF vertical axis shows the cumulative number of voxels with corrected $p$-values at or below a given significance level (horizontal axis) and thus may be used as a surrogate measure for spatial sensitivity.  From here, we denote these graphs as "statistical significance curves."  These curves are plotted in black in Fig. \ref{fig:simulated_testing}.  To illustrate the 
 effect of similarity metric on statistical significance, we performed ANTs registration \cite{Avants2011} of each subject to the template
 (Fig. \ref{fig:simulated_data}(b)) using cross correlation (CC), mutual information (MI), 
 Demons \cite{Thirion1998}, and sum of squared differences (SSD). A representative deformed image
@@ -335,14 +337,16 @@ Fig. \ref{fig:simulated_data_warped}.
 The resulting statistical significance curves are plotted with the true significance curves in Fig. 
 \ref{fig:simulated_testing}.  
 
-This example demonstrates the undesirable phenomenon previously described.  Even though these images were anatomically aligned prior to registration, the resulting deformations (falsely) increased detection power.  This effect can be explained in the context of Eqn. (\ref{eq:variance}) and by the fact that we added noise to the underlying distribution which allows the deformable mapping algorithms the freedom to transform the positions of the most "powerful" voxels to minimize variance across the population (and increase the t-test).  Note, however, that this effect is increased by the fact that noise was added to the data. {\textcolor{red}{FIXME --- does more / less noise increase / decrease the exaggerated power? }}
+This example demonstrates the undesirable phenomenon previously described.  Even though these images were anatomically aligned prior to registration, the resulting deformations (falsely) increased detection power.  This effect can be explained in the context of Eqn. (\ref{eq:variance}) and by the fact that we added noise to the underlying distribution which allows the deformable mapping algorithms the freedom to transform the positions of the most "powerful" voxels to minimize variance across the population (and increase the $t$-test).  Note, however, that this effect is increased by the fact that noise was added to the data.  Decreasing the standard deviation of the noise causes an increase in separation between  the SSD and Demon's metric pair with the MI and CC metric pair with the latter pair closer to the the true significance curve. Increasing the noise yields the same ranking with a more even spread between significance curves.
+
 Common similarity metric functions can therefore induce false positives by minimizing local intensity 
 variance between the subjects and template which explicitly maximizes statistical
 testing results in contrast to maximizing anatomical alignment.  This effect is strongest in 
 the SSD and Demons metrics and weakest in the MI and CC metrics likely due
 to the degree of correspondence to Eqn. (\ref{eq:variance}).   This is also supported by contrasting
 the $t$-test results given in Fig. \ref{fig:simulated_testing}(a) with the non-parametric Wilcoxon
-rank-sum testing (Fig. \ref{fig:simulated_testing}(b)).  The rank test does not explicitly use variance in its assessment and thus exhibits far less statistical exaggeration.  
+rank-sum testing (Fig. \ref{fig:simulated_testing}(b)).  The rank test does not explicitly use variance in its assessment and thus exhibits far less statistical exaggeration even though it offers roughly 95\%
+the power of the $t$-test assuming certain assumptions are met \cite{Siegel1988,Rorden2007}.  
 
 Although various processing choices mitigate these effects, such as Gaussian smoothing, nonparametric testing, and the use of more robust similarity metrics, such choices are often made on an ad hoc basis.  
 In contrast, in this work we strongly advocate the general application
@@ -429,7 +433,7 @@ templates.  One challenge with standard templates is that they may inadvertantly
 
 Population-specific templates (or optimal templates) alleviate some of
 these issues by deriving a most representative image from the population
-\cite{FIXME}.  Large deformation registration algorithms also reduce
+\cite{Good2001}.  Large deformation registration algorithms also reduce
 this confound by being less sensitive to the deformation distance
 between subject and target.  Some approaches combine both advantages,
 for instance, the diffeomorphic approach of Joshi et al. who employ the
@@ -697,12 +701,20 @@ It should be noted that although TBSS uses the SSD metric, the fixed and moving 
   \end{tabular*}
 \end{table} 
 
-The CDF of the voxelwise FA coefficient of variation {\textcolor{red}{ FIXME define coefficient of variation and explain what it means --- how does it relate to variance?}} of the aligned
-images is shown for each case in Figure \ref{fig:tbi_cov}.  This is
-very much related to earlier findings in that strategies evincing
-greater alignment, as quantified by the coefficient of variation,
-will trend towards smaller variance thus exhibiting a left-shifted
-CDF.  Although direct FA-to-FA registration using ANTs with common
+The CDF of the voxelwise FA coefficient of variation of the aligned
+images is shown for each case in Figure \ref{fig:tbi_cov}.  
+The coefficient of variation at each voxel is defined as the variance
+divided by the mean over the population of FA values.  Thus,
+those metrics which best minimize the voxelwise variance would
+trend towards greater alignment as quantified by the coefficient of
+variation.
+
+%This is very much related to earlier findings in that strategies evincing
+%greater alignment, as quantified by the coefficient of variation,
+%will trend towards smaller variance thus exhibiting a left-shifted
+%CDF.  
+
+Although direct FA-to-FA registration using ANTs with common
 similarity metrics gives ``better alignment'' such alignment is 
 produced at a cost of significant type 1 errors.  Common subsampling and
 smoothing strategies and local neighborhood metrics such as CC and MI reduce the 
@@ -826,15 +838,6 @@ FA and MD images.
 After template construction, the remaining
 images were registered to the resulting template and, ultimately, 
 to the MNI152 (FMRIB58) template via the template-to-MNI152 transformation.  
-
-\begin{figure}
-\begin{tabular}{c}
-  \includegraphics[width=85mm]{NKIplots3.pdf}
-\end{tabular}
-\caption{{\bf NKI alignment assessment:}  To compare alignments between the  standard TBSS approach of using the FMRIB58 template versus using the different ANTs templates, we calculated the coefficient of variation at each voxel (for both FA and MD) and plotted the CDF over the range of values $[0,0.8]$ accumulated over all the voxels inside the thresholded (FA $\geq 0.2$) standard TBSS mean FA image (see Fig. \ref{fig:NKI}(b)).  The CDF plots for the ANTs templates are all very similar (although trending towards slight improvement with larger template sample size) and illustrate the general improvement in FA and MD alignment over registration of each FA image to the FMRIB58 template.
-}
-\label{fig:NKIplots}
-\end{figure}
 
 
 Sample axial slices for the FA FMRIB58-aligned mean images for the NKI data 
@@ -967,8 +970,18 @@ There is a visible improvement in alignment for both data sets using the ANTs-ba
 %\end{figure*}
 
 
+\begin{figure}
+\begin{tabular}{c}
+  \includegraphics[width=85mm]{NKIplots3.pdf}
+\end{tabular}
+\caption{{\bf NKI alignment assessment:}  To compare alignments between the  standard TBSS approach of using the FMRIB58 template versus using the different ANTs templates, we calculated the coefficient of variation at each voxel (for both FA and MD) and plotted the CDF over the range of values $[0,0.8]$ accumulated over all the voxels inside the thresholded (FA $\geq 0.2$) standard TBSS mean FA image (see Fig. \ref{fig:NKI}(b)).  The CDF plots for the ANTs templates are all very similar (although trending towards slight improvement with larger template sample size) and illustrate the general improvement in FA and MD alignment over registration of each FA image to the FMRIB58 template.
+}
+\label{fig:NKIplots}
+\end{figure}
 
-\subsubsection{Statistical Power Related to Gender-based FA Differences}
+
+
+\subsubsection{Statistical Power Related to Gender-Based FA Differences}
 
 For completeness, the second NKI data subset was used to explore the 
 power of the different alignment strategies in discriminating FA 
@@ -1003,17 +1016,17 @@ metrics (CC and MI) in the $t$-test which show decreased power.   }
 %\section{Discussion}
 %This should explore the significance of the results of the work, not repeat them. A combined Results and Discussion section is often appropriate. Avoid extensive citations and discussion of published literature.
 
-\subsection{Discussion} Prior evaluation work using anatomically labeled
-data \cite{bunch_of_stuff} indicates that mutual information,
+\section{Discussion} Prior evaluation work using anatomically labeled
+data indicates that mutual information,
 cross-correlation and the SSD/Demons metric are all capable of producing
-high quality anatomical alignment.  All of this work, though, compares
+high quality anatomical alignment (e.g. \cite{Klein2009}).  All of this work, though, compares
 the quality of alignment at a relatively coarse scale of major gyri,
 lobes and regions.  At the voxel level, it is nearly impossible to
 determine the ground truth correspondence.  Indeed, there is no reason
 to believe that subtle differences between a set of alignment strategies
 (induced, in the experiments of this paper, by changing the similarity
 metrics used in image registration) that all apparently work well should
-be considered significant.  This work, however, highlights a dramatic impact of similarity metric choice on detection power in template-based FA studies.  Our contention is that this dramatic "improvement" in detection power is not due to better anatomical alignment.  Rather, it is a result of circularity/non-independence of the normalization and statistical estimation strategy.  Consequently, we recommend that future work should take greater care when pairing the normalization strategy with the statistical framework.  Furthermore, we recommend that researchers should diligently seek to maintain independence between these two critical stages of a population study.  That is, {\textcolor{red}{{\em the features that drive the minimization of a similarity metric should be independent of the features that will be used in hypothesis testing.}}}  In particular, one should avoid combining the SSD metric for normalizing FA with Student's t-test for FA differences.
+be considered significant.  This work, however, highlights a dramatic impact of similarity metric choice on detection power in template-based FA studies.  Our contention is that this dramatic "improvement" in detection power is not due to better anatomical alignment.  Rather, it is a result of circularity/nonindependence of the normalization and statistical estimation strategy.  Consequently, we recommend that future work should take greater care when pairing the normalization strategy with the statistical framework.  Furthermore, we recommend that researchers should diligently seek to maintain independence between these two critical stages of a population study.  That is, {the features that drive the minimization of a similarity metric should be independent of the features that will be used in hypothesis testing.  In particular, one should avoid combining the SSD metric for normalizing FA with Student's t-test for FA differences.
 
 \section{Conclusions}
 %The main conclusions of the study may be presented in a short Conclusions section, which may stand alone or form a subsection of a Discussion or Results and Discussion section.
