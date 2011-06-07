@@ -326,7 +326,7 @@ The true significance curves are drawn in black.  Elevated statistical power is 
 
 After creation of the simulated data set, we performed voxelwise testing (both $t$-testing
 and Wilcoxon rank-sum testing, one-tailed, $\alpha = 0.95$) with false discovery
-rate correction within the white matter to get ``true'' cumulative distribution functions (cdfs).  The cdf vertical axis shows the cumulative number of voxels with corrected p-values at or below a given significance level (horizontal axis) and thus may be used as a surrogate measure for spatial sensitivity.  From here, we denote these graphs as "statistical significance curves."  These curves are plotted in black in Fig. \ref{fig:simulated_testing}.  To illustrate the 
+rate correction within the white matter to get ``true'' cumulative distribution functions (CDFs).  The CDF vertical axis shows the cumulative number of voxels with corrected p-values at or below a given significance level (horizontal axis) and thus may be used as a surrogate measure for spatial sensitivity.  From here, we denote these graphs as "statistical significance curves."  These curves are plotted in black in Fig. \ref{fig:simulated_testing}.  To illustrate the 
 effect of similarity metric on statistical significance, we performed ANTs registration \cite{Avants2011} of each subject to the template
 (Fig. \ref{fig:simulated_data}(b)) using cross correlation (CC), mutual information (MI), 
 Demons \cite{Thirion1998}, and sum of squared differences (SSD). A representative deformed image
@@ -419,19 +419,22 @@ issues raised affect common analysis scenarios.
 
 
 \subsection{Anatomical Image Template Construction}
+In general, we normalize images to to a standard coordinate system to
+reduce intersubject variability in population studies.  Various
+approaches exist for determining the normalized space such as selection
+of a pre-existing template based on a single subject, e.g. the Talairach
+atlas \cite{Talairach1988}), or a publicly available averaged group of
+subjects, e.g. the MNI \cite{Collins1994} or ICBM \cite{Mazziotta1995}
+templates.  One challenge with standard templates is that they may inadvertantly bias one's results by enabling better normalization of subjects to which the template is more similar.  This issue is exacerbated when dealing with populations that have high variance (e.g. due to disease) and/or when one's normalization method is low-dimensional (not flexible enough to capture large shape differences). 
 
-An important step in reducing intersubject variability is
-normalization to a standardized coordinate system for
-cross-population comparison.  Various approaches
-exist for determination of the normalized space such as selection of a
-pre-existing template based on a single subject, e.g. the Talairach atlas \cite{Talairach1988}), or 
-a publicly available averaged group of subjects, e.g. the MNI \cite{Collins1994} or 
-ICBM \cite{Mazziotta1995} templates.
-
-Recent trends, however, indicate a growing popularity of generating population-specific 
-templates for minimizing potential confounds.  This includes the
-diffeomorphic approach of Joshi et al. who employ the SSD metric and a shape 
-distance to bring the subject group of images into alignment \cite{Joshi2004}.  Variants
+Population-specific templates (or optimal templates) alleviate some of
+these issues by deriving a most representative image from the population
+\cite{FIXME}.  Large deformation registration algorithms also reduce
+this confound by being less sensitive to the deformation distance
+between subject and target.  Some approaches combine both advantages,
+for instance, the diffeomorphic approach of Joshi et al. who employ the
+SSD metric and a shape distance to bring the subject group of images
+into alignment \cite{Joshi2004}.  Variants
 include extension to multiple modalities \cite{Lorenzen2006} and small deformations
 \cite{Geng2009}.  These approaches iteratively minimize group difference in ``congealing''
 towards a representative image template \cite{Learned-Miller2006}.
@@ -441,7 +444,7 @@ normalized space during optimization.  Coupling the intrinsic symmetry of
 SyN pairwise registration \cite{Avants2011} and an
 optimized sharpening/averaging of the template appearance, Symmetric Group
 Normalization (SyGN) is a powerful framework for producing optimal population-specific
-templates \cite{Avants2010}. Given a set of representative images, 
+templates \cite{Avants2010} with arbitrary similarity metric choice. Given a set of representative images, 
 $\{I_1, I_2, \ldots, I_M\}$, optimization involves finding the set of paired
 diffeomorphic transformations, $\left\{\left(\phi^1_1, \phi^1_2\right), 
 \left(\phi^2_1, \phi^2_2\right), \ldots, \left(\phi^M_1, \phi^M_2\right) \right\}$,
@@ -468,13 +471,13 @@ virtual domain midway between each individual image and the current estimate of 
 With initial assignment of $\left\{\left(\phi^m_1, \phi^m_2\right)\right\}$ and $\psi(\mathbf{x})$ 
 to identity, iterative optimization
 involves estimating the pairwise transformations, estimation of the optimal template appearance, and 
-updating of $\psi(\mathbf{x})$ by averaging the current estimate of $\left\{\phi_1^m\right\}$.  Additional details are given in \cite{Avants2010}.  
+updating $\psi(\mathbf{x})$ by averaging the current estimate of $\left\{\phi_1^m\right\}$.  Additional details are given in \cite{Avants2010}.  
 %For the interested reader, a set of scripts has been created and is distributed with the ANTs library for facilitating template creation.
 
 
 \subsection{Anatomically-Based Population Normalization}
-
-An example of our proposed workflow applied to anatomically-based population normalization prior to TBSS analysis  is illustrated in Fig. \ref{fig:workflow}.  Instead of direct FA-to-FA registration, our ANTs-based modification can be described as follows:
+We now detail a standard approach that uses SyGN and intra-subject inter-modality mapping to provide an unbiased strategy for FA normalization.
+An example of our proposed workflow applied to anatomically-based population normalization prior to FA analysis is illustrated in Fig. \ref{fig:workflow}.  Instead of direct FA-to-FA registration, our ANTs-based modification can be described as follows:
 
 \begin{enumerate}
   \item Build the anatomical template from  the population sample or sample subset using SyGN as described in
@@ -486,8 +489,7 @@ An example of our proposed workflow applied to anatomically-based population nor
         subject's FA to the anatomical template:
   \begin{enumerate}
   \item For each anatomical image, segment the white matter (in ANTs, one can use N4 bias correction \cite{Tustison2010} and Atropos $n$-tissue segmentation \cite{Avants2011a}).
-  \item Rigidly transform each subject's average DWI to the bias-corrected anatomical
-        image ($\mathcal{R}^i_{dwi}$).
+  \item Rigidly transform each subject's average DWI to the bias-corrected anatomical image ($\mathcal{R}^i_{dwi}$).
   \item Perform distortion correction on the FA to anatomical mapping 
         by localized nonrigid registration
         of rigidly transformed FA map ($=\mathcal{R}^i_{dwi} \mathrm{FA}$) using
@@ -495,7 +497,7 @@ An example of our proposed workflow applied to anatomically-based population nor
   \item For each subject, concatenate the transforms which maps each
         subject's FA to the template ($\mathcal{T}^i_{total} = \mathcal{T}^i_{template} \circ 
         \mathcal{T}^i_{FA} \circ \mathcal{R}^i_{dwi} \mathrm{FA}$).
-  \item Warp each subject's FA or MD map to the template using $\mathcal{T}^i_{total}$.
+  \item Warp each subject's FA map to the template using $\mathcal{T}^i_{total}$.  Equivalently, one could warp the mean diffusion (MD), axial diffusion (AD) or any other scalar derivable from DTI to the template.  One other detail is that we prefer to warp the subject's DTI to the template and then, in template space, derive the scalar images of interest.  
   \end{enumerate}      
 %  \item Perform the remaining portions of the standard TBSS pipeline:
 %    \begin{enumerate}
@@ -505,14 +507,10 @@ An example of our proposed workflow applied to anatomically-based population nor
 %      \item Run the statistical analysis.
 %    \end{enumerate}
 \end{enumerate}
-
-
-
-
+The next section compares this framework to FA-based normalization strategies with respect to both a patient-control study and a study of gender and age effects in a control population.  
 
 \subsection{Imaging Data}
-
-Tensorial data associated with each of the following data sets were reconstructed from the diffusion weighted sequences using Camino%
+Diffusion tensor data associated with each of the following data sets were reconstructed from the diffusion weighted sequences using Camino%
 \footnote{
 http://camino.org.uk/
 }---an open source toolkit for diffusion MRI processing and analysis \cite{Cook2006} in combination with ANTs-based registration for motion correction of the DTI sequence.
@@ -520,19 +518,16 @@ http://camino.org.uk/
 \subsubsection{Diffuse Traumatic Brain Injury Data}
 
 The TBI data used in this study is part of a larger effort investigating the relationship between various neuroimaging indices and cognitive and functional abilities in long-term survivors of TBI (principal investigator: John Whyte). A more detailed data description can be found in \cite{Avants2008}. The following is a brief description relevant to our particular study.  
-17 controls and 16 patients with TBI were used for the analysis presented in this
-work.  Each patient had a history of non-penetrating traumatic brain injury 
+17 controls and 16 patients with TBI were used for the analysis presented in this work.  Each patient had a history of non-penetrating traumatic brain injury 
 of at least moderate severity defined by significant and well-documented
 loss or alteration of consciousness following injury in addition to meeting
-several other exclusionary criteria.  The healthy volunteers were matched in terms of age, gender, ethnicity, handedness, and
-years of education.
-High resolution T1-weighted anatomic images were obtained using 3D MP-RAGE 
-imaging sequence using the following acquisition parameters: TR = 1620 ms, 
+several other exclusionary criteria.  The healthy volunteers were matched in terms of age, gender, ethnicity, handedness, and years of education.
+High resolution T1-weighted anatomic images were obtained using a 3D MP-RAGE 
+imaging sequence with the following acquisition parameters: TR = 1620 ms, 
 TI = 950 ms, TE = 3 ms, flip angle = 15$^\circ$, 160 contiguous slices of 
 1.0 mm thickness, FOV = 192 $\times$ 256 mm$^2$, matrix = 192 $\times$ 256, 
 1NEX with a scan time of 6 minutes, and voxel size = 1 mm$^3$.  30-directional
 DTI images were also obtained. 
-
 %
 %\subsubsection{Participants}
 %{\color{red}{Quote:}} The data were collected as part of a larger study investigating the neural correlates of attention deficits and treatment responses of various psychoactive drugs in the survivors of TBI (principal investigator: J.W.). Thirty individuals with TBI and 20 healthy volunteers were recruited. We planned to recruit more TBI participants because data of TBI survivors are more likely to be discarded in a typical functional neuroimaging study due to movements in the scanner and poor behavioral performance. TBI participants were recruited from a variety of clinical services at MossRehab and through a consent-based registry of individuals with TBI who are interested in participating in rehabilitation research. To be included, participants had to be between the ages of 16 and 60, and to have a history of non-penetrating traumatic brain injury of at least moderate severity at least 3 months prior to enrollment. Severity level was defined by significant and well-documented loss or alteration of consciousness following injury (i.e., lowest Glasgow Coma Scale (GCS) score of less than 12, or prospectively documented post-traumatic amnesia (PTA) of greater than 1 hour), or focal abnormality on a neuroimaging study that was attributable to traumatic injury. A subjective complaint of attention difficulties by the participant, treating clinician, or caregiver was also required. Potential participants were excluded if they had a history of prem orbid neurologic disease, psychosis, major affective disorder, mental retardation, Attention Deficit Hyperactivity Disorder, or if they were currently abusing alcohol or recreational drugs. Persons who were taking psychoactive medications other than anticonvulsants were also excluded. Participants and/or their involved caregivers (depending on the participant’s cognitive capacity) provided informed consent. The study protocol was approved by the Albert Einstein Healthcare Network and the University of Pennsylvania IRBs. Twenty healthy volunteers, matched to patients for age, gender, handedness, years of education, and ethnicity, participated in the study. Control participants were recruited based on the same inclusion/exclusion criteria as patients, with the exception that they never had a TBI resulting in loss or alteration of consciousness, nor suffered attention complaints. Control participants were recruited through the family and friendship networks of the participants with TBI, and through public advertising.
@@ -553,8 +548,7 @@ In support of open science, the 1000 Functional Connectomes Project (FCP)%
 \footnote{
 ttp://fcon\_1000.projects.nitrc.org
 } 
-was initiated
-on December 11, 2009 by various members of the MRI community \cite{Biswal2010}.  Motivated by the absence of neuroimaging data for research, this initiative seeks to form collaborative partnerships with imaging institutions for sharing well-documented multi-modal image sets accompanied by phenotypic data.
+was initiated on December 11, 2009 by various members of the MRI community \cite{Biswal2010}.  Motivated by the absence of neuroimaging data for research, this initiative seeks to form collaborative partnerships with imaging institutions for sharing well-documented multi-modal image sets accompanied by phenotypic data.
 Commitments from institutions such as they NYU Institute for Pediatric Neuroscience and the Nathan Kline Institute (NKI)--Rockland have already resulted in prospective data repositories
 currently distributed to the public via the Neuroimaging Informatics Tools and Resources Clearinghouse (NITRC).%
 \footnote{
@@ -659,8 +653,7 @@ common T1 template $\rightarrow$ MNI152 (FMRIB58) template.    }
 \end{figure*}
 
 
-A patient template and a control template were  constructed 
-from the T1-weighted images of the two groups.  These two 
+We constructed a patient template and a control template from the T1-weighted images of the two groups.  These two 
 templates were then used to create a third common template.  
 To compare with TBSS normalization, the common template was
 registered to the MNI152 template.  Thus, the transformation
@@ -673,7 +666,7 @@ ANTs registration with the common similarity metrics used in
 the simulated data example described earlier.
 Standard TBSS alignment was also performed.  
 
-Statistical power curves (one-tailed, $\alpha = 0.95$)
+Cumulative distribution functions (one-tailed, $\alpha = 0.95$)
 are shown in Fig. \ref{fig:tbi_testing}.
 Similar to previous findings with the simulated data, the SSD and 
 Demons metric show elevated statistical power using the Student's 
@@ -682,10 +675,7 @@ strength.  However, this discrepancy decreases significantly with the
 nonparametric testing.  The Demons and SSD power decreases while the others
 remain fairly similar.  Interestingly, the ANTs template-based approach
 trends towards better performance relative to the remaining 3 strategies.
-It should be noted that although TBSS uses
-the SSD metric, the fixed and moving images are smoothed and subsampled
-even at the highest resolution level which substantially decreases the local effect
-of the metric.
+It should be noted that although TBSS uses the SSD metric, the fixed and moving images are smoothed and subsampled even at the highest resolution level which substantially decreases the local effect of the metric.
 
 \begin{table}
   \caption{Overlap measures of thresholded mean FA and MNI152 white matter.}
@@ -707,7 +697,7 @@ of the metric.
   \end{tabular*}
 \end{table} 
 
-The CDF of the voxelwise FA coefficient of variation of the aligned
+The CDF of the voxelwise FA coefficient of variation {\textcolor{red}{ FIXME define coefficient of variation and explain what it means --- how does it relate to variance?}} of the aligned
 images is shown for each case in Figure \ref{fig:tbi_cov}.  This is
 very much related to earlier findings in that strategies evincing
 greater alignment, as quantified by the coefficient of variation,
@@ -864,8 +854,7 @@ The mean FA image derived from the standard TBSS approach was thresholded at FA 
  fair comparisons for all evaluations.    For all FMRIB58-aligned images the coefficient of 
  variation (CoV) was calculated in a voxel-wise fashion within the mask.  Intuitively, 
  one would expect a smaller variance across better aligned sets of voxel values thus 
- producing a lower CoV for a given mean value.  By calculating the cumulative distribution 
- function (CDF) of the set of CoV values within the mask, quantitative assessment of alignment performance can be visualized.  
+ producing a lower CoV for a given mean value.  By calculating the CDF of the set of CoV values within the mask, quantitative assessment of alignment performance can be visualized.  
 % In addition to producing CDF plots for voxels within the entire brain mask, we separated the brain into inner and outer sections to investigate the alignment difference between these two regions.  This division was accomplished by applying a distance transform \cite{Maurer2003} to the FSL-provided MNI152 brain mask and thresholding the result such that the outer 30 mm form the outer mask and the subtracted binary image forms the inner mask.  Note that only those voxels that were also within the thresholded FA mask were considered in the inner/outer analysis.
 
 
@@ -985,7 +974,7 @@ For completeness, the second NKI data subset was used to explore the
 power of the different alignment strategies in discriminating FA 
 differences in a control group divided by gender.  As described 
 earlier, this group consisted of 27 subjects 
-comprised of 9 females (age: $29.3 \pm 6.6$ years) and  18 males (age: $26.6 
+comprised of 9 females (age: $29.3 \pm 6.6$ years) and 18 males (age: $26.6 
 \pm 6.9$ years).  Each subject was registered to the template made from 
 30 randomly chosen subjects, described in the previous section, and
 subsequently warped to the MNI152 template space.  
@@ -1013,6 +1002,18 @@ metrics (CC and MI) in the $t$-test which show decreased power.   }
 
 %\section{Discussion}
 %This should explore the significance of the results of the work, not repeat them. A combined Results and Discussion section is often appropriate. Avoid extensive citations and discussion of published literature.
+
+\subsection{Discussion} Prior evaluation work using anatomically labeled
+data \cite{bunch_of_stuff} indicates that mutual information,
+cross-correlation and the SSD/Demons metric are all capable of producing
+high quality anatomical alignment.  All of this work, though, compares
+the quality of alignment at a relatively coarse scale of major gyri,
+lobes and regions.  At the voxel level, it is nearly impossible to
+determine the ground truth correspondence.  Indeed, there is no reason
+to believe that subtle differences between a set of alignment strategies
+(induced, in the experiments of this paper, by changing the similarity
+metrics used in image registration) that all apparently work well should
+be considered significant.  This work, however, highlights a dramatic impact of similarity metric choice on detection power in template-based FA studies.  Our contention is that this dramatic "improvement" in detection power is not due to better anatomical alignment.  Rather, it is a result of circularity/non-independence of the normalization and statistical estimation strategy.  Consequently, we recommend that future work should take greater care when pairing the normalization strategy with the statistical framework.  Furthermore, we recommend that researchers should diligently seek to maintain independence between these two critical stages of a population study.  That is, {\textcolor{red}{{\em the features that drive the minimization of a similarity metric should be independent of the features that will be used in hypothesis testing.)}}}
 
 \section{Conclusions}
 %The main conclusions of the study may be presented in a short Conclusions section, which may stand alone or form a subsection of a Discussion or Results and Discussion section.
