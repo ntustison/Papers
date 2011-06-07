@@ -276,7 +276,7 @@ $t$-test).  While the SSD metric is able to provide visually attractive alignmen
 
 \begin{figure}
 \begin{tabular}{c}
-  \includegraphics[width=85mm]{simulatedData.pdf}
+  \includegraphics[width=85mm]{simulatedData.jpg}
 \end{tabular}
 \caption{(a) Axial slice from the discrete BrainWeb data set.  From (a) 
 we create the (b) simulated template and sample (c) control and (d) patient images with both 
@@ -286,7 +286,7 @@ additive noise and subsequent Gaussian smoothing. }
 
 \begin{figure}
 \begin{tabular}{c}
-  \includegraphics[width=85mm]{simulatedDataWarped.pdf}
+  \includegraphics[width=85mm]{simulatedDataWarped.jpg}
 \end{tabular}
 \caption{Warping the image in Fig. \ref{fig:simulated_data}(c) to the template in 
   Fig. \ref{fig:simulated_data}(b) using the SSD similarity metric produces the image shown in
@@ -314,7 +314,7 @@ patient subject are given, respectively, in Fig. \ref{fig:simulated_data}(c) and
 \begin{figure*}
 \begin{center}
 \begin{tabular}{c}
-  \includegraphics[width=180mm]{simulatedTesting.pdf}
+  \includegraphics[width=180mm]{simulatedTesting.jpg}
 \end{tabular}
 \caption{Student's $t$-test and the nonparametric Wilcoxon rank-sum test results (one-tailed, $\alpha = 0.95$) for the simulated experiment adjusted for multiple comparisons (FDR).
 The true significance curves are drawn in black.  Elevated statistical power is seen with all 4 
@@ -361,7 +361,7 @@ of a high performance \cite{Klein2009}, nonrigid registration algorithm \cite{Av
 \begin{figure*}
 \begin{center}
 \begin{tabular}{c}
-  \includegraphics[width=170mm]{workflow.pdf}
+  \includegraphics[width=170mm]{workflow.jpg}
 \end{tabular}
 \caption{Possible ANTs-based TBSS workflow.  In contrast to standard TBSS in which an individual subject's FA is registered to the FMRIB58 template
 (transform represented with the blue arrow), our proposed modification first constructs an ANTs optimal anatomical template as illustrated in the center of the figure.  Each FA image is then rigidly mapped, with distortion correction, to the individual T1 using the white matter mask as shown on the left.  The individual T1-weighted image is then nonrigidly registered to the anatomical template.  Optionally, one can register the T1 template to the MNI152 template which resides in the same space as the FMRIB58 template.  Thus, the composite transform, carefully constructed without any FA-to-FA image registration, can take an individual subject's FA map (or other DTI-derived measure) to the desired standardized coordinate system.    }
@@ -647,7 +647,7 @@ usage of TBSS has become a de facto quantitative tool for DTI analysis based, at
 \begin{figure*}
 \begin{center}
 \begin{tabular}{c}
-  \includegraphics[width=180mm]{tbiTesting.pdf}
+  \includegraphics[width=180mm]{tbiTesting.jpg}
 \end{tabular}
 \caption{Student's $t$-test and the nonparametric Wilcoxon rank-sum test results (one-tailed, $\alpha = 0.95$) for the TBI FA data aligned to the FMRIB58 template adjusted for multiple comparisons (FDR).  Elevated statistical power is seen in the $t$-test with the similarity metrics with the most correspondence to Eqn. (\ref{eq:variance}), namely the SSD and Demons metric which shrinks drastically for the Wilcoxon rank-sum test.  Results for the other metrics including TBSS and the T1 template-based strategy (``antsT1'') remain fairly stable between the two tests.    TBSS and the 4 ANTs metric
 results were all obtained using direct registration involving subject FA and the FMRIB58 template.  The antsT1 results were also obtained in FMRIB58 space but the following transformation composition: subject FA $\rightarrow$ subject T1 $\rightarrow$ group T1 template $\rightarrow$ 
@@ -745,7 +745,7 @@ significant differences, particularly in the outer white matter regions
 \begin{figure}
   \begin{center}
 \begin{tabular}{c}
-  \includegraphics[width=85mm]{tbiCoV.pdf}
+  \includegraphics[width=85mm]{tbiCoV.jpg}
 \end{tabular}
 \caption{Comparison of the different alignment strategies in normalizing the TBI data to the FMRIB58 template.  Assessment is quantitated using the voxelwise coefficient of variation of the FA.  TBSS and the 4 ANTs metric
 results were all obtained using direct registration involving subject FA and the FMRIB58 template.  The curve denoted as ``antsT1'' was also obtained in FMRIB58 space with the following transformation composition: subject FA $\rightarrow$ subject T1 $\rightarrow$ group T1 template $\rightarrow$ 
@@ -757,7 +757,7 @@ common T1 template $\rightarrow$ MNI152 (FMRIB58) template. }
 \begin{figure}
 \begin{center}
 \begin{tabular}{c}
-  \includegraphics[width=85mm]{meanFA.pdf}
+  \includegraphics[width=85mm]{meanFA.jpg}
 \end{tabular}
 \caption{Qualitative comparison of mean FA images used in TBSS taken from the TBI data described in Section 2.  The mean FA image illustrated in (a) is created by mapping the sample FA population to the default FMRIB58 template which is the standard protocol for TBSS.  In comparison, the mean template represented in (c) is created from alignment of the population sample to the optimal T1 template as described in the paper. The respective skeleton masks in (b) and (d) are created by thresholding the resulting skeleton values $\geq 0.2$.  }
 \label{fig:meanFA}
@@ -792,7 +792,7 @@ common T1 template $\rightarrow$ MNI152 (FMRIB58) template. }
 
 %\begin{figure}
 %\begin{tabular}{c}
-%  \includegraphics[width=80mm]{hoonData2.pdf}
+%  \includegraphics[width=80mm]{hoonData2.jpg}
 %\end{tabular}
 %\caption{Results of TBSS analysis using both the ANTs template-based approach (top row) and the standard TBSS protocol (bottom row).  Axial slices were chosen based on visual assessment of correspondence in both the ANTs template and MNI 152 template.
 %On the left is the thresholded skeleton overlaid on the mean FA image.  
@@ -818,7 +818,7 @@ the various alignment strategies.
  \begin{figure}
   \begin{center}
 \begin{tabular}{c}
-  \includegraphics[width=85mm]{NKI2.pdf}
+  \includegraphics[width=85mm]{NKI2.jpg}
 \end{tabular}
 \caption{Axial slice 80 of FA mean images used in the NKI alignment assessment.  (a) The standard FMRIB58 template. (b) The mean FA image of all aligned 57 NKI data using the TBSS default FLIRT/FNIRT parameters optimized for registration to (a).  
 (c) and (d) The mean FA image produced using the ANTs template-based strategy employing 5 and 30 randomly chosen subjects, respectively, warped to the space of (a) followed by T1 registration of all subjects to the resulting anatomical template.  Note the visual alignment difference particularly in the peripheral white matter complex.
@@ -926,7 +926,7 @@ There is a visible improvement in alignment for both data sets using the ANTs-ba
 
 %\begin{figure}
 %\begin{tabular}{c}
-%  \includegraphics[width=80mm]{NYU.pdf}
+%  \includegraphics[width=80mm]{NYU.jpg}
 %\end{tabular}
 %\caption{Axial slice 80 of FA mean images used in the NYU alignment assessment.  (a) The standard FMRIB58\_FA\_1mm template. (b) The mean FA image of all aligned 57 NKI data using the TBSS default FLIRT/FNIRT parameters optimized for registration to (a).  
 %(c)-(f) The mean FA image produced using the ANTs template-based strategy employing 5, 10, 20, and 30 randomly chosen subjects, respectively, warped to the space of (a).  Note the visual alignment difference particularly in the peripheral white matter complex.
@@ -962,7 +962,7 @@ There is a visible improvement in alignment for both data sets using the ANTs-ba
 
 %\begin{figure*}
 %\begin{tabular}{c}
-%  \includegraphics[width=180mm]{NYUplots2.pdf}
+%  \includegraphics[width=180mm]{NYUplots2.jpg}
 %\end{tabular}
 %\caption{{\bf NYU alignment assessment:}  To compare alignments between the  standard TBSS approach of using the FMRIB58 template versus using the different ANTs templates, we calculated the coefficient of variation at each voxel (for both FA and MD) and plotted the CDF over the range of values $[0,0.8]$ accumulated over all the voxels inside the thresholded (FA $\geq 0.2$) standard TBSS mean FA image (see Fig. \ref{fig:NKI}(b)).  In addition to the whole brain analysis (first column), the coefficient of variation was separately calculated over the inner and outer portions of the white matter (second and third columns, respectively).  The CDF plots for the ANTs templates are all very similar (although trending towards slight improvement with larger template sample size) and illustrate the general improvement in FA and MD alignment over registration of each FA image to the FMRIB58 template.
 %}
@@ -972,13 +972,12 @@ There is a visible improvement in alignment for both data sets using the ANTs-ba
 
 \begin{figure}
 \begin{tabular}{c}
-  \includegraphics[width=85mm]{NKIplots3.pdf}
+  \includegraphics[width=85mm]{NKIplots3.jpg}
 \end{tabular}
 \caption{{\bf NKI alignment assessment:}  To compare alignments between the  standard TBSS approach of using the FMRIB58 template versus using the different ANTs templates, we calculated the coefficient of variation at each voxel (for both FA and MD) and plotted the CDF over the range of values $[0,0.8]$ accumulated over all the voxels inside the thresholded (FA $\geq 0.2$) standard TBSS mean FA image (see Fig. \ref{fig:NKI}(b)).  The CDF plots for the ANTs templates are all very similar (although trending towards slight improvement with larger template sample size) and illustrate the general improvement in FA and MD alignment over registration of each FA image to the FMRIB58 template.
 }
 \label{fig:NKIplots}
 \end{figure}
-
 
 
 \subsubsection{Statistical Power Related to Gender-Based FA Differences}
@@ -1001,7 +1000,7 @@ the issues perviously described.
 \begin{figure*}
 \begin{center}
 \begin{tabular}{c}
-  \includegraphics[width=180mm]{nkiTesting.pdf}
+  \includegraphics[width=180mm]{nkiTesting.jpg}
 \end{tabular}
 \caption{Student's $t$-test and the nonparametric Wilcoxon rank-sum test results 
 (one-tailed, $\alpha = 0.95$) for the NKI FA data aligned to the FMRIB58 template 
