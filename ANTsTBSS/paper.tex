@@ -235,18 +235,18 @@ and the tract-based spatial statistics (TBSS) framework \cite{Smith2006}.%
 \footnote{
 http://www.fmrib.ox.ac.uk/fsl/tbss/index.html
 } 
-VBM \cite{Ashburner2001} continues to find application to FA studies \cite{Kakeda2010,Takao2010} despite concerns about its validity \cite{Bookstein2001,Davatzikos2004} in DTI \cite{Jones2005,Chung2008}.  The TBSS framework was partially developed in response to these concerns in which voxel values are projected onto a template white matter skeleton for increased statistical power.  
+VBM \cite{Ashburner2001} continues to find application to FA studies \cite{Kakeda2010,Takao2010} despite concerns about its general validity \cite{Bookstein2001,Davatzikos2004} and with respect to DTI \cite{Jones2005,Chung2008}.  The TBSS framework was partially developed in response to these concerns in which voxel values are projected onto a template white matter skeleton for increased statistical power.  
 %(e.g. \cite{Arnone2008,Bodini2009}).  
 
-Although there are substantive differences in normalization schemes
-between these and other image registration approaches, a core
-commonality includes direct FA-to-FA registration.  The sum of squared differences (SSD) image similarity metric is perhaps the easiest to interpret (it drives the image difference to zero), is computationally efficient (just compute the image difference and an image gradient) and is therefore widely used.  Some of the most popular registration methods (SPM, Demons, FSL's FNIRT) rely on this metric and produce reasonable performance levels \cite{Klein2009}.%
+Although there are substantive differences in normalization
+between these and other analysis approaches, a core
+commonality includes direct FA-to-FA registration.  The sum of squared differences (SSD) image similarity metric is perhaps the easiest to interpret (it drives the image difference to zero), is computationally efficient (just compute the image difference and gradient) and is therefore widely used.  Some of the most popular registration methods (SPM, Demons, FSL's FNIRT) rely on this metric and yield reasonable performance levels \cite{Klein2009}.%
 \footnote{
 In addition to TBSS and SPM, other popular packages in the neuroimaging community 
 which use the SSD metric include AIR \cite{Woods1998} and LDDMM \cite{Beg2005}.
 }  
 
-However, suppose the SSD metric is optimized to find a set of $M$ transformations that map a population of $M$ FA images, $\{I_1, I_2, \ldots, I_M\}$, to a representative FA template, $J$. The algorithm will then compute the transformations,
+However, suppose the SSD metric is used to find a set of $M$ transformations that map a population of $M$ FA images, $\{I_1, I_2, \ldots, I_M\}$, to a representative FA template, $J$, for statistical testing between groups. This results in the transformations,
 $\boldsymbol{\mathcal{T}} = \{\mathcal{T}_1, \mathcal{T}_2,\ldots,\mathcal{T}_M \}$, which minimize the SSD metric over the population, i.e.
 \begin{align}
   \boldsymbol{\mathcal{T}} = \underset{\mathcal{T}_1, \ldots, \mathcal{T}_M}{\operatorname{argmin}}
@@ -266,7 +266,7 @@ statistical testing, direct FA normalization explicitly conflates
 anatomical alignment with optimizing the very statistical testing
 results that one will ultimately use to assess hypotheses.  This immediately evokes a sense of circularity in the analysis \cite{Kriegeskorte2010}.
 According to Kriegeskrote et al., ``An analysis is circular (or nonindependent) if it is based on data that were selected for showing the effect of interest or a related effect.''  As illustrated with
-Eqn. \ref{eq:variance}, direct FA-to-FA registration will find transformations that align (or select) voxels such that the statistical testing result (or the effect of interest) is increased (assuming one is using Student's 
+Eqn. \ref{eq:variance}, direct FA-to-FA registration will produce transformations that align (or select) voxels such that the statistical testing result (or the effect of interest) is increased (assuming one is using Student's 
 $t$-test).  While the SSD metric is able to provide visually attractive alignments across subjects, the voxel-level details (that is, which voxels are matched where) are, as we show in the following simulation study, strikingly important in terms of the effect on detection power.  
 
 %This results in a significant increase in the number of false positives for this type
@@ -292,7 +292,7 @@ additive noise and subsequent Gaussian smoothing. }
   Fig. \ref{fig:simulated_data}(b) using the SSD similarity metric produces the image shown in
   (a).  The corresponding deformation is given in (b).  Although the images were anatomically
   aligned prior to invoking ANTs registration, deformation is driven by the similarity metric
-  causing the accumulation of type 1 errors.}
+  causing the accumulation of Type 1 errors.}
 \label{fig:simulated_data_warped}
 \end{figure}
 
@@ -328,7 +328,12 @@ The true significance curves are drawn in black.  Elevated statistical power is 
 
 After creation of the simulated data set, we performed voxelwise testing (both $t$-testing
 and Wilcoxon rank-sum testing, one-tailed, $\alpha = 0.95$) with false discovery
-rate correction within the white matter to get ``true'' cumulative distribution functions (CDFs).  The CDF vertical axis shows the cumulative number of voxels with corrected $p$-values at or below a given significance level (horizontal axis) and thus may be used as a surrogate measure for spatial sensitivity.  From here, we denote these graphs as "statistical significance curves."  These curves are plotted in black in Fig. \ref{fig:simulated_testing}.  To illustrate the 
+rate correction within the white matter to get ``true'' cumulative distribution functions (CDFs).  The CDF vertical axis shows the cumulative number of voxels with corrected $p$-values at or below a given significance level (horizontal axis) and thus may be used as a surrogate measure for spatial sensitivity.  We denote these graphs as "statistical significance curves."  
+The true curves for the simulated experiment are plotted in black in Fig. \ref{fig:simulated_testing}.  
+We note that the amount of smoothing increases the proportion of significant voxels beyond
+the prescribed 10\%.
+
+To illustrate the 
 effect of similarity metric on statistical significance, we performed ANTs registration \cite{Avants2011} of each subject to the template
 (Fig. \ref{fig:simulated_data}(b)) using cross correlation (CC), mutual information (MI), 
 Demons \cite{Thirion1998}, and sum of squared differences (SSD). A representative deformed image
@@ -337,7 +342,7 @@ Fig. \ref{fig:simulated_data_warped}.
 The resulting statistical significance curves are plotted with the true significance curves in Fig. 
 \ref{fig:simulated_testing}.  
 
-This example demonstrates the undesirable phenomenon previously described.  Even though these images were anatomically aligned prior to registration, the resulting deformations (falsely) increased detection power.  This effect can be explained in the context of Eqn. (\ref{eq:variance}) and by the fact that we added noise to the underlying distribution which allows the deformable mapping algorithms the freedom to transform the positions of the most "powerful" voxels to minimize variance across the population (and increase the $t$-test).  Note, however, that this effect is increased by the fact that noise was added to the data.  Decreasing the standard deviation of the noise causes an increase in separation between  the SSD and Demon's metric pair with the MI and CC metric pair with the latter pair closer to the the true significance curve. Increasing the noise yields the same ranking with a more even spread between significance curves.
+This example demonstrates the undesirable phenomenon previously described.  Even though these images were anatomically aligned prior to registration, the resulting deformations (falsely) increased detection power.  This effect can be explained in the context of Eqn. (\ref{eq:variance}) and by the fact that we added noise to the underlying distribution which allows the deformable mapping algorithms the freedom to transform the positions of the most "powerful" voxels to minimize variance across the population (and increase the $t$-test statistics).  Whereas  decreasing the standard deviation of the noise causes an increase in separation between  the SSD and Demon's metric pair with the MI and CC metric pair with the latter pair closer to the the true significance curve, increasing the noise yields the same ranking with a more even spread between significance curves.
 
 Common similarity metric functions can therefore induce false positives by minimizing local intensity 
 variance between the subjects and template which explicitly maximizes statistical
@@ -363,7 +368,7 @@ of a high performance \cite{Klein2009}, nonrigid registration algorithm \cite{Av
 \begin{tabular}{c}
   \includegraphics[width=170mm]{workflow.pdf}
 \end{tabular}
-\caption{Possible ANTs-based TBSS workflow.  In contrast to standard TBSS in which an individual subject's FA is registered to the FMRIB58 template
+\caption{Possible ANTs-based TBSS workflow using SyGN.  In contrast to standard TBSS in which an individual subject's FA is registered to the FMRIB58 template
 (transform represented with the blue arrow), our proposed modification first constructs an ANTs optimal anatomical template as illustrated in the center of the figure.  Each FA image is then rigidly mapped, with distortion correction, to the individual T1 using the white matter mask as shown on the left.  The individual T1-weighted image is then nonrigidly registered to the anatomical template.  Optionally, one can register the T1 template to the MNI152 template which resides in the same space as the FMRIB58 template.  Thus, the composite transform, carefully constructed without any FA-to-FA image registration, can take an individual subject's FA map (or other DTI-derived measure) to the desired standardized coordinate system.    }
 \label{fig:workflow}
 \end{center}
@@ -436,7 +441,7 @@ these issues by deriving a most representative image from the population
 \cite{Good2001}.  Large deformation registration algorithms also reduce
 this confound by being less sensitive to the deformation distance
 between subject and target.  Some approaches combine both advantages,
-for instance, the diffeomorphic approach of Joshi et al. who employ the
+for instance, the diffeomorphic approach of Joshi et al. employs the
 SSD metric and a shape distance to bring the subject group of images
 into alignment \cite{Joshi2004}.  Variants
 include extension to multiple modalities \cite{Lorenzen2006} and small deformations
@@ -481,7 +486,7 @@ updating $\psi(\mathbf{x})$ by averaging the current estimate of $\left\{\phi_1^
 
 \subsection{Anatomically-Based Population Normalization}
 We now detail a standard approach that uses SyGN and intra-subject inter-modality mapping to provide an unbiased strategy for FA normalization.
-An example of our proposed workflow applied to anatomically-based population normalization prior to FA analysis is illustrated in Fig. \ref{fig:workflow}.  Instead of direct FA-to-FA registration, our ANTs-based modification can be described as follows:
+An example of our proposed workflow applied to anatomically-based population normalization prior to FA analysis using TBSS is illustrated in Fig. \ref{fig:workflow}.  Instead of direct FA-to-FA registration, our ANTs-based modification can be described as follows:
 
 \begin{enumerate}
   \item Build the anatomical template from  the population sample or sample subset using SyGN as described in
@@ -501,7 +506,11 @@ An example of our proposed workflow applied to anatomically-based population nor
   \item For each subject, concatenate the transforms which maps each
         subject's FA to the template ($\mathcal{T}^i_{total} = \mathcal{T}^i_{template} \circ 
         \mathcal{T}^i_{FA} \circ \mathcal{R}^i_{dwi} \mathrm{FA}$).
-  \item Warp each subject's FA map to the template using $\mathcal{T}^i_{total}$.  Equivalently, one could warp the mean diffusion (MD), axial diffusion (AD) or any other scalar derivable from DTI to the template.  One other detail is that we prefer to warp the subject's DTI to the template and then, in template space, derive the scalar images of interest.  
+  \item Warp each subject's FA map to the template using $\mathcal{T}^i_{total}$.  
+  Equivalently, one could warp the mean diffusion (MD), axial diffusion (AD) or any 
+  other scalar derivable from DTI to the template.  
+%  One other detail is that we prefer to warp the subject's DTI to 
+%  the template and then, in template space, derive the scalar images of interest.  
   \end{enumerate}      
 %  \item Perform the remaining portions of the standard TBSS pipeline:
 %    \begin{enumerate}
@@ -553,7 +562,7 @@ In support of open science, the 1000 Functional Connectomes Project (FCP)%
 ttp://fcon\_1000.projects.nitrc.org
 } 
 was initiated on December 11, 2009 by various members of the MRI community \cite{Biswal2010}.  Motivated by the absence of neuroimaging data for research, this initiative seeks to form collaborative partnerships with imaging institutions for sharing well-documented multi-modal image sets accompanied by phenotypic data.
-Commitments from institutions such as they NYU Institute for Pediatric Neuroscience and the Nathan Kline Institute (NKI)--Rockland have already resulted in prospective data repositories
+Commitments from institutions such as the NYU Institute for Pediatric Neuroscience and the Nathan Kline Institute (NKI)--Rockland have already resulted in prospective data repositories
 currently distributed to the public via the Neuroimaging Informatics Tools and Resources Clearinghouse (NITRC).%
 \footnote{
 http://www.nitrc.org
@@ -701,22 +710,21 @@ It should be noted that although TBSS uses the SSD metric, the fixed and moving 
   \end{tabular*}
 \end{table} 
 
-The CDF of the voxelwise FA coefficient of variation of the aligned
+The CDF of the voxelwise FA coefficient of variation (CV) of the aligned
 images is shown for each case in Figure \ref{fig:tbi_cov}.  
-The coefficient of variation at each voxel is defined as the variance
+The CV at each voxel is defined as the variance
 divided by the mean over the population of FA values.  Thus,
 those metrics which best minimize the voxelwise variance would
-trend towards greater alignment as quantified by the coefficient of
-variation.
+trend towards greater alignment as quantified by the CV.
 
 %This is very much related to earlier findings in that strategies evincing
-%greater alignment, as quantified by the coefficient of variation,
+%greater alignment, as quantified by the CV,
 %will trend towards smaller variance thus exhibiting a left-shifted
 %CDF.  
 
 Although direct FA-to-FA registration using ANTs with common
 similarity metrics gives ``better alignment'' such alignment is 
-produced at a cost of significant type 1 errors.  Common subsampling and
+produced at a cost of significant Type 1 errors.  Common subsampling and
 smoothing strategies and local neighborhood metrics such as CC and MI reduce the 
 Type 1 error problem (as evidenced in Fig. \ref{fig:tbi_testing}) 
 but also show a decrease in alignment.  This is further supported
@@ -733,7 +741,7 @@ and the post-normalization component of the TBSS pipeline (Fig. \ref{fig:meanFA}
 is juxtaposed 
 with the mean FA image produced by the TBSS pipeline alone (Fig.\ref{fig:meanFA}(a)).
 The skeleton masks were produced by thresholding the skeleton values at 
-FA $\geq 0.2$ and it would seem that the improved alignment produces 
+FA $\geq 0.2$ and it would appear that the improved alignment produces 
 a more extensive skeletal network for greater localization testing of 
 significant differences, particularly in the outer white matter regions
 (compare Fig. \ref{fig:meanFA}(b) and Fig. \ref{fig:meanFA}(d)).
@@ -747,7 +755,7 @@ significant differences, particularly in the outer white matter regions
 \begin{tabular}{c}
   \includegraphics[width=85mm]{tbiCoV.pdf}
 \end{tabular}
-\caption{Comparison of the different alignment strategies in normalizing the TBI data to the FMRIB58 template.  Assessment is quantitated using the voxelwise coefficient of variation of the FA.  TBSS and the 4 ANTs metric
+\caption{Comparison of the different alignment strategies in normalizing the TBI data to the FMRIB58 template.  Assessment is quantitated using the voxelwise CV of the FA.  TBSS and the 4 ANTs metric
 results were all obtained using direct registration involving subject FA and the FMRIB58 template.  The curve denoted as ``antsT1'' was also obtained in FMRIB58 space with the following transformation composition: subject FA $\rightarrow$ subject T1 $\rightarrow$ group T1 template $\rightarrow$ 
 common T1 template $\rightarrow$ MNI152 (FMRIB58) template. }
 \label{fig:tbi_cov}
@@ -837,13 +845,13 @@ standard space for qualitative and quantitative comparison with TBSS-aligned
 FA and MD images.  
 After template construction, the remaining
 images were registered to the resulting template and, ultimately, 
-to the MNI152 (FMRIB58) template via the template-to-MNI152 transformation.  
+to the MNI152 (FMRIB58) template via the template-to-MNI152 transformations.  
 
 
 Sample axial slices for the FA FMRIB58-aligned mean images for the NKI data 
 set of template sizes of 5 and 30 images are provided in Fig. \ref{fig:NKI}.  
 We also include the same axial slice  of the FMRIB58 template in Fig. \ref{fig:NKI} 
-(a) for comparison.  In both sets of sample slices, visual inspection would seemingly 
+(a) for comparison.  In both sets of sample slices, visual inspection would  
 indicate better 
 performance with the ANTs-based FA mean images compared with the standard 
 TBSS-produced FA mean image.  Also, there is little discernible difference
@@ -854,15 +862,15 @@ TBSS-produced FA mean image.  Also, there is little discernible difference
 Relative performance is quantified in the plots produced in Fig. \ref{fig:NKIplots}. 
 The mean FA image derived from the standard TBSS approach was thresholded at FA $\geq 0.2$. 
  This binary mask obtained in the NKI cohort provided the standard group mask for 
- fair comparisons for all evaluations.    For all FMRIB58-aligned images the coefficient of 
- variation (CoV) was calculated in a voxel-wise fashion within the mask.  Intuitively, 
+ fair comparisons for all evaluations.    For all FMRIB58-aligned images, the CV 
+ was calculated in a voxelwise fashion within the mask.  Intuitively, 
  one would expect a smaller variance across better aligned sets of voxel values thus 
- producing a lower CoV for a given mean value.  By calculating the CDF of the set of CoV values within the mask, quantitative assessment of alignment performance can be visualized.  
+ producing a lower CV for a given mean value.  By calculating the CDF of the set of CV values within the mask, quantitative assessment of alignment performance can be visualized.  
 % In addition to producing CDF plots for voxels within the entire brain mask, we separated the brain into inner and outer sections to investigate the alignment difference between these two regions.  This division was accomplished by applying a distance transform \cite{Maurer2003} to the FSL-provided MNI152 brain mask and thresholding the result such that the outer 30 mm form the outer mask and the subtracted binary image forms the inner mask.  Note that only those voxels that were also within the thresholded FA mask were considered in the inner/outer analysis.
 
 
 There is a visible improvement in alignment for both data sets using the ANTs-based approach over individual subject FA registration to the FMRIB template.  There is little difference between the ANTs results with only a slight trend in improved performance with the larger template subject sample sizes.  
-%This was the case for all three regional CoV calculations for both data sets.  Also, as expected, there is greater misalignment in the outer region versus the inner core of the white matter mask regardless of methodology.  However, the performance tally was the same in both the inner and outer regions as was the case with the entire white matter mask.% although the disparity in performance was much less for the NYU data set as the NKI data set most likely due to the differences in resolution of the original DTI.
+%This was the case for all three regional CV calculations for both data sets.  Also, as expected, there is greater misalignment in the outer region versus the inner core of the white matter mask regardless of methodology.  However, the performance tally was the same in both the inner and outer regions as was the case with the entire white matter mask.% although the disparity in performance was much less for the NYU data set as the NKI data set most likely due to the differences in resolution of the original DTI.
 
 %The improvements seen in the CDF plots are also supported by comparative quantities derived from the skeletons of the different mean FA images.  Since the skeletonization process is meant to determine the center of the various white matter tracts \cite{Smith2006}, a greater volume of skeletonization voxels would indicate identification of more centers of white matter tracts.  In addition, as described in \cite{Zalesky2011}, the number of connected components of the white matter skeleton is directly related to the contiguity and thus inversely related to the level of structure.  Table \ref{table:vol} provides the volume of the mean FA skeletons (thresholded at FA $\geq 0.2$) for standard TBSS protocol using the FMRIB template and the ANTs approach using the various templates.  In agreement with the CDF plots illustrating improved alignment with ANTs, the voxel volumes of the skeletons are greater using ANTs templates with the greatest difference seen in the outer portion of the white matter.
 %Related, in Table \ref{table:cc}, we provide the number of connected components for both data sets for all isolated components greater in size than 1 voxel and 2 voxels.  Even though the skeletal volumes associated with the ANTs approach are greater, the number of connected components is less which would also support the observation of improved alignment.
@@ -964,7 +972,7 @@ There is a visible improvement in alignment for both data sets using the ANTs-ba
 %\begin{tabular}{c}
 %  \includegraphics[width=180mm]{NYUplots2.pdf}
 %\end{tabular}
-%\caption{{\bf NYU alignment assessment:}  To compare alignments between the  standard TBSS approach of using the FMRIB58 template versus using the different ANTs templates, we calculated the coefficient of variation at each voxel (for both FA and MD) and plotted the CDF over the range of values $[0,0.8]$ accumulated over all the voxels inside the thresholded (FA $\geq 0.2$) standard TBSS mean FA image (see Fig. \ref{fig:NKI}(b)).  In addition to the whole brain analysis (first column), the coefficient of variation was separately calculated over the inner and outer portions of the white matter (second and third columns, respectively).  The CDF plots for the ANTs templates are all very similar (although trending towards slight improvement with larger template sample size) and illustrate the general improvement in FA and MD alignment over registration of each FA image to the FMRIB58 template.
+%\caption{{\bf NYU alignment assessment:}  To compare alignments between the  standard TBSS approach of using the FMRIB58 template versus using the different ANTs templates, we calculated the CV at each voxel (for both FA and MD) and plotted the CDF over the range of values $[0,0.8]$ accumulated over all the voxels inside the thresholded (FA $\geq 0.2$) standard TBSS mean FA image (see Fig. \ref{fig:NKI}(b)).  In addition to the whole brain analysis (first column), the CV was separately calculated over the inner and outer portions of the white matter (second and third columns, respectively).  The CDF plots for the ANTs templates are all very similar (although trending towards slight improvement with larger template sample size) and illustrate the general improvement in FA and MD alignment over registration of each FA image to the FMRIB58 template.
 %}
 %\label{fig:NYUplots}
 %\end{figure*}
@@ -974,7 +982,7 @@ There is a visible improvement in alignment for both data sets using the ANTs-ba
 \begin{tabular}{c}
   \includegraphics[width=85mm]{NKIplots3.pdf}
 \end{tabular}
-\caption{{\bf NKI alignment assessment:}  To compare alignments between the  standard TBSS approach of using the FMRIB58 template versus using the different ANTs templates, we calculated the coefficient of variation at each voxel (for both FA and MD) and plotted the CDF over the range of values $[0,0.8]$ accumulated over all the voxels inside the thresholded (FA $\geq 0.2$) standard TBSS mean FA image (see Fig. \ref{fig:NKI}(b)).  The CDF plots for the ANTs templates are all very similar (although trending towards slight improvement with larger template sample size) and illustrate the general improvement in FA and MD alignment over registration of each FA image to the FMRIB58 template.
+\caption{{\bf NKI alignment assessment:}  To compare alignments between the  standard TBSS approach of using the FMRIB58 template versus using the different ANTs templates, we calculated the CV at each voxel (for both FA and MD) and plotted the CDF over the range of values $[0,0.8]$ accumulated over all the voxels inside the thresholded (FA $\geq 0.2$) standard TBSS mean FA image (see Fig. \ref{fig:NKI}(b)).  The CDF plots for the ANTs templates are all very similar (although trending towards slight improvement with larger template sample size) and illustrate the general improvement in FA and MD alignment over registration of each FA image to the FMRIB58 template.
 }
 \label{fig:NKIplots}
 \end{figure}
@@ -1018,7 +1026,7 @@ metrics (CC and MI) in the $t$-test which show decreased power.   }
 
 \section{Discussion} Prior evaluation work using anatomically labeled
 data indicates that mutual information,
-cross-correlation and the SSD/Demons metric are all capable of producing
+cross-correlation, Demons, and SSD metrics are all capable of producing
 high quality anatomical alignment (e.g. \cite{Klein2009}).  All of this work, though, compares
 the quality of alignment at a relatively coarse scale of major gyri,
 lobes and regions.  At the voxel level, it is nearly impossible to
@@ -1026,7 +1034,7 @@ determine the ground truth correspondence.  Indeed, there is no reason
 to believe that subtle differences between a set of alignment strategies
 (induced, in the experiments of this paper, by changing the similarity
 metrics used in image registration) that all apparently work well should
-be considered significant.  This work, however, highlights a dramatic impact of similarity metric choice on detection power in template-based FA studies.  Our contention is that this dramatic "improvement" in detection power is not due to better anatomical alignment.  Rather, it is a result of circularity/nonindependence of the normalization and statistical estimation strategy.  Consequently, we recommend that future work should take greater care when pairing the normalization strategy with the statistical framework.  Furthermore, we recommend that researchers should diligently seek to maintain independence between these two critical stages of a population study.  That is, {the features that drive the minimization of a similarity metric should be independent of the features that will be used in hypothesis testing.  In particular, one should avoid combining the SSD metric for normalizing FA with Student's t-test for FA differences.
+be considered significant.  This work, however, highlights a dramatic impact of similarity metric choice on detection power in template-based FA studies.  Our contention is that this dramatic "improvement" in detection power is not due to better anatomical alignment.  Rather, it is a result of circularity/nonindependence of the normalization and statistical estimation strategy.  Consequently, we recommend that future work should take greater care when pairing the normalization strategy with the statistical framework.  Furthermore, we recommend that researchers should diligently seek to maintain independence between these two critical stages of a population study.  That is, {the features that drive the minimization of a similarity metric should be independent of the features that will be used in hypothesis testing.  In particular, one should avoid combining the SSD metric for normalizing FA with Student's $t$-test for FA differences.
 
 \section{Conclusions}
 %The main conclusions of the study may be presented in a short Conclusions section, which may stand alone or form a subsection of a Discussion or Results and Discussion section.
@@ -1052,8 +1060,8 @@ This proposed improvement potentially has many benefits:
 \begin{itemize}
 \item As explained in \cite{Avants2010}, ANTs optimal template construction creates a true Frech\'et mean from the population sample with high resolution which facilitates within-group registration.  This obviates the need for an externally-derived template or an $\OO{n^2}$ search for an approximation to the mean subject or the bias resulting from random subject selection.
 \item Since the creation of the standardized coordinate system is performed using the anatomical images, nonrigid registration of the DTI-derived scalar images is 
-minimized thus mitigating the confounds described previously.  Each DTI-based image is rigidly registered to its corresponding T1 image followed by a small number of nonrigid registration iterations to account for echo planar imaging (EPI) distortion \cite{Wu2008}.  
-\item Although the total number of registrations to be performed is increased, this makes the composite registration between an individual DTI-derived image to the template more robust as the shape distance between registrations is minimized.
+minimized thus mitigating the confounds described previously.  Each DTI-based scalar image is rigidly registered to its corresponding T1 image followed by a small number of nonrigid registration iterations to account for echo planar imaging (EPI) distortion \cite{Wu2008}.  
+\item Although the total number of registrations to be performed is increased, this strategy makes the composite registration between an individual DTI-derived image to the template more robust as the shape distance between registrations is minimized.
 %\item Instead of Gaussian smoothing as with SPM, TBSS uses the warping process to FMRIB58 by default to provide an indirect smoothing.  Such resampling occurs in ANTs-TBSS as a by-product of the registration of the DTI-derived image to the corresponding T1 image in a subject-specific manner.
 %\item Instead of using thresholding to create the white matter segmentation from which the skeleton is created, an anatomically-based segmentation, either in the template space or in each subject space followed by a label fusion technique (e.g. majority voting), can be used to ultimately provide a more accurate skeleton.
 \item Oftentimes FA analysis is only one of several components performed in a population-based study.  Other investigations, such as voxel- and tensor-based morphometry, cortical thickness measurements, etc. can take advantage of the anatomical template.
@@ -1061,7 +1069,7 @@ minimized thus mitigating the confounds described previously.  Each DTI-based im
 performed using ANTs-based tools followed by skeletonization and projection using the FMRIB software (see Fig. \ref{fig:workflow}).
 \end{itemize}
 
-Of practical significance, we emphasize that all software components described 
+All software components described 
 in this paper are publicly available as open source primarily through the 
 Advanced Normalization Tools (ANTs) repository.%
 \footnote{
