@@ -1035,7 +1035,8 @@ metrics (CC and MI) in the $t$-test which show decreased power.   }
 %\section{Discussion}
 %This should explore the significance of the results of the work, not repeat them. A combined Results and Discussion section is often appropriate. Avoid extensive citations and discussion of published literature.
 
-\section{Discussion} Prior evaluation work using anatomically labeled
+\section{Discussion} 
+Prior evaluation work using anatomically labeled
 data indicates that mutual information, cross-correlation, Demons, and
 SSD metrics are all capable of producing high quality anatomical
 alignment (e.g. \cite{Klein2009}).  All of this work, though, compares
@@ -1078,7 +1079,15 @@ reexamine FA normalization and analysis methods and to consider the
 potential confounds highlighted in this paper.  Rank tests
 provide a more conservative alternative as does the methodology
 presented here based on T1 to DT intrasubject mapping and T1
-normalization.  
+normalization.  To our surprise, we could not find a prior publication that directly
+addresses this issue.  Two reasons may be that the majority of
+technical work using DTI has focused on more cutting-edge issues while
+the clinical work using DTI is more concerned with generating
+statistically significant results.  An additional reason may be that
+only recently have toolkits emerged to enable easy comparison of
+statistical techniques (via {\bf R}), normalization methods (ANTs) and
+diffusion tensor processing (Camino).
+
 
 \section{Conclusions}
 %The main conclusions of the study may be presented in a short Conclusions section, which may stand alone or form a subsection of a Discussion or Results and Discussion section.
