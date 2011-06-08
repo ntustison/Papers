@@ -1176,7 +1176,6 @@
   pages = {21--36},
   number = {1 Pt 1},
   month = {Jul},
-  __markedentry = {[ntustison]},
   abstract = {Voxel-based-morphometry (VBM) is a whole-brain, unbiased technique
 	for characterizing regional cerebral volume and tissue concentration
 	differences in structural magnetic resonance images. We describe
@@ -1207,6 +1206,93 @@
   pmid = {11525331},
   timestamp = {2011.06.07},
   url = {http://dx.doi.org/10.1006/nimg.2001.0786}
+}
+
+@ARTICLE{Hecke2007,
+  author = {Wim Van Hecke and Alexander Leemans and Emiliano D'Agostino and Steve
+	De Backer and Evert Vandervliet and Paul M Parizel and Jan Sijbers},
+  title = {Nonrigid coregistration of diffusion tensor images using a viscous
+	fluid model and mutual information.},
+  journal = {IEEE Trans Med Imaging},
+  year = {2007},
+  volume = {26},
+  pages = {1598--1612},
+  number = {11},
+  month = {Nov},
+  abstract = {In this paper, a nonrigid coregistration algorithm based on a viscous
+	fluid model is proposed that has been optimized for diffusion tensor
+	images (DTI), in which image correspondence is measured by the mutual
+	information criterion. Several coregistration strategies are introduced
+	and evaluated both on simulated data and on brain intersubject DTI
+	data. Two tensor reorientation methods have been incorporated and
+	quantitatively evaluated. Simulation as well as experimental results
+	show that the proposed viscous fluid model can provide a high coregistration
+	accuracy, although the tensor reorientation was observed to be highly
+	sensitive to the local deformation field. Nevertheless, this coregistration
+	method has demonstrated to significantly improve spatial alignment
+	compared to affine image matching.},
+  doi = {10.1109/TMI.2007.906786},
+  institution = {VisionLab, Department of Physics, University of Antwerp, 2610 Antwerp,
+	Belgium.},
+  keywords = {Adult; Algorithms; Artificial Intelligence; Body Water, metabolism;
+	Brain, anatomy /&/ histology; Computer Simulation; Diffusion Magnetic
+	Resonance Imaging, methods; Female; Humans; Image Enhancement, methods;
+	Image Interpretation, Computer-Assisted, methods; Imaging, Three-Dimensional,
+	methods; Male; Middle Aged; Models, Neurological; Pattern Recognition,
+	Automated, methods; Reproducibility of Results; Sensitivity and Specificity;
+	Subtraction Technique; Viscosity},
+  language = {eng},
+  medline-pst = {ppublish},
+  owner = {ntustison},
+  pmid = {18041274},
+  timestamp = {2011.06.08},
+  url = {http://dx.doi.org/10.1109/TMI.2007.906786}
+}
+
+@ARTICLE{Hecke2011,
+  author = {Wim Van Hecke and Alexander Leemans and Caroline A Sage and Louise
+	Emsell and Jelle Veraart and Jan Sijbers and Stefan Sunaert and Paul
+	M Parizel},
+  title = {The effect of template selection on diffusion tensor voxel-based
+	analysis results.},
+  journal = {Neuroimage},
+  year = {2011},
+  volume = {55},
+  pages = {566--573},
+  number = {2},
+  month = {Mar},
+  __markedentry = {[ntustison]},
+  abstract = {Diffusion tensor imaging (DTI) is increasingly being used to study
+	white matter (WM) degeneration in patients with psychiatric and neurological
+	disorders. In order to compare diffusion measures across subjects
+	in an automated way, voxel-based analysis (VBA) methods were introduced.
+	In VBA, all DTI data are transformed to a template, after which the
+	diffusion measures of control subjects and patients are compared
+	quantitatively in each voxel. Although VBA has many advantages compared
+	to other post-processing approaches, such as region of interest analysis
+	or tractography, VBA results need to be interpreted cautiously, since
+	it has been demonstrated that they depend on the different parameter
+	settings that are applied in the VBA processing pipeline. In this
+	paper, we examine the effect of the template selection on the VBA
+	results of DTI data. We hypothesized that the choice of template
+	to which all data are transformed would also affect the VBA results.
+	To this end, simulated DTI data sets as well as DTI data from control
+	subjects and multiple sclerosis patients were aligned to (i) a population-specific
+	DTI template, (ii) a subject-based DTI atlas in MNI space, and (iii)
+	the ICBM-81 DTI atlas. Our results suggest that the highest sensitivity
+	and specificity to detect WM abnormalities in a VBA setting was achieved
+	using the population-specific DTI atlas, presumably due to the better
+	spatial image alignment to this template.},
+  doi = {10.1016/j.neuroimage.2010.12.005},
+  institution = {Department of Radiology, University Hospital Antwerp, Edegem (Antwerp),
+	Belgium. wim.vanhecke@ua.ac.be},
+  language = {eng},
+  medline-pst = {ppublish},
+  owner = {ntustison},
+  pii = {S1053-8119(10)01586-7},
+  pmid = {21146617},
+  timestamp = {2011.06.08},
+  url = {http://dx.doi.org/10.1016/j.neuroimage.2010.12.005}
 }
 
 @ARTICLE{Hecke2010,
@@ -1251,6 +1337,58 @@
   pmid = {21146617},
   timestamp = {2011.02.08},
   url = {http://dx.doi.org/10.1016/j.neuroimage.2010.12.005}
+}
+
+@ARTICLE{Hecke2009,
+  author = {Wim Van Hecke and Jan Sijbers and Steve De Backer and Dirk Poot and
+	Paul M Parizel and Alexander Leemans},
+  title = {On the construction of a ground truth framework for evaluating voxel-based
+	diffusion tensor MRI analysis methods.},
+  journal = {Neuroimage},
+  year = {2009},
+  volume = {46},
+  pages = {692--707},
+  number = {3},
+  month = {Jul},
+  abstract = {Although many studies are starting to use voxel-based analysis (VBA)
+	methods to compare diffusion tensor images between healthy and diseased
+	subjects, it has been demonstrated that VBA results depend heavily
+	on parameter settings and implementation strategies, such as the
+	applied coregistration technique, smoothing kernel width, statistical
+	analysis, etc. In order to investigate the effect of different parameter
+	settings and implementations on the accuracy and precision of the
+	VBA results quantitatively, ground truth knowledge regarding the
+	underlying microstructural alterations is required. To address the
+	lack of such a gold standard, simulated diffusion tensor data sets
+	are developed, which can model an array of anomalies in the diffusion
+	properties of a predefined location. These data sets can be employed
+	to evaluate the numerous parameters that characterize the pipeline
+	of a VBA algorithm and to compare the accuracy, precision, and reproducibility
+	of different post-processing approaches quantitatively. We are convinced
+	that the use of these simulated data sets can improve the understanding
+	of how different diffusion tensor image post-processing techniques
+	affect the outcome of VBA. In turn, this may possibly lead to a more
+	standardized and reliable evaluation of diffusion tensor data sets
+	of large study groups with a wide range of white matter altering
+	pathologies. The simulated DTI data sets will be made available online
+	(http://www.dti.ua.ac.be).},
+  doi = {10.1016/j.neuroimage.2009.02.032},
+  institution = {Visionlab (Department of Physics), University of Antwerp, Wilrijk
+	(Antwerp), Belgium. k.wim.vanhecke@ua.ac.be},
+  keywords = {Adolescent; Adult; Aged; Algorithms; Artificial Intelligence; Brain,
+	pathology; Diffusion Magnetic Resonance Imaging, methods; Female;
+	Humans; Image Enhancement, methods; Image Interpretation, Computer-Assisted,
+	methods; Imaging, Three-Dimensional, methods; Male; Middle Aged;
+	Multiple Sclerosis, pathology; Nerve Fibers, Myelinated, pathology;
+	Pattern Recognition, Automated, methods; Reproducibility of Results;
+	Sensitivity and Specificity; Subtraction Technique; Young Adult},
+  language = {eng},
+  medline-pst = {ppublish},
+  owner = {ntustison},
+  pii = {S1053-8119(09)00185-2},
+  pmid = {19268708},
+  timestamp = {2011.06.08},
+  url = {http://dx.doi.org/10.1016/j.neuroimage.2009.02.032}
 }
 
 @ARTICLE{Jenkinson2001,
@@ -2019,6 +2157,16 @@
   pmid = {15325368},
   timestamp = {2011.02.09},
   url = {http://dx.doi.org/10.1016/j.neuroimage.2004.04.036}
+}
+
+@MANUAL{RDevelopmentCoreTeam2011,
+  title = {R: A Language and Environment for Statistical Computing},
+  author = {{R Development Core Team}},
+  organization = {R Foundation for Statistical Computing},
+  address = {Vienna, Austria},
+  year = {2011},
+  note = {{ISBN} 3-900051-07-0},
+  url = {http://www.R-project.org}
 }
 
 @ARTICLE{Rametti2010,
@@ -2800,6 +2948,59 @@
   pmid = {20933352},
   timestamp = {2011.01.18},
   url = {http://dx.doi.org/10.1016/j.mri.2010.06.027}
+}
+
+@ARTICLE{Zhang2007,
+  author = {Hui Zhang and Brian B Avants and Paul A Yushkevich and John H Woo
+	and Sumei Wang and Leo F McCluskey and Lauren B Elman and Elias R
+	Melhem and James C Gee},
+  title = {High-dimensional spatial normalization of diffusion tensor images
+	improves the detection of white matter differences: an example study
+	using amyotrophic lateral sclerosis.},
+  journal = {IEEE Trans Med Imaging},
+  year = {2007},
+  volume = {26},
+  pages = {1585--1597},
+  number = {11},
+  month = {Nov},
+  abstract = {Spatial normalization of diffusion tensor images plays a key role
+	in voxel-based analysis of white matter (WM) group differences. Currently,
+	it has been achieved using low-dimensional registration methods in
+	the large majority of clinical studies. This paper aims to motivate
+	the use of high-dimensional normalization approaches by generating
+	evidence of their impact on the findings of such studies. Using an
+	ongoing amyotrophic lateral sclerosis (ALS) study, we evaluated three
+	normalization methods representing the current range of available
+	approaches: low-dimensional normalization using the fractional anisotropy
+	(FA), high-dimensional normalization using the FA, and high-dimensional
+	normalization using full tensor information. Each method was assessed
+	in terms of its ability to detect significant differences between
+	ALS patients and controls. Our findings suggest that inadequate normalization
+	with low-dimensional approaches can result in insufficient removal
+	of shape differences which in turn can confound FA differences in
+	a complex manner, and that utilizing high-dimensional normalization
+	can both significantly minimize the confounding effect of shape differences
+	to FA differences and provide a more complete description of WM differences
+	in terms of both size and tissue architecture differences. We also
+	found that high-dimensional approaches, by leveraging full tensor
+	features instead of tensor-derived indices, can further improve the
+	alignment of WM tracts.},
+  doi = {10.1109/TMI.2007.906784},
+  institution = {Penn Image Computing and Science Laboratory, University of Pennsylvania,
+	Philadelphia, PA 19104, USA.},
+  keywords = {Adult; Aged; Algorithms; Amyotrophic Lateral Sclerosis, pathology;
+	Artificial Intelligence; Brain, pathology; Diffusion Magnetic Resonance
+	Imaging, methods; Female; Humans; Image Enhancement, methods; Image
+	Interpretation, Computer-Assisted, methods; Imaging, Three-Dimensional,
+	methods; Male; Middle Aged; Nerve Fibers, Myelinated, pathology;
+	Pattern Recognition, Automated, methods; Reproducibility of Results;
+	Sensitivity and Specificity},
+  language = {eng},
+  medline-pst = {ppublish},
+  owner = {ntustison},
+  pmid = {18041273},
+  timestamp = {2011.06.08},
+  url = {http://dx.doi.org/10.1109/TMI.2007.906784}
 }
 
 @ARTICLE{Zhang2001,
