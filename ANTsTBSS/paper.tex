@@ -145,7 +145,7 @@
 
 \begin{frontmatter}
 
-\title{Normalization Circularity in Population-Based FA Analysis}
+\title{On Population-Based FA Analysis with Non-independent Normalization and Statistics}
 
 
 
@@ -327,14 +327,13 @@ The true significance curves are drawn in black.  Elevated statistical power is 
 
 
 After creation of the simulated data set, we performed voxelwise testing (both $t$-testing
-and Wilcoxon rank-sum testing, one-tailed, $\alpha = 0.95$) with false discovery
-rate correction within the white matter to get ``true'' cumulative distribution functions (CDFs).  The CDF vertical axis shows the cumulative number of voxels with corrected $p$-values at or below a given significance level (horizontal axis) and thus may be used as a surrogate measure for spatial sensitivity.  We denote these graphs as "statistical significance curves."  
+and Wilcoxon rank-sum testing, aka the Mann-Whitney test, one-tailed,
+$\alpha = 0.95$) with false discovery rate correction within the white matter to get ``true'' cumulative distribution functions (CDFs).  The CDF vertical axis shows the cumulative number of voxels with corrected $p$-values at or below a given significance level (horizontal axis) and thus may be used as a surrogate measure for spatial sensitivity.  We denote these graphs as "statistical significance curves."  
 The true curves for the simulated experiment are plotted in black in Fig. \ref{fig:simulated_testing}.  
 We note that the amount of smoothing increases the proportion of significant voxels beyond
 the prescribed 10\%.
 
-To illustrate the 
-effect of similarity metric on statistical significance, we performed ANTs registration \cite{Avants2011} of each subject to the template
+To illustrate the effect of similarity metric on statistical significance, we performed ANTs registration \cite{Avants2011} of each subject to the template
 (Fig. \ref{fig:simulated_data}(b)) using cross correlation (CC), mutual information (MI), 
 Demons \cite{Thirion1998}, and sum of squared differences (SSD). A representative deformed image
 using the SSD metric and its corresponding deformed grid is given in 
@@ -342,7 +341,20 @@ Fig. \ref{fig:simulated_data_warped}.
 The resulting statistical significance curves are plotted with the true significance curves in Fig. 
 \ref{fig:simulated_testing}.  
 
-This example demonstrates the undesirable phenomenon previously described.  Even though these images were anatomically aligned prior to registration, the resulting deformations (falsely) increased detection power.  This effect can be explained in the context of Eqn. (\ref{eq:variance}) and by the fact that we added noise to the underlying distribution which allows the deformable mapping algorithms the freedom to transform the positions of the most "powerful" voxels to minimize variance across the population (and increase the $t$-test statistics).  Whereas  decreasing the standard deviation of the noise causes an increase in separation between  the SSD and Demon's metric pair with the MI and CC metric pair with the latter pair closer to the the true significance curve, increasing the noise yields the same ranking with a more even spread between significance curves.
+This example demonstrates the undesirable phenomenon previously
+described.  Even though these images were anatomically aligned prior
+to registration, the resulting deformations (falsely) increased
+detection power.  This effect can be explained in the context of
+Eqn. (\ref{eq:variance}) and by the fact that we added noise to the
+underlying distribution which allows the deformable mapping algorithms
+the freedom to transform the positions of the most "powerful" voxels
+to minimize variance across the population (and increase the $t$-test
+statistics).  Although we do not show the results, additional
+experiments show that decreasing the standard deviation of the noise
+causes an increase in separation between the SSD/Demon's metrics and
+the MI and CC metrics.  MI and CC are closer to the the true
+significance curve.  Alternatively, if we increase the noise level,
+the same ranking occurs with even more spread between significance curves.
 
 Common similarity metric functions can therefore induce false positives by minimizing local intensity 
 variance between the subjects and template which explicitly maximizes statistical
@@ -645,7 +657,7 @@ usage of TBSS has become a de facto quantitative tool for DTI analysis based, at
 %\end{description}
 
 
-\section{Results and Discussion}
+\section{Results}
 %Results should be clear and concise.
 
 
@@ -1024,16 +1036,49 @@ metrics (CC and MI) in the $t$-test which show decreased power.   }
 %This should explore the significance of the results of the work, not repeat them. A combined Results and Discussion section is often appropriate. Avoid extensive citations and discussion of published literature.
 
 \section{Discussion} Prior evaluation work using anatomically labeled
-data indicates that mutual information,
-cross-correlation, Demons, and SSD metrics are all capable of producing
-high quality anatomical alignment (e.g. \cite{Klein2009}).  All of this work, though, compares
+data indicates that mutual information, cross-correlation, Demons, and
+SSD metrics are all capable of producing high quality anatomical
+alignment (e.g. \cite{Klein2009}).  All of this work, though, compares
 the quality of alignment at a relatively coarse scale of major gyri,
 lobes and regions.  At the voxel level, it is nearly impossible to
 determine the ground truth correspondence.  Indeed, there is no reason
-to believe that subtle differences between a set of alignment strategies
-(induced, in the experiments of this paper, by changing the similarity
-metrics used in image registration) that all apparently work well should
-be considered significant.  This work, however, highlights a dramatic impact of similarity metric choice on detection power in template-based FA studies.  Our contention is that this dramatic "improvement" in detection power is not due to better anatomical alignment.  Rather, it is a result of circularity/nonindependence of the normalization and statistical estimation strategy.  Consequently, we recommend that future work should take greater care when pairing the normalization strategy with the statistical framework.  Furthermore, we recommend that researchers should diligently seek to maintain independence between these two critical stages of a population study.  That is, {the features that drive the minimization of a similarity metric should be independent of the features that will be used in hypothesis testing.  In particular, one should avoid combining the SSD metric for normalizing FA with Student's $t$-test for FA differences.
+to believe that subtle differences between a set of alignment
+strategies (induced, in the experiments of this paper, by changing the
+similarity metrics used in image registration) that all apparently
+work well should be considered significant.  This work, however,
+highlights a dramatic impact of similarity metric choice on detection
+power in template-based FA studies.  Our contention is that this
+dramatic "improvement" in detection power is not due to better
+anatomical alignment.  Rather, it is a result of
+circularity/nonindependence of the normalization and statistical
+estimation strategy.  Consequently, we recommend that future work
+should take greater care when pairing the normalization strategy with
+the statistical framework.  Furthermore, we recommend that researchers
+should diligently seek to maintain independence between these two
+critical stages of a population study.  That is, the features that
+drive the minimization of a similarity metric should be independent of
+the features that will be used in hypothesis testing.  In particular,
+one should avoid combining the SSD metric for normalizing FA with
+Student's $t$-test for FA differences.  A final point is that
+cumulative distribution functions and other power assessment methods
+cannot be regarded as meaningful comparison techniques in the presence
+of normalization/statistical non-independence.  Similar issues are
+raised in \cite{Kriegeskorte2010}.
+
+Caveats with our analysis include a lack of ground truth in the
+clinical component of the study.   Additionally, we are not addressing
+our results' biological plausibility, nor do we
+intend to (in this paper) enter into discussion on the mechanisms of
+TBI, gender difference and DTI that may lead to the detected results.
+Rather, we focus on the technical issue of circularity induced by
+normalizing the image feature of interest with functions that maximize
+the statistic used in hypothesis testing.  We also cannot argue that our analysis
+invalidates previous results that used a circular strategy.  Instead, we encourage the community to
+reexamine FA normalization and analysis methods and to consider the
+potential confounds highlighted in this paper.  Rank tests
+provide a more conservative alternative as does the methodology
+presented here based on T1 to DT intrasubject mapping and T1
+normalization.  
 
 \section{Conclusions}
 %The main conclusions of the study may be presented in a short Conclusions section, which may stand alone or form a subsection of a Discussion or Results and Discussion section.
