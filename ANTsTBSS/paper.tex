@@ -240,7 +240,7 @@ VBM \citep{Ashburner2001} continues to find application to FA studies \citep{Kak
 
 Although there are substantive differences in normalization
 between these and other analysis approaches, a core
-commonality includes direct FA-to-FA registration.  The sum of squared differences (SSD) image similarity metric is perhaps the easiest to interpret (it drives the image difference to zero), is computationally efficient (just compute the image difference and gradient) and is therefore widely used.  Some of the most popular registration methods (SPM, Demons, FSL's FNIRT) rely on this metric and yield reasonable performance levels \citep{Klein2009}.%
+commonality includes direct FA-to-FA registration {\color{red}{using various similarity metrics}}.  The sum of squared differences (SSD) image similarity metric is perhaps the easiest to interpret (it drives the image difference to zero), is computationally efficient (just compute the image difference and gradient) and is therefore widely used.  Some of the most popular registration methods (SPM, Demons, FSL's FNIRT) rely on this metric and yield reasonable performance levels \citep{Klein2009}.%
 \footnote{
 In addition to TBSS and SPM, other popular packages in the neuroimaging community 
 which use the SSD metric include AIR \citep{Woods1998} and LDDMM \citep{Beg2005}.
