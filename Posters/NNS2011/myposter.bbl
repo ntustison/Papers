@@ -1,0 +1,46 @@
+\begin{thebibliography}{1}
+
+\bibitem{Avants2010b}
+B.~B. Avants, P.~A. Cook, L.~Ungar, J.~C. Gee, and M.~Grossman.
+\newblock Dementia induces correlated reductions in white matter integrity and
+  cortical thickness: a multivariate neuroimaging study with sparse canonical
+  correlation analysis.
+\newblock {\em Neuroimage}, 50(3):1004--1016, Apr 2010.
+
+\bibitem{Avants2011}
+B.~B. Avants, N.~J. Tustison, G.~Song, P.~A. Cook, A.~Klein, and J.~C. Gee.
+\newblock A reproducible evaluation of {ANTs} similarity metric performance in
+  brain image registration.
+\newblock {\em Neuroimage}, 54(3):2033--2044, Feb 2011.
+
+\bibitem{Avants2011a}
+B.~B. Avants, N.~J. Tustison, J.~Wu, P.~A. Cook, and J.~C. Gee.
+\newblock An open source multivariate framework for n-tissue segmentation with
+  evaluation on public data.
+\newblock {\em Neuroinformatics}, Mar 2011.
+
+\bibitem{Avants2010}
+B.~B. Avants, P.~Yushkevich, J.~Pluta, D.~Minkoff, M.~Korczykowski, J.~Detre,
+  and J.~C. Gee.
+\newblock The optimal template effect in hippocampus studies of diseased
+  populations.
+\newblock {\em Neuroimage}, 49(3):2457--2466, Feb 2010.
+
+\bibitem{Das2009}
+S.~R. Das, B.~B. Avants, M.~Grossman, and J.~C. Gee.
+\newblock Registration based cortical thickness measurement.
+\newblock {\em Neuroimage}, 45(3):867--879, Apr 2009.
+
+\bibitem{Tustison2010}
+N.~J. Tustison, B.~B. Avants, P.~A. Cook, Y.~Zheng, A.~Egan, P.~A. Yushkevich,
+  and J.~C. Gee.
+\newblock {N4ITK}: improved {N3} bias correction.
+\newblock {\em IEEE Trans Med Imaging}, 29(6):1310--1320, Jun 2010.
+
+\bibitem{Tustison2011}
+N.~J. Tustison, B.~B. Avants, M.~Siqueira, and J.~C. Gee.
+\newblock Topological well-composedness and glamorous glue: a digital gluing
+  algorithm for topologically constrained front propagation.
+\newblock {\em IEEE Trans Image Process}, 20(6):1756--1761, Jun 2011.
+
+\end{thebibliography}
