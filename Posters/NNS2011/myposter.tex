@@ -8,6 +8,7 @@
 \usepackage{graphicx}
 \usepackage{amsmath}
 \usepackage{amssymb}
+\usepackage{latexsym}
 \usepackage{relsize}
 \usepackage{multirow}
 \usepackage{bm}
@@ -162,7 +163,7 @@
   % Serif
   Nicholas J. Tustison$^1$, Brian B. Avants$^2$, Philip A. Cook$^2$, Junghoon Kim$^3$, John Whyte$^3$, James C. Gee$^2$, Stephen  Ahlers$^4$, James R. Stone$^1$ \newline
   % Affiliations
-  {\normalsize $^1$University of Virginia, $^2$University of Pennsylvania, $^3$Rehabilitation Research Institute, $^4$Naval Medical Research Center \\
+  {\normalsize $^1$University of Virginia, $^2$University of Pennsylvania, $^3$Moss Rehabilitation Research Institute, $^4$Naval Medical Research Center \\
   P309
   }
   
@@ -220,7 +221,7 @@ to quantify traumatically induced disruption of WM and cortical networks.
  }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  \headerbox{Diffuse Traumatic Brain Injury Data}{name=data,column=0,below=introduction}{
+  \headerbox{Diffuse traumatic brain injury data}{name=data,column=0,below=introduction}{
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 The TBI data used in this study is part of a larger effort investigating 
 the relationship between various neuroimaging indices and cognitive and 
@@ -268,56 +269,110 @@ DiReCT cortical thickness \cite{Das2009} & topological well-composedness \cite{T
 \end{tabular}
 \end{center}
 
+\vspace{-6mm}
+
 \begin{center}
-{\bf Statistics}\\
-\vspace{4mm}
-\begin{tabular}{c}
-\includegraphics[height=25mm]{MUvPSCCAN.pdf} \\
-sparse canonical correlation analysis \cite{Avants2010b}
-\end{tabular}
+{\bf Multivariate analysis using SCCA}\\
+\end{center}
+\vspace{-1mm}
+Sparse canonical correlation analysis (SCCA) adapts classical CCA to
+situations where the number of predictors is much greater than the number
+of subjects for inference of correlative relationships between different
+``views'' of some underlying phenomenon. For gray matter density ($\mathbf{G}$) and
+DTI-derived FA  ($\mathbf{F}$) views, SCCA solves the following
+criterion \cite{Avants2010b}:
+\vspace{-7mm}
+\begin{center}
+\begin{align*}
+\underset{\omega_{\mathbf{G}}, \omega_{\mathbf{F}}}{\operatorname{argmax}} \left\{\omega_{\mathbf{G}} \mathbf{G}^\mathrm{T}\mathbf{F}\omega_{\mathbf{F}} - \lambda_{\mathbf{G}}\sum_{v_{\mathbf{G}}} |\omega_{\mathbf{G}}|_1 - \lambda_{\mathbf{F}}\sum_{v_{\mathbf{F}}} |\omega_{\mathbf{F}}|_1\right\}: \|\omega_{\mathbf{G}}\|, \|\omega_{\mathbf{F}}\| \leq 1.
+\end{align*}
 \end{center}
 
-\smaller
-\begin{center}
-  http://wwww.picsl.upenn.edu/ANTs
-\end{center}  
+%\smaller
+%\begin{center}
+%  http://wwww.picsl.upenn.edu/ANTs
+%\end{center}  
 
 %\vspace{0.3em}
   }
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  \headerbox{ANTs TBI Multivariate Processing Workflow}{name=workflow,column=1,span=2}{
+  \headerbox{Materials and methods:  ANTs subject and template processing}{name=workflow,column=1,span=2}{
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   \vspace{0.3em}
 
 \begin{center}
-\begin{tabular}{c}
-\includegraphics[height=80mm]{workflow.pdf} 
+\begin{tabular}{p{11cm}p{11cm}}
+{\makebox[11cm][c]{\bf Individual subject processing}\vspace{-3mm} } & 
+{\makebox[11cm][c]{\bf Template generation}} \\
+{\makebox[11cm][c]{\includegraphics[height=60mm]{individualProcessing.pdf}}}\vspace{3mm} &
+{\makebox[11cm][c]{\includegraphics[height=60mm]{templateBuilding.pdf}}} \\
+\small Processing of each anatomical (T1-weighted) image consists of the
+following steps: 
+\begin{itemize}
+  \item bias correction,
+  \item skull stripping using Atropos coupled with anatomical priors, and
+  \item prior-based csf, white matter, and gray matter segmentation.  The
+  latter yields the gray matter density image for each subject.
+\end{itemize}
+FA images are mapped to each anatomical image using the transform
+obtained from registration of the average diffusion image to the 
+corresponding T1. 
+& 
+\small Statistical analysis requires normalization to a standard space provided
+by the total template.  All 17 controls and all 16 TBI patients were used
+to generate their respective unbiased templates.  These two templates were then
+used to generate the final/standard template.  Thus the mapping from the individual 
+gray matter density (GMD) image to the total template is given by
+\begin{align*}
+  \mathrm{GMD}_{subject}\,\,\mathbf{Id}\,\, \mathrm{T1}_{subject}\leadsto \mathrm{template}_{population}\leadsto \mathrm{template}_{total}.
+\end{align*}
+Similarly, the mapping for each subject's FA image to the total template is given
+by the 
+transform composition
+\begin{align*}
+  \mathrm{FA}_{subject}\rightarrow\mathrm{T1}_{subject}\leadsto \mathrm{template}_{population}\leadsto \mathrm{template}_{total}.
+\end{align*}
+\\
 \end{tabular}
 \end{center}
 
+\vspace{-10mm}
   }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  \headerbox{Results}{name=results,column=1,span=1,below=workflow}{
+  \headerbox{Multivariate analysis results}{name=results,column=1,span=2,below=workflow}{
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   \vspace{0.3em}
+
+\begin{center}
+\begin{tabular}{p{6cm}cc} \vspace{-70mm}
+{\makebox[6cm][c]{\includegraphics[height=50mm]{scca.pdf} }} \
+\small The significant correlations derived from the GMD/FA views
+vs. diagnostic view provide significant regions for finding
+correlations between GMD and FA. & {           } &
+{\includegraphics[height=80mm]{results.pdf}}
+\end{tabular}
+\end{center}
+
   }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   \headerbox{Conclusions}{name=conclusions,column=1,below=results}{
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
- SCCA demonstrates significant differences between the control and patient groups in both the FA ($p < 0.002$) and gray matter ($p < 0.01$)	that	are	widespread	but	largely	focus	on	thalamocortical networks related to the limbic system. Specific regional differences in- cluded the medial thalamic nuclei, hypothalamus, amygdala, hippo- campus, anterior cingulate cortex, orbitofrontal cortex and fornix. Using these SCCA-identified regions, we demonstrate a strong correlation of the degree of injury in WM and GM within the patient group.
+ SCCA demonstrates significant differences between the control and patient groups in both the FA ($p < 0.002$) and gray matter ($p < 0.04$)	that	are	widespread	but	largely	focus	on	thalamocortical networks related to the limbic system. Specific regional differences included the medial thalamic nuclei, hypothalamus, amygdala, hippocampus, anterior cingulate cortex, orbitofrontal cortex and fornix. Using these SCCA-identified regions, we demonstrate a strong correlation ($p < 0.08$) of the degree of injury in WM and GM within the patient group.
  
+\vspace{0.3em}
   }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  \headerbox{References}{name=references,column=2,below=workflow}{
+  \headerbox{References}{name=references,column=2,below=results,above=bottom}{
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    \smaller
 
+\vspace{0.3em}
+    \scriptsize
       \vspace{-0.4em}
       \renewcommand{\refname}{\vspace{-0.8em}}
       \bibliographystyle{abbrv}
@@ -339,6 +394,22 @@ sparse canonical correlation analysis \cite{Avants2010b}
   }
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  \headerbox{Open source software}{name=software,column=1,below=conclusions,above=bottom}{
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\vspace{1mm}
+  \begin{center}
+  \begin{tabular}{cc}
+  \includegraphics[height=18mm]{ants_logo.png} &
+  \includegraphics[height=18mm]{itkLogo.jpg} \\
+%  {Advanced Normalization Tools} & {Insight Toolkit} \\
+  {\tiny http://www.picsl.upenn.edu/ANTs} &
+%  {\tiny http://www.cs.ucl.ac.uk/research/medic/camino} &
+  {\tiny http://www.itk.org/} \\
+  \end{tabular}
+  \end{center}
+  
+  }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %  \headerbox{Expression Neutralization}{name=results neutralization,column=1,row=0}{
