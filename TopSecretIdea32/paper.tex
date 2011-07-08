@@ -227,7 +227,17 @@ results.
 
 in pumed, look at cortical thickness parcellation
 
-\section{Material and Methods}
+\section{Materials and Methods}
+
+For a single label,
+\begin{align}
+  E(\phi(\mathbf{x},1)) = \int_0^1 \|\mathbf{v}(\mathbf{x},t)\|^2 dt +
+      \|P_w(\mathbf{x}) -P_{wg}(\mathbf{x})\|^2
+\end{align}
+
+\begin{align}
+  \sum_{n=1}^N E_{n}(\phi_n(\mathbf{x},1))
+\end{align}
 
 
 \section{Discussion} 
@@ -253,18 +263,18 @@ in pumed, look at cortical thickness parcellation
 %% References with bibTeX database:
 
 \section*{Acknowledgments}
-All visualizations were performed using ITK-SNAP%
-\footnote{
-http://www.itksnap.org/
-}
-\citep{Yushkevich2006} and
-DTI-TK.%
-\footnote{
-http://www.nitrc.org/projects/dtitk/
-}
-We also gratefully acknowledge Dr. Niels van Strien of the Norwegian University of Science and Technology
-who assisted in packaging the template construction algorithm in the very useful script \verb#buildtemplateparallel.sh#
-which is publicly available in ANTs.
+%All visualizations were performed using ITK-SNAP%
+%\footnote{
+%http://www.itksnap.org/
+%}
+%\citep{Yushkevich2006} and
+%DTI-TK.%
+%\footnote{
+%http://www.nitrc.org/projects/dtitk/
+%}
+%We also gratefully acknowledge Dr. Niels van Strien of the Norwegian University of Science and Technology
+%who assisted in packaging the template construction algorithm in the very useful script \verb#buildtemplateparallel.sh#
+%which is publicly available in ANTs.
 
 \section*{References}
 
