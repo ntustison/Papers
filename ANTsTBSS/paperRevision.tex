@@ -379,7 +379,7 @@ circularity.
   \includegraphics[width=170mm]{workflow.pdf}
 %  \includegraphics[width=130mm]{workflow.pdf}
 \end{tabular}
-\caption{Possible ANTs-based TBSS workflow using SyGN.  In contrast to standard TBSS in which an individual subject's FA is registered to the FMRIB58 template
+\caption{Possible ANTs-based workflow using SyGN for normalization of images for statistical analysis.  In contrast to standard  FA-to-FA template registration
 (transform represented with the blue arrow), our proposed modification first constructs an ANTs optimal anatomical template as illustrated in the center of the figure.  Each FA image is then rigidly mapped, with distortion correction, to the individual T1 using the white matter mask as shown on the left.  The individual T1-weighted image is then nonrigidly registered to the anatomical template.  Optionally, one can register the T1 template to the MNI152 template which resides in the same space as the FMRIB58 template.  Thus, the composite transform, carefully constructed without any FA-to-FA image registration, can take an individual subject's FA map (or other DTI-derived measure) to the desired standardized coordinate system.    }
 \label{fig:workflow}
 \end{center}
