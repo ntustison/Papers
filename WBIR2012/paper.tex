@@ -1,0 +1,322 @@
+% This is LLNCS.DEM the demonstration file of
+% the LaTeX macro package from Springer-Verlag
+% for Lecture Notes in Computer Science,
+% version 2.4 for LaTeX2e as of 16. April 2010
+%
+\documentclass{llncs}
+%
+\usepackage{makeidx}  % allows for indexgeneration
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{algorithmic,eqparbox,array}
+\usepackage{algorithm}
+
+
+%\floatname{algorithm}{Procedure}
+\renewcommand{\algorithmicrequire}{\textbf{Input:}}
+\renewcommand{\algorithmicensure}{\textbf{Output:}}
+\renewcommand{\algorithmiccomment}[1]{\hfill\eqparbox{COMMENT}{// #1}}
+%
+\begin{document}
+%
+\frontmatter          % for the preliminaries
+%
+
+\mainmatter              % start of the contributions
+%
+\title{Diffeomorphic Directly Manipulated Free-Form Deformation Image Registration via Vector Field Flows}
+%
+\titlerunning{Diffeomorphic DMFFD Image Registration}  % abbreviated title (for running head)
+%                                     also used for the TOC unless
+%                                     \toctitle is used
+%
+\author{Nicholas J. Tustison\inst{1} \and Brian B. Avants\inst{2}}
+%
+\authorrunning{N. Tustison et al.} % abbreviated author list (for running head)
+%
+
+\institute{University of Virginia, Charlottesville VA 22903, USA,\\
+\email{ntustison@virginia.edu}
+\and
+University of Pennsylvania,
+Philadelphia PA  18104,USA,\\
+\email{avants@picsl.upenn.edu}}
+
+\maketitle              % typeset the title of the contribution
+
+\begin{abstract}
+Motivated by previous work \cite{tustison2009} and 
+recent diffeomorphic image registration developments in which the 
+characteristic velocity field is represented by spatiotemporal B-splines 
+\cite{de-craene2011}, we present a diffeomorphic B-spline-based
+image registration algorithm combining and extending these techniques.  
+The advancements of the proposed framework
+over previous work include analytical integration of
+the continuous B-spline velocity field, potential spatial weighting 
+of the gradient permitting (among other things) enforcement of 
+stationary boundary conditions, multiresolution in terms of the B-spline
+mesh, facilitating the incorporation of landmark information, 
+and the possibility of modeling temporal periodicity.  In addition to
+theoretical and practical discussions of our contribution, we also describe 
+its parallelized implementation as open source in the Insight Toolkit.  
+\keywords{B-splines, DMFFD, diffeomorphism, ITK}
+\end{abstract}
+
+\section{Introduction}
+Significant algorithmic developments characterizing modern intensity-based
+image registration research include the B-spline parameterized approach
+(so called {\em free-form deformation}) with early contributions 
+including \cite{szeliski1997,thevenaz1998,rueckert1999}.  Amongst the 
+variant extensions, the 
+{\em directly manipulated free-form deformation} approach  
+ addressed the hemstitching issue associated with the
+problematic energy topographies caused by the distribution of the uniform 
+B-spline shape functions over the transformation domain \cite{tustison2009}.
+
+Other important image registration research
+reflected increased emphasis on topological transformation considerations
+in modeling biological/physical systems where topology is 
+consistent throughout the course of deformation or a 
+homeomorphic relationship is assumed between image domains.
+Methods such as LDDMM \cite{beg2005} optimize time-varying velocity field 
+flows to yield diffeomorphic transformations.  Alternatively, the FFD 
+variant reported in \cite{rueckert2006} enforced diffeomorphic transforms
+by concatenating multiple FFD transforms, each of which is constrained
+to describe a one-to-one mapping.
+Recently, the work of 
+\cite{de-craene2011} combined these registration concepts into a single
+framework called {\em temporal free-form deformation} in which the 
+time-varying velocity field characteristic of LDDMM-style algorithms
+is modeled using a 4-D B-spline object (3-D + time).  Integration of 
+the velocity field yields the mapping between parameterized time points.
+
+In this work, we describe our extension to these methods.  Similar to 
+\cite{de-craene2011}, we also use an $N$-D + time B-spline object to 
+represent the characteristic velocity field.  However, we use the 
+directly manipulated free-form deformation optimization formulation to improve 
+convergence during the course of optimization.  This also facilitates
+modeling temporal periodicity and
+the enforcement of stationary boundaries consistent with diffeomorphic
+transforms.
+We also incorporate B-spline mesh multi-resolution capabilities
+for increased control during registration progress.  Of note, whereas the 
+previous work described in \cite{de-craene2011} discretized the velocity field before 
+performing numerical integration (which reduces the advantages of the continuous
+B-spline representation including the decrease in accuracy associated with
+numerical integration and increased computational time) we show how the continuous B-spline 
+representation permits analytical integration for increased accuracy.  
+Most importantly, we also describe
+our parallelized algorithmic implementation as open source available through the Insight Toolkit.%
+\footnote{
+http://www.itk.org/
+}
+
+We first describe the methodology by laying out a mathematical description 
+of the various algorithmic elements coupled with implementation details
+where appropriate.  This is followed by several registration examples
+to provide insight into the details of our contribution. 
+
+\section{Methods: Formulae  and Implementation}
+
+In this section, we explain the underlying theory focusing on
+differences with previous work.  We first explain how B-spline
+velocity fields can be used to produce diffeomorphisms through
+analytical integration involving the B-spline basis functions. 
+We then show how our previous work involving optimization in 
+B-spline vector spaces \cite{tustison2009} can be used for
+optimization of diffeomorphisms.  Additional insight is then
+gleaned by illustrating correspondence between theory and 
+implementation.
+
+\subsection{B-spline velocity field transform}
+
+Briefly, as with other diffeomorphic formulations based on vector flows, we
+assume the diffeomorphism, $\phi$, is defined on the image domain, $\Omega$, 
+with stationary boundaries such that $\phi( \partial \Omega) = \mathbf{Id}$.
+$\phi$ is generated as the solution of the ordinary differential
+equation 
+\begin{align}
+  \label{eq:ode}
+  \frac{d\phi(\mathbf{x}, t)}{dt} = v(\phi(\mathbf{x}, t), t),\,\,\phi( \mathbf{x}, 0 ) = \mathbf{x}
+\end{align}
+where $v$ is a (potentially) time-dependent smooth field, $v : \Omega \times t 
+\rightarrow \mathrm{R}^d$ parameterized by $t \in [0,1]$.  Diffeomorphic mappings
+between parameterized time points $\{t_a,t_b\} \in [0,1]$ 
+are obtained from  Eq. (\ref{eq:ode}) through the following integration
+\begin{align}
+  \label{eq:integral}
+\phi(\mathbf{x},t_b) &= \phi(\mathbf{x},t_a) + \int_{t_a}^{t_b} v(\phi(\mathbf{x}), t) dt.
+\end{align}
+
+
+In the case of 
+$d$-dimensional registration, we can represent the time-dependent velocity field  
+as a $(d + 1)$-dimensional B-spline object
+\begin{align}
+v(\phi(\mathbf{x},t), t) = \sum_{i_1=1}^{X_1}\ldots\sum_{i_d=1}^{X_d}\sum_{i_t=1}^T v_{i_1,\ldots,i_d,i_t} B_{i_t}(t) \prod_{j=1}^d B_{i_j}(x_j)
+\end{align}
+where $v_{i_1,\ldots,i_d,i_t}$ is a $(d+1)$-dimensional control point lattice
+characterizing the velocity field and $B(\cdot)$ are the univariate B-spline
+basis functions separately modulating the solution in each parametric dimension.
+Combining Eqns. (\ref{eq:ode}) and (\ref{eq:integral}) we obtain
+\begin{align}
+\phi(\mathbf{x},t_b) = \phi(\mathbf{x},t_a) + \int_{t_a}^{t_b} \left( \sum_{i_1=1}^{X_1}\ldots\sum_{i_d=1}^{X_d}\sum_{i_t=1}^T 
+    v_{i_1,\ldots,i_d,i_t} B_{i_t}(t)\prod_{j=1}^d B_{j}(x_j) \right) dt 
+\end{align}
+Moving the integral inside the summations
+\begin{align}
+\label{eq:velocityfield}
+\phi(\mathbf{x},t_b) = \phi(\mathbf{x},t_a) + \sum_{i_1=1}^{X_1}\ldots\sum_{i_d=1}^{X_d} 
+        \underbrace{\left( \sum_{i_t=1}^T v_{i_1,\ldots,i_d,i_t} \int_{t_a}^{t_b} B_{i_t}(t) dt \right)}_{\phi'_{i_1,\ldots,i_d}} \prod_{j=1}^d B_{i_j}(x_j) 
+\end{align}
+demonstrates the sole dependency on the B-spline basis functions in
+the temporal parametric dimension.  The integral is easily calculated
+as the B-spline basis functions are piecewise polynomials.
+Also, it is seen that the 
+quantity inside the parentheses comprises the $d$-dimensional 
+control point lattice defining the diffeomorphic mapping
+defined between time points $[t_a,t_b]$ obtained by 
+integration.  Furthermore, supposing the initial diffeomorphism,
+$\phi(\mathbf{x}, t_a)$, is similarly parameterized, i.e.
+\begin{align}
+  \phi(\mathbf{x}, t_a) = \sum_{i_1=1}^{X_1}\ldots\sum_{i_d=1}^{X_d} \phi^{t_a}_{i_1,\ldots,i_d}\prod_{j=1}^d B_{i_j}(x_j), 
+\end{align}
+the diffeomorphism at $t_b$ is obtained by simple addition of the two control point 
+lattices,
+\begin{align}
+\phi(\mathbf{x},t_b) = \sum_{i_1=1}^{X_1}\ldots\sum_{i_d=1}^{X_d} \left(\phi^{t_a}+
+\phi' \right)_{i_1,\ldots,i_d} \prod_{j=1}^d B_{i_j}(x_j).
+\end{align}
+
+\subsection{Directly manipulated free-form deformation optimization of the B-spline velocity field}
+
+In \cite{tustison2009} 
+it was observed that optimization of FFD registration with gradient descent is 
+intrinsically susceptible to problematic energy topographies.  However, a
+well-understood preconditioned gradient was proposed based on the work 
+described in \cite{tustison2006} which substantially 
+improves performance which we refer to as DMFFD image registration.  
+Similarly, we propose the following velocity field control
+point lattice preconditioned gradient,
+$\delta v_{i_1,\ldots,i_d,i_t}$, given the similarity metric, $\Pi$,%
+\footnote
+{
+Current options include neighborhood cross correlation (CC), mutual information (MI), and
+Demons-style sum of squared differences (Demons).
+}
+\begin{align}
+\label{eq:dmffd}
+  \delta v_{i_1,\ldots,i_d,i_t} &= \left( \sum_{c=1}^{N_{\Omega} \times N_t} \left( \frac{\partial \Pi}{\partial \mathbf{x}} \right)_c B_{i_t}(t^c)\prod_{j=1}^d B_{i_j}(x_j^c)  \right. \nonumber \\
+  &\cdot \left. \frac{B_{i_t}^2(t^c) \prod_{j=1}^d B_{i_j}^2 (x_j^c)} 
+  {\sum_{k_1=1}^{r+1}\ldots\sum_{k_d=1}^{r+1} \sum_{k_t=1}^{r+1} B_{k_t}^2(t^c) 
+  \prod_{j=1}^d B_{k_j}^2 (x_j^c)} \right) \nonumber \\
+  &\cdot\left({\sum_{c=1}^{N_{\Omega}\times N_t}B_{i_t}^2(t^c) \prod_{j=1}^d B_{i_j}^2 (x_j^c)} \right) ^{-1}
+\end{align}
+which is a slight modification of Eqn. (21)
+in \cite{tustison2009} which takes into account the temporal locations of the 
+dense gradient field sampled in $t \in [0,1]$. $N_t$ and $N_\Omega$ are the number
+of time point samples and the number of voxels in the reference image domain, respectively.
+$r$ is the spline order in all dimensions%
+\footnote{
+Spline orders can be specified separately for each dimension but, for simplicity,
+we only specify a single spline order.  However, the framework can easily 
+accommodate different spline orders.
+}
+and $c$ indexes the spatio-temporal dense metric
+gradient sample.
+Combining DMFFD optimization with the B-spline velocity field transform discussed in
+the previous subsection, we outline the iterative routine for optimizing the 
+velocity field control in Algorithm \ref{alg1}.
+
+\begin{algorithm}                    
+\caption{Gradient descent optimization of the B-spline velocity field}        
+\label{alg1}      
+\begin{algorithmic}[1]
+\REQUIRE images $\mathcal{I}$ and $\mathcal{J}$
+\REQUIRE  user-specified similarity metric $\Pi$ 
+\REQUIRE  velocity field mesh size and multiresolution schedule, $R$
+\REQUIRE  number of time point samples, $N_t$ (default: 4)
+\REQUIRE  spline order (default: 3)
+\REQUIRE  gradient step size, $\lambda$ (default: 0.25)
+\ENSURE velocity field control point lattice, $v$
+\STATE $v \gets \mathbf{0}$ \COMMENT{Initialize velocity field}
+\FOR{number of resolution levels} 
+\FOR{number of iterations for current level} 
+  \STATE $G \gets []$  \COMMENT{Initialize dense gradient storage array}
+\FOR{$t = 1 \to N_t$ } 
+  \STATE $t' \gets \frac{t-1}{N_t-1}$  \COMMENT{Scale time point to $[0,1]$}
+  \STATE $\mathcal{I}' \gets \mathcal{I} \circ \phi(\mathbf{x}, t')$  \COMMENT{Warp $\mathcal{I}$ to the current time point}
+  \STATE $\mathcal{J}' \gets \mathcal{J} \circ \phi^{-1}(\mathbf{x}, 1-t')$ \COMMENT{Warp $\mathcal{J}$ to the current time point}
+  \STATE $G[t] \gets \frac{\partial \Pi(\mathcal{I}',\mathcal{J}')}{\partial \mathbf{x}}$  \COMMENT{Store dense similarity metric gradient}
+\ENDFOR  
+  \STATE $\delta v \gets B(G)$ \COMMENT{Calculate velocity lattice gradient (Eqn. (\ref{eq:dmffd}))}
+  \STATE $v \gets v + \lambda\delta v$ \COMMENT{Take a step in the gradient direction}
+\ENDFOR  
+  \STATE $v \gets R(v)$         \COMMENT{Refine lattice based on schedule}
+%  \IF {converged}
+%    \RETURN $v$
+%  \ENDIF
+\ENDFOR  
+\end{algorithmic}
+\end{algorithm}
+
+\subsection{Implementation}
+
+As mentioned previously, the registration algorithm has been implemented in the
+Insight Toolkit and consists of the following major classes: 
+\begin{itemize}
+  \item \verb#itk::TimeVaryingBSplineVelocityFieldIntegrationImageFilter#
+  \item \verb#itk::TimeVaryingBSplineVelocityFieldTransform#
+  \item \verb#itk::TimeVaryingBSplineVelocityFieldImageRegistrationMethod#
+  \item \verb#itk::TimeVaryingBSplineVelocityFieldTransformParametersAdaptor#
+  \item \verb#itk::BSplineScatteredDataPointSetToImageFilter#
+\end{itemize}
+The \verb#TimeVaryingBSplineVelocityFieldIntegrationImageFilter# class implements
+the integration described by Eqn. (\ref{eq:velocityfield}).  Given a 
+velocity field control point lattice as 
+input and the lower and upper integration limits, integration is performed 
+in a multi-threaded fashion (since each control point in $\phi'_{i_1,\ldots,i_d}$
+can be integrated separately).  The \verb#TimeVaryingBSplineVelocityFieldTransform# 
+is derived from the base transform class which handles the mapping of geometric primitives
+for warping images.  The DMFFD gradient calculation  is handled by the class \verb#BSplineScatteredDataPointSetToImageFilter# (cf. Eqn. \ref{eq:dmffd} and line 11
+of Algorithm \ref{alg1}) which takes as input the dense similarity metric and an optional
+weighting for each gradient sample.  This permits enforcement of stationary physical
+boundaries by specifying a zero gradient on the boundaries and a large weighting.
+Coordinating all the elements of image registration is the
+\verb#TimeVaryingBSplineVelocityFieldImageRegistrationMethod# class which
+encapsulates Algorithm \ref{alg1}.  The resolution scheduling is determined
+by the \verb#TimeVaryingBSplineVelocityFieldTransformParametersAdaptor# class.
+We provide access to the new ITK 
+registration framework (including the B-spline velocity field transform) 
+through the command line module \verb#hormigita# available both in ANTs%
+\footnote{
+http://www.picsl.upenn.edu/ANTs
+}
+and accompanied by a technical report offered through the Insight Journal
+\cite{tustison2012}.%
+\footnote{
+http://www.insight-journal.org
+}
+The interested reader should consult \cite{tustison2012} for further details on 
+actual usage.
+
+\section{Registration Examples}
+
+\section{Discussion and Conclusions}
+This work constitutes an advantageous combination of the continuous aspects of
+B-splines with the diffeomorphic registration framework via vector field 
+flows.  In contrast to previous work, we take advantage of the continuous 
+aspect of the velocity field representation by analytical integration for
+a more accurate diffeomorphic transform derivation.  We also incorporate
+DMFFD optimization of the B-spline velocity field which facilitates 
+convergence and permits enforcement of stationary boundary conditions.  
+While not discussed, further advantages include incorporation of temporal 
+periodicity in dealing with the possibility of multiple images describing
+periodic motion (e.g. cardiac or pulmonary motion).  Although not discussed
+in this work, a future publication will explore these possibilities in 
+greater detail. 
+
+\bibliographystyle{splncs03}
+\bibliography{references}
+
+\end{document}
