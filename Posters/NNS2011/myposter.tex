@@ -279,7 +279,7 @@ Sparse canonical correlation analysis (SCCA) adapts classical CCA to
 situations where the number of predictors is much greater than the number
 of subjects for inference of correlative relationships between different
 ``views'' of some underlying phenomenon. For gray matter density ($\mathbf{G}$) and
-DTI-derived FA  ($\mathbf{F}$) views, SCCA solves the following
+DTI-derived  ($\mathbf{F}$) views, SCCA solves the following
 criterion \cite{Avants2010b}:
 \vspace{-7mm}
 \begin{center}
@@ -313,10 +313,10 @@ following steps:
 \begin{itemize}
   \item bias correction,
   \item skull stripping using Atropos coupled with anatomical priors, and
-  \item prior-based csf, white matter, and gray matter segmentation.  The
-  latter yields the gray matter density image for each subject.
+  \item prior-based cerebrospinal fluid, white and gray matter segmentation.  The
+  latter yields the gray matter density (GMD) image for each subject.
 \end{itemize}
-FA images are mapped to each anatomical image using the transform
+DTI-derived fractional anisotropy (FA) images are mapped to each anatomical image using the transform
 obtained from registration of the average diffusion image to the 
 corresponding T1. 
 & 
@@ -324,7 +324,7 @@ corresponding T1.
 by the total template.  All 17 controls and all 16 TBI patients were used
 to generate their respective unbiased templates.  These two templates were then
 used to generate the final/standard template.  Thus the mapping from the individual 
-gray matter density (GMD) image to the total template is given by
+GMD image to the total template is given by
 \begin{align*}
   \mathrm{GMD}_{subject}\,\,\mathbf{Id}\,\, \mathrm{T1}_{subject}\leadsto \mathrm{template}_{population}\leadsto \mathrm{template}_{total}.
 \end{align*}
@@ -352,7 +352,7 @@ transform composition
 \small The significant correlations derived from the GMD/FA views
 vs. diagnostic view provide significant regions for finding
 correlations between GMD and FA. & {           } &
-{\includegraphics[height=80mm]{results.pdf}}
+{\includegraphics[height=80mm]{resultsPartial.pdf}}
 \end{tabular}
 \end{center}
 
@@ -362,7 +362,7 @@ correlations between GMD and FA. & {           } &
   \headerbox{Conclusions}{name=conclusions,column=1,below=results}{
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
- SCCA demonstrates significant differences between the control and patient groups in both the FA ($p < 0.002$) and gray matter ($p < 0.04$)	that	are	widespread	but	largely	focus	on	thalamocortical networks related to the limbic system. Specific regional differences included the medial thalamic nuclei, hypothalamus, amygdala, hippocampus, anterior cingulate cortex, orbitofrontal cortex and fornix. Using these SCCA-identified regions, we demonstrate a strong correlation ($p < 0.08$) of the degree of injury in WM and GM within the patient group.
+ SCCA demonstrates significant differences between the control and patient groups in both the FA ($p < 0.002$) and gray matter ($p < 0.04$)	that	are	widespread 	but	largely	focus	on	 thalamocortical networks related to the limbic system. Specific regional differences included the medial thalamic nuclei, hypothalamus, amygdala, hippocampus, anterior cingulate cortex, orbitofrontal cortex and fornix. Using these SCCA-identified regions, we demonstrate a strong correlation ($p < 0.01$) of the degree of injury in WM and GM within the patient group.
  
 \vspace{0.3em}
   }
@@ -379,7 +379,7 @@ correlations between GMD and FA. & {           } &
       \bibliography{references}
 
   \begin{center}
-  {\normalsize \bf Open source software} \\
+  {\small \bf Open source software} \\
 {\vspace{3mm}}
   \begin{tabular}{cc}
   \includegraphics[height=12mm]{ants_logo.png} &
@@ -412,13 +412,12 @@ correlations between GMD and FA. & {           } &
   \headerbox{Acknowledgments}{name=acknowledgments,column=1,below=conclusions,above=bottom}{
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   \vspace{1mm}
-  \scriptsize
-  \begin{itemize}
-  \item Partial funding support from NZ Breacher study
-  \item This project is also funded, in part, under a grant with the Pennsylvania 
-  Department of Health. The Department specifically disclaims responsibility 
+  \smaller
+   Partial funding support was provided by US ARMY Medical Research
+   and Materiel Command grant W81XWH-09-2-0055.
+   This project is also funded, in part, under a grant with the Pennsylvania 
+  Department of Health. The Pennsylvania Department of Health specifically disclaims responsibility 
   for any analyses, interpretations, or conclusions.
-  \end{itemize}
   }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

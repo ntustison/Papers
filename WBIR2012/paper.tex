@@ -51,8 +51,8 @@ characteristic velocity field is represented by spatiotemporal B-splines
 \cite{de-craene2011}, we present a diffeomorphic B-spline-based
 image registration algorithm combining and extending these techniques.  
 The advancements of the proposed framework
-over previous work include analytical integration of
-the continuous B-spline velocity field, potential spatial weighting 
+over previous work include a preconditioned gradient descent algorithm, 
+potential spatial weighting 
 of the gradient permitting (among other things) enforcement of 
 stationary boundary conditions, multiresolution in terms of the B-spline
 mesh, facilitating the incorporation of landmark information, 
@@ -101,12 +101,7 @@ modeling temporal periodicity and
 the enforcement of stationary boundaries consistent with diffeomorphic
 transforms.
 We also incorporate B-spline mesh multi-resolution capabilities
-for increased control during registration progress.  Of note, whereas the 
-previous work described in \cite{de-craene2011} discretized the velocity field before 
-performing numerical integration (which reduces the advantages of the continuous
-B-spline representation including the decrease in accuracy associated with
-numerical integration and increased computational time) we show how the continuous B-spline 
-representation permits analytical integration for increased accuracy.  
+for increased control during registration progress.  
 Most importantly, we also describe
 our parallelized algorithmic implementation as open source available through the Insight Toolkit.%
 \footnote{
@@ -144,51 +139,70 @@ equation
 where $v$ is a (potentially) time-dependent smooth field, $v : \Omega \times t 
 \rightarrow \mathrm{R}^d$ parameterized by $t \in [0,1]$.  Diffeomorphic mappings
 between parameterized time points $\{t_a,t_b\} \in [0,1]$ 
-are obtained from  Eq. (\ref{eq:ode}) through the following integration
+are obtained from  Eq. (\ref{eq:ode}) through integration of the transport
+equation, viz.
 \begin{align}
   \label{eq:integral}
 \phi(\mathbf{x},t_b) &= \phi(\mathbf{x},t_a) + \int_{t_a}^{t_b} v(\phi(\mathbf{x}), t) dt.
 \end{align}
 
-
 In the case of 
 $d$-dimensional registration, we can represent the time-dependent velocity field  
 as a $(d + 1)$-dimensional B-spline object
 \begin{align}
-v(\phi(\mathbf{x},t), t) = \sum_{i_1=1}^{X_1}\ldots\sum_{i_d=1}^{X_d}\sum_{i_t=1}^T v_{i_1,\ldots,i_d,i_t} B_{i_t}(t) \prod_{j=1}^d B_{i_j}(x_j)
+v(\mathbf{x}, t) = \sum_{i_1=1}^{X_1}\ldots\sum_{i_d=1}^{X_d}\sum_{i_t=1}^T v_{i_1,\ldots,i_d,i_t} B_{i_t}(t) \prod_{j=1}^d B_{i_j}(x_j)
 \end{align}
 where $v_{i_1,\ldots,i_d,i_t}$ is a $(d+1)$-dimensional control point lattice
 characterizing the velocity field and $B(\cdot)$ are the univariate B-spline
 basis functions separately modulating the solution in each parametric dimension.
-Combining Eqns. (\ref{eq:ode}) and (\ref{eq:integral}) we obtain
+
+Although various methods exist for solving Eqns. (\ref{eq:ode}) and (\ref{eq:integral}),
+we use $4^{th}$-order Runge-Kutta, i.e.
 \begin{align}
-\phi(\mathbf{x},t_b) = \phi(\mathbf{x},t_a) + \int_{t_a}^{t_b} \left( \sum_{i_1=1}^{X_1}\ldots\sum_{i_d=1}^{X_d}\sum_{i_t=1}^T 
-    v_{i_1,\ldots,i_d,i_t} B_{i_t}(t)\prod_{j=1}^d B_{j}(x_j) \right) dt 
+  \phi_{n+1} &= \phi_{n} + \frac{1}{6}\left( k_1 + 2k_2 + 2k_3 + k_4 \right) \\
+  t_{n+1} &= t_{n} + \Delta t \\ 
+  \phi_0 &= \phi(t_0) 
 \end{align}
-Moving the integral inside the summations
+where
 \begin{align}
-\label{eq:velocityfield}
-\phi(\mathbf{x},t_b) = \phi(\mathbf{x},t_a) + \sum_{i_1=1}^{X_1}\ldots\sum_{i_d=1}^{X_d} 
-        \underbrace{\left( \sum_{i_t=1}^T v_{i_1,\ldots,i_d,i_t} \int_{t_a}^{t_b} B_{i_t}(t) dt \right)}_{\phi'_{i_1,\ldots,i_d}} \prod_{j=1}^d B_{i_j}(x_j) 
-\end{align}
-demonstrates the sole dependency on the B-spline basis functions in
-the temporal parametric dimension.  The integral is easily calculated
-as the B-spline basis functions are piecewise polynomials.
-Also, it is seen that the 
-quantity inside the parentheses comprises the $d$-dimensional 
-control point lattice defining the diffeomorphic mapping
-defined between time points $[t_a,t_b]$ obtained by 
-integration.  Furthermore, supposing the initial diffeomorphism,
-$\phi(\mathbf{x}, t_a)$, is similarly parameterized, i.e.
-\begin{align}
-  \phi(\mathbf{x}, t_a) = \sum_{i_1=1}^{X_1}\ldots\sum_{i_d=1}^{X_d} \phi^{t_a}_{i_1,\ldots,i_d}\prod_{j=1}^d B_{i_j}(x_j), 
-\end{align}
-the diffeomorphism at $t_b$ is obtained by simple addition of the two control point 
-lattices,
-\begin{align}
-\phi(\mathbf{x},t_b) = \sum_{i_1=1}^{X_1}\ldots\sum_{i_d=1}^{X_d} \left(\phi^{t_a}+
-\phi' \right)_{i_1,\ldots,i_d} \prod_{j=1}^d B_{i_j}(x_j).
-\end{align}
+  k_1 &= v\left( \phi_{n}, t_{n} \right)\Delta t \\
+  k_2 &= v\left( \phi_{n} + \frac{k_1}{2}, t_{n} + \frac{\Delta t}{2} \right)\Delta t \\
+  k_3 &= v\left( \phi_{n} + \frac{k_2}{2}, t_{n} + \frac{\Delta t}{2} \right)\Delta t \\
+  k_4 &= v\left( \phi_{n} + k_3, t_{n} + \Delta t \right)\Delta t
+\end{align}  
+which provides a less computationally expensive, more stable alternative than other numerical
+methods.
+
+
+%Combining Eqns. (\ref{eq:ode}) and (\ref{eq:integral}) we obtain
+%\begin{align}
+%\phi(\mathbf{x},t_b) = \phi(\mathbf{x},t_a) + \int_{t_a}^{t_b} \left( \sum_{i_1=1}^{X_1}\ldots\sum_{i_d=1}^{X_d}\sum_{i_t=1}^T 
+%    v_{i_1,\ldots,i_d,i_t} B_{i_t}(t)\prod_{j=1}^d B_{j}(x_j) \right) dt 
+%\end{align}
+%Moving the integral inside the summations
+%\begin{align}
+%\label{eq:velocityfield}
+%\phi(\mathbf{x},t_b) = \phi(\mathbf{x},t_a) + \sum_{i_1=1}^{X_1}\ldots\sum_{i_d=1}^{X_d} 
+%        \underbrace{\left( \sum_{i_t=1}^T v_{i_1,\ldots,i_d,i_t} \int_{t_a}^{t_b} B_{i_t}(t) dt \right)}_{\phi'_{i_1,\ldots,i_d}} \prod_{j=1}^d B_{i_j}(x_j) 
+%\end{align}
+%demonstrates the sole dependency on the B-spline basis functions in
+%the temporal parametric dimension.  The integral is easily calculated
+%as the B-spline basis functions are piecewise polynomials.
+%Also, it is seen that the 
+%quantity inside the parentheses comprises the $d$-dimensional 
+%control point lattice defining the diffeomorphic mapping
+%defined between time points $[t_a,t_b]$ obtained by 
+%integration.  Furthermore, supposing the initial diffeomorphism,
+%$\phi(\mathbf{x}, t_a)$, is similarly parameterized, i.e.
+%\begin{align}
+%  \phi(\mathbf{x}, t_a) = \sum_{i_1=1}^{X_1}\ldots\sum_{i_d=1}^{X_d} \phi^{t_a}_{i_1,\ldots,i_d}\prod_{j=1}^d B_{i_j}(x_j), 
+%\end{align}
+%the diffeomorphism at $t_b$ is obtained by simple addition of the two control point 
+%lattices,
+%\begin{align}
+%\phi(\mathbf{x},t_b) = \sum_{i_1=1}^{X_1}\ldots\sum_{i_d=1}^{X_d} \left(\phi^{t_a}+
+%\phi' \right)_{i_1,\ldots,i_d} \prod_{j=1}^d B_{i_j}(x_j).
+%\end{align}
 
 \subsection{Directly manipulated free-form deformation optimization of the B-spline velocity field}
 
@@ -267,17 +281,17 @@ velocity field control in Algorithm \ref{alg1}.
 As mentioned previously, the registration algorithm has been implemented in the
 Insight Toolkit and consists of the following major classes: 
 \begin{itemize}
-  \item \verb#itk::TimeVaryingBSplineVelocityFieldIntegrationImageFilter#
+  \item \verb#itk::TimeVaryingVelocityFieldIntegrationImageFilter#
   \item \verb#itk::TimeVaryingBSplineVelocityFieldTransform#
   \item \verb#itk::TimeVaryingBSplineVelocityFieldImageRegistrationMethod#
   \item \verb#itk::TimeVaryingBSplineVelocityFieldTransformParametersAdaptor#
   \item \verb#itk::BSplineScatteredDataPointSetToImageFilter#
 \end{itemize}
-The \verb#TimeVaryingBSplineVelocityFieldIntegrationImageFilter# class implements
-the integration described by Eqn. (\ref{eq:velocityfield}).  Given a 
+The \verb#TimeVaryingVelocityFieldIntegrationImageFilter# class implements
+the Runge-Kutta integration described earlier.  Given a 
 velocity field control point lattice as 
 input and the lower and upper integration limits, integration is performed 
-in a multi-threaded fashion (since each control point in $\phi'_{i_1,\ldots,i_d}$
+in a multi-threaded fashion (since each point in the domain
 can be integrated separately).  The \verb#TimeVaryingBSplineVelocityFieldTransform# 
 is derived from the base transform class which handles the mapping of geometric primitives
 for warping images.  The DMFFD gradient calculation  is handled by the class \verb#BSplineScatteredDataPointSetToImageFilter# (cf. Eqn. \ref{eq:dmffd} and line 11
@@ -290,7 +304,7 @@ encapsulates Algorithm \ref{alg1}.  The resolution scheduling is determined
 by the \verb#TimeVaryingBSplineVelocityFieldTransformParametersAdaptor# class.
 We provide access to the new ITK 
 registration framework (including the B-spline velocity field transform) 
-through the command line module \verb#hormigita# available both in ANTs%
+through the command line module \verb#antsRegistration# available both in ANTs%
 \footnote{
 http://www.picsl.upenn.edu/ANTs
 }
@@ -307,9 +321,7 @@ actual usage.
 \section{Discussion and Conclusions}
 This work constitutes an advantageous combination of the continuous aspects of
 B-splines with the diffeomorphic registration framework via vector field 
-flows.  In contrast to previous work, we take advantage of the continuous 
-aspect of the velocity field representation by analytical integration for
-a more accurate diffeomorphic transform derivation.  We also incorporate
+flows.  We incorporate
 DMFFD optimization of the B-spline velocity field which facilitates 
 convergence and permits enforcement of stationary boundary conditions.  
 While not discussed, further advantages include incorporation of temporal 

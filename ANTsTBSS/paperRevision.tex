@@ -38,11 +38,13 @@
 %% \documentclass[final,5p,times,twocolumn]{elsarticle}
 
 
+  \usepackage{lineno}
+  \usepackage{makecell}
+\usepackage{amssymb}
 \usepackage{color}
 \usepackage{multirow,booktabs,ctable,array}
 \usepackage{lscape}
 \usepackage{amsmath}
-\usepackage{lineno}
 \usepackage{ulem}
 \usepackage{setspace}
 \usepackage{listings}
@@ -64,11 +66,9 @@
 %% \usepackage{epsfig}
 
 %% The amssymb package provides various useful mathematical symbols
-\usepackage{amssymb}
 %% The amsthm package provides extended theorem environments
 % \usepackage{amsthm}
  
- \usepackage{makecell}
 
 %% The lineno packages adds line numbers. Start line numbering with
 %% \begin{linenumbers}, end it with \end{linenumbers}. Or switch it on
@@ -182,9 +182,8 @@ potentially corrupt voxel-based analysis with a particular emphasis on
 population studies of fractional anisotropy (FA).  
 For such studies, template-based registration plays a critical role
 in which a representative template serves as the normalized space for 
-group alignment.  Following 
-computation of FA, each subject's FA map is registered to the FA template prior to 
-performing statistical comparisons between different groups.
+group alignment.  A standard approach maps each subject's FA image
+to a FA template before performing statistical comparisons between different groups.
 We illustrate how this analysis strategy can induce selection
 bias which varies in strength with the similarity metric used in
 registration.  Specifically, we analytically demonstrate that the popular sum of squared
@@ -206,9 +205,8 @@ analysis involve the same image set and, instead, advocate a more
 cautious approach
 where normalization of the individual subject images
 to the statistical reference space occurs through the 
-corresponding (statistically independent) anatomical images.  
-
-
+corresponding (statistically independent) anatomical images.  A second
+alternative is to use similarity terms that are less sensitive to this bias.
 
 
 %One possibility, the Symmetric Group Normalization
@@ -261,17 +259,17 @@ Advanced Normalization Tools (ANTs) \sep circularity \sep diffusion tensor imagi
 \section{Introduction}
 Motivating the findings of a recent paper, the authors related their
 puzzlement at the unusually high number of papers reporting 
-significant correlations in fMRI studies \cite{Vul2009}. During the 
+significant correlations in fMRI studies \citep{Vul2009}. During the 
 resulting investigation, the authors discovered the permeating
 presence of a particular bias characterized by such related terms as ``circularity''
 and ``non-independence''.
 While related literature has focused on the presence of such bias in 
-fMRI studies \cite{Vul2009,Vul2010} and, more generally, in neuroscience research 
-\cite{Kriegeskorte2009}, we show how this can potentially extend to what has
+fMRI studies \citep{Vul2009,Vul2010} and, more generally, in neuroscience research 
+\citep{Kriegeskorte2009}, we show how this can potentially extend to what has
 become a fundamental neuroimaging analysis technique---voxel-based analysis.
 
 Similarly, we were perplexed by the disparity in statistical results of one of 
-our recent analyses \cite{Stone2011} using the same DTI data and same 
+our recent analyses \citep{Stone2011} using the same DTI data and same 
 voxel-based analysis technique but different normalization approaches.  Despite 
 distinctively better alignments with one approach, there was little 
 difference in the statistical results between the two approaches.  
@@ -304,13 +302,15 @@ and the tract-based spatial statistics (TBSS) framework \citep{Smith2006}.%
 \footnote{
 http://www.fmrib.ox.ac.uk/fsl/tbss/index.html
 } 
-VBM \citep{Ashburner2001} continues to find application to FA studies \citep{Kakeda2010,Takao2010,Preziosa2011} despite concerns about its general validity \citep{Bookstein2001,Davatzikos2004} and with respect to DTI \citep{Jones2005,Chung2008}.  The TBSS framework was partially developed in response to these concerns in which voxel values are projected onto a template white matter skeleton for increased statistical power.  
+VBM \citep{Ashburner2001} continues to find application to FA studies
+\citep{Kakeda2010,Takao2010,Preziosa2011} despite concerns about its
+general validity \citep{Bookstein2001,Davatzikos2004} in particular with respect to DTI \citep{Jones2005,Chung2008}.  The TBSS framework was partially developed in response to these concerns in which voxel values are projected onto a template white matter skeleton for increased statistical power.  
 %(e.g. \citep{Arnone2008,Bodini2009}).  
 
 Although there are substantive differences in normalization
 between these and other analysis approaches, a core
-commonality includes direct FA-to-FA registration using various similarity metrics.  The sum of squared differences (SSD) image similarity metric is perhaps the easiest to interpret (it drives the image intensity difference to zero), is computationally efficient (just compute the image difference and gradient), and is therefore widely used.  Some of the most popular registration methods (e.g. SPM, 
-Demons \cite{Thirion1998}, FSL's FNIRT, AIR \citep{Woods1998}, and LDDMM \citep{Beg2005}) rely on this metric and yield reasonable performance levels \citep{Klein2009}.%
+commonality includes direct FA-to-FA registration using various similarity metrics.  The sum of squared differences (SSD) image similarity metric is perhaps the easiest to interpret (it drives the image intensity difference to zero), is computationally efficient (compute the image difference and gradient), and is therefore widely used.  Some of the most popular registration methods (e.g. SPM, 
+Demons \cite{Thirion1998}, FSL's FNIRT and LDDMM \citep{Beg2005}) rely on this metric and yield reasonable performance levels \citep{Klein2009}.%
 %\footnote{
 %In addition to TBSS and SPM, other popular packages in the neuroimaging community 
 %which use the SSD metric include AIR \citep{Woods1998} and LDDMM \citep{Beg2005}.
@@ -322,7 +322,7 @@ $\boldsymbol{\mathcal{T}} = \{\mathcal{T}_1, \mathcal{T}_2,\ldots,\mathcal{T}_M 
   \boldsymbol{\mathcal{T}} = \underset{\mathcal{T}_1, \ldots, \mathcal{T}_M}{\operatorname{argmin}}
     \sum_{m=1}^M\sum_{n=1}^N \left( I^n_m( \mathcal{T}_m(\mathbf{x}) ) - J \right)^2.
 \end{align}
-Switching the order of the summations (since the transformations are mutually independent) and recognizing that a principal criterion for the selection of $J$ is such that it be a good approximation of the mean of the aligned images, it becomes apparent that the transformation solution,
+Switching the order of the summations and recognizing that a principal criterion for the selection of $J$ is such that it be a good approximation of the mean of the aligned images, it becomes apparent that the transformation solution,
 \begin{align}\label{eq:variance}
   \boldsymbol{\mathcal{T}} = \underset{\mathcal{T}_1, \ldots, \mathcal{T}_M}{\operatorname{argmin}}
     \sum_{n=1}^N \underbrace{\sum_{m=1}^M \left( I^n_m( \mathcal{T}_m(\mathbf{x}) ) - J \right)^2}_{
@@ -345,12 +345,12 @@ $t$-test).  While the SSD metric is able to provide visually attractive alignmen
 
 
 
-Although various processing choices mitigate the effects of such bias,
-such as Gaussian smoothing during and following normalization, 
+Various processing choices may mitigate the effects of such bias.  Gaussian smoothing during and following normalization, 
 nonparametric testing \citep{Rorden2007}, 
 statistical analysis based on orthogonal projections onto the white matter skeleton 
-\cite{Smith2006}, multiple comparisons corrections \cite{Nichols2003}, and the use of more robust similarity metrics, 
-such choices are often made ad hoc and/or post hoc and, to our 
+\citep{Smith2006}, multiple comparisons corrections \citep{Nichols2003},
+and the use of more robust similarity metrics may all impact the
+outcome.  However, such choices are often made ad hoc and/or post hoc and, to our 
 knowledge, not with the realization of the potential
 for circularity bias described by Eqn. (\ref{eq:variance}).  
 
@@ -366,7 +366,20 @@ the post-alignment numerical analysis.  It should be noted that this discussion
 is certainly not limited to studies involving FA.  
 Such bias can occur anytime the images used for normalization
 are non-independent of the statistical analysis as defined by the similarity
-metric and statistical testing. 
+metric and statistical testing. {\color{red}{ For example, following Eqn. (\ref{eq:variance}),
+circularity could theoretically be an issue for VBM if one segmented 
+the template image to obtain the gray matter density (GMD)
+template image and then registered individual subject GMD
+images to the GMD template image using SSD-related similarity measures 
+(e.g. \cite{Good2001}, FSL-VBM,%
+\footnote{
+{\color{red}{http://www.fmrib.ox.ac.uk/fsl/fslvbm/index.html}}
+}%
+and DARTEL VBM%
+\footnote{
+{\color{red}{http://www.fil.ion.ucl.ac.uk/~john/misc/VBMclass10.pdf}}
+}%
+).}}
 
 Two sets of experiments establish that the similarity metric
 can significantly affect voxel-based analysis outcomes and that,
@@ -375,7 +388,7 @@ the relationship in performance variability and similarity metric
 is to be expected.  Specifically, we show that whereas SSD and Demons
 substantially overestimate statistical significance, MI and CC are less susceptible although the
 effect is not
-negligible.  Furthermore, we also show that this effects persists
+negligible.  Furthermore, we also show that this effect persists
 even with the common practice of post-normalization smoothing prior
 to mass univariate statistical testing.
 
@@ -402,12 +415,12 @@ characterized as follows:
   data, the SSD and Demons metrics showed increased statistical power as evidenced
   by a general decrease in voxelwise $p$-values.
 \end{itemize}
-All major processing steps were performed using the open source Advanced Normalization Tools 
+All major processing steps were performed using publicly available software including the open source Advanced Normalization Tools 
 (ANTs)%
 \footnote{
 http://www.picsl.upenn.edu/ANTs
 }
-software repository which should facilitate reproducibility for the interested 
+which should facilitate reproducibility for the interested 
 reader.
 
 
@@ -558,7 +571,9 @@ was initiated on December 11, 2009 by various members of the MRI community \cite
 currently distributed to the public via the Neuroimaging Informatics Tools and Resources Clearinghouse (NITRC---http://www.nitrc.org).
 }
 were downloaded on January 15, 2011 comprised of 74 subjects (average age in years: 32.4 $\pm$ 17.8).  
-Due to various issues (e.g. lack of corresponding T1-weighted image, failed DTI reconstruction, and age matching requirements) only 62 subjects (21 females and 41 males).  Each imaging session for each subject produced a 64-directional diffusion tensor imaging scan (parameters: conventional single-shot spin echo
+Due to various issues (e.g. lack of corresponding T1-weighted image,
+failed DTI reconstruction, and age matching requirements) only 62
+subjects (21 females and 41 males) were available.  Each imaging session for each subject produced a 64-directional diffusion tensor imaging scan (parameters: conventional single-shot spin echo
 EPI pulse sequence, TR = 10000 ms, TE = 91 ms, axial acquisition, 
 voxel size = $2 \times 2 \times 2$ mm$^3$) and a T1-weighted anatomical scan (parameters:  TR = 2500 ms, b = 1000 s/mm$^2$ for each direction, 58 contiguous slices of 2.0 mm thickness,
 TI = 1200 ms, TE = 3.5 ms, flip angle = 8$^\circ$, 192 contiguous slices of 
@@ -603,9 +618,9 @@ to create the simulated gender data sets.}
 
 
 To provide realistic ground truth FA data, we implemented 
-the method of Van Hecke et al. \cite{van-hecke2009} which 
+the method of Van Hecke et al. \citep{van-hecke2009} which 
 we have also made available to the public
-\cite{Tustison2011}.%
+\citep{Tustison2011}.%
 \footnote{
 http://hdl.handle.net/10380/3315
 }  
@@ -629,14 +644,14 @@ template, the following steps were taken:
 \begin{itemize}
   \item For each anatomical T1-weighted image, segment the white matter (in ANTs, one can use N4 bias correction \citep{Tustison2010} and Atropos $n$-tissue segmentation \citep{Avants2011a}).
   \item Rigidly transform each subject's average DWI to the bias-corrected anatomical image ($\mathcal{R}^i_{dwi}$).
-  \item Perform distortion correction on the FA to anatomical mapping 
+  \item Perform distortion correction on the {\color{red}{DTI}} to anatomical mapping 
         by localized nonrigid registration
         of rigidly transformed FA map ($=\mathcal{R}^i_{dwi} \mathrm{FA}$) using
         the white matter mask obtained in a previous step ($\mathcal{T}^i_{FA}$).
   \item For each subject, concatenate the transforms which maps each
-        subject's FA to the template ($\mathcal{T}^i_{total} = \mathcal{T}^i_{template} \circ 
+        subject's {\color{red}{DTI}} to the template ($\mathcal{T}^i_{total} = \mathcal{T}^i_{template} \circ 
         \mathcal{T}^i_{FA} \circ \mathcal{R}^i_{dwi} \mathrm{FA}$).
-  \item Warp each subject's FA map to the template using $\mathcal{T}^i_{total}$.  
+  \item Warp each subject's {\color{red}{DTI}} map to the template using $\mathcal{T}^i_{total}$.  
 %  Equivalently, one could warp the mean diffusion (MD), axial diffusion (AD) or any 
 %  other scalar derivable from DTI to the template.  
 \end{itemize}
@@ -655,7 +670,7 @@ The 41 aligned male DTI were used to generate 18 ``Control'' 30-direction
 diffusion-weighted images
 with no simulated noise nor pathology.  Similarly, the 21 aligned female
 DTI were used to generate 19 ``Experimental'' diffusion-weighted image sets.
-DTI were reconstructed using Camino which were then used to create
+These simulated DTI were reconstructed using Camino which yielded
 individual FA images.
 The number of subjects in each
 group was chosen based on the median number of control and experimental
@@ -720,10 +735,31 @@ subjects from the sampling of FA studies described in
 
 
 
+\subsection{Statistical methods} 
+We employ two complementary tools for examining the impact of image 
+registration strategy on statistical outcome.  The receiver operating
+characteristic (ROC) and the cumulative distribution function (CDF).
+We provide a brief summary of these tools and their purpose in this study.
+\subsubsection{ROC analysis} 
+The ROC may be used to look at the performance of a continuous model
+against a known classification when the threshold on the model is
+varied.  In this study, the ground-truth is determined by the voxels
+that---via simulation---we know have a significant difference between
+groups.  We choose $p<0.05$ to determine the
+ground truth.  This leads to two classes of voxels: those that are
+significantly different between groups and those that are not.  As we
+vary the threshold on the statistical map that is generated by a
+registration algorithm, we can compare the identified voxels against
+this ground truth and draw the ROC \citep{Fitzpatrick1998,Wenzel2010}. 
 
-
-
-
+\subsubsection{Cumulative distribution functions} 
+Empirically constructed CDFs have been used with maps of $p$-values,
+derived from registration, to visually quantify detection power
+\citep{Brun2008,Hua2009}.  In this case, one examines the area under the
+CDF that is to the left of some statistical cutoff, usually $p<0.05$.  If one assumes
+that the method is not producing biased results, then the method that
+has a greater area under the CDF, left of cutoff, has greater
+detection power.  
 
 \section{Results}
 %Results should be clear and concise.
@@ -731,6 +767,7 @@ subjects from the sampling of FA studies described in
 \subsection{Simulated data set} 
 
 
+%\begin{landscape}
 \begin{figure*}
 \begin{center}
 \begin{tabular}{ccc}
@@ -742,7 +779,8 @@ subjects from the sampling of FA studies described in
   \includegraphics[width=57mm]{ISV_CDFAlreadyAlignedSmooth1.pdf} \\
 \end{tabular}
 \caption{Post-normalization smoothing analysis of the simulated data for
-fwhm kernel sizes of 0 mm, 4 mm, and 8 mm.  Top row:  
+fwhm kernel sizes of 0 mm, 4 mm, and 8 mm.  The ground truth data is
+smoothed in the same way as the normalized data.  Top row:  
 ROC curves plotting $(1 - specificity)$ vs. $sensitivity$ for the
 different similarity metrics for voxelwise analysis.  Smoothing
 tends to ameliorate the bias effect but the relative strength
@@ -751,49 +789,15 @@ A relative
 increase in (false) statistical power induced by SSD and Demons, as 
 described in the text, resulted in more voxels having lower 
 $p$-values.  This will be manifested as a left-shifted CDF 
-curve which is apparent in the SSD and Demons metrics for all selected smoothing kernel sizes.
+curve which is apparent in the SSD and Demons metrics for all selected
+smoothing kernel sizes.  In summary, improvements in detection power
+(if judged by the area under the CDF that is below 0.05) do not imply results that are closer to the
+truth (which is shown by examining total area under the ROC curve).
 }
 \label{fig:simulated_plots_smooth}
 \end{center}        
 \end{figure*}
-
-\begin{figure}
-\begin{center}
-\begin{tabular}{cc}
-  \includegraphics[width=41mm]{smooth0_truth.png} &
-  \includegraphics[width=41mm]{smooth0_demons.png} \\
-  (a) & (b)
-\end{tabular}
-\caption{(a) Mid-axial slice of the DTI atlas-derived FA map where the 
-significant differences ($p \leq 0.05$, smoothing = 4 mm fwhm) between control (male) and 
-experimental (female) groups are labeled in red.  (b) Same mid-axial 
-slice showing an increase in significant regions following ANTs 
-registration employing the Demons metric.
-}
-\label{fig:simulated_projection}
-\end{center}        
-\end{figure}
-
-\begin{figure}
-\begin{center}
-\begin{tabular}{c}
-  \includegraphics[width=81mm]{ISV_SpeSen_projectionAlreadyAligned.pdf}
-\end{tabular}
-\caption{ROC curves plotting $(1 - specificity)$ vs. $sensitivity$ for the
-different similarity metrics using TBSS projections onto the mean FA skeleton.
-Degree of locality and correspondence to 
-Eqn. (\ref{eq:variance}) resulted in performance disparity between the
-different metrics.  Since SSD and the SSD-like Demon's formulation 
-minimize voxelwise group variance, we see the greatest bias in those 
-two metrics.  In contrast, MI and CC are less susceptible to bias with
-MI performing quite well.  Comparing voxelwise (cf Fig. \ref{fig:simulated_plots_smooth}) 
-and projection results, 
-it is apparent that the TBSS projection strategy only slightly improves 
-the effects of bias for the simulated data.
-}
-\label{fig:simulated_plots}
-\end{center}        
-\end{figure}
+%\end{landscape}
 
 
 
@@ -831,7 +835,9 @@ level cutoff of $p = 0.05$ to determine ground truth significant
 voxels in the already aligned data set.  We then varied the 
 significance level cutoff for each of the registered data sets.
 Visual comparison of the significant regions associated with the 
-voxelwise analysis for ground truth data and with the Demons registration data for
+voxelwise analysis for ground truth data {\color{red}{and the data using 
+ the different similarity metrics 
+for}}
 $p \leq 0.05$ shown in Fig. \ref{fig:simulated_significance} demonstrates 
 the potential severity metric choice can have on results.
 
@@ -861,7 +867,7 @@ The FA
 image produced from the
 DTI atlas was used to produce a common skeleton for all comparisons.
 The associated ROC curves are given
-in the right plot of Fig. \ref{fig:simulated_plots}.  Although projection
+in  Fig. \ref{fig:simulated_projection}.  Although projection
 does have slightly mitigating effects, the associated bias is still 
 significant across certain metrics.  
 
@@ -876,6 +882,71 @@ metrics are formulated such that they explicitly minimize voxelwise
 group variance and thus cause an elevation in false positives.
 
 
+\begin{figure*}
+\begin{center}
+\begin{tabular}{cc}
+  \includegraphics[width=175mm]{falsepositives_axialslices.pdf}
+\end{tabular}
+\caption{{\color{red}{Top row:  Mid-axial slices of the DTI atlas-derived FA map 
+showing the 
+ground truth significant differences ($p \leq 0.05$, smoothing = 4 mm fwhm,
+uncorrected for multiple comparisons) 
+between control (male) and 
+experimental (female) groups.  Rows 2--4: Same mid-axial 
+slices showing varying changes in significant regions following ANTs 
+registration employing different similarity metrics.  The key point is that there
+is no anatomical misalignment between the groups before the
+registration algorithm is run.  Although detection power ``improves'',
+(particularly with the SSD and Demons metrics)
+this is not due to improved anatomical alignment but rather due to
+local effects related to circularity bias induced by the relationship
+between the test statistic and the similarity metric.}} }
+\label{fig:simulated_significance}
+\end{center}        
+\end{figure*}
+
+%\begin{figure}
+%\begin{center}
+%\begin{tabular}{cc}
+%  \includegraphics[width=41mm]{smooth0_truth.png} &
+%  \includegraphics[width=41mm]{smooth0_demons.png} \\
+%  (a) & (b)
+%\end{tabular}
+%\caption{(a) Mid-axial slice of the DTI atlas-derived FA map where the
+%  ground truth significant differences ($p \leq 0.05$, smoothing = 4 mm fwhm) between control (male) and 
+%experimental (female) groups are labeled in red.  (b) Same mid-axial 
+%slice showing an increase in significant regions following ANTs 
+%registration employing the Demons metric.  The key point is that there
+%is no anatomical misalignment between the groups before the
+%registration algorithm is run.  Although detection power ``improves'',
+%this is not due to improved anatomical alignment but rather due to
+%local effects related to circularity bias induced by the relationship
+%between the test statistic and the similarity metric. 
+%}
+%\label{fig:simulated_significance}
+%\end{center}        
+%\end{figure}
+
+\begin{figure}
+\begin{center}
+\begin{tabular}{c}
+  \includegraphics[width=81mm]{ISV_SpeSen_projectionAlreadyAligned.pdf}
+\end{tabular}
+\caption{ROC curves plotting $(1 - specificity)$ vs. $sensitivity$ for the
+different similarity metrics using TBSS projections onto the mean FA skeleton.
+Degree of locality and correspondence to 
+Eqn. (\ref{eq:variance}) resulted in performance disparity between the
+different metrics.  Since SSD and the SSD-like Demon's formulation 
+minimize voxelwise group variance, we see the greatest bias in those 
+two metrics.  In contrast, MI and CC are less susceptible to bias with
+MI performing quite well.  Comparing voxelwise (cf Fig. \ref{fig:simulated_plots_smooth}) 
+and projection results, 
+it is apparent that the TBSS projection strategy only slightly improves 
+the effects of bias for the simulated data.
+}
+\label{fig:simulated_projection}
+\end{center}        
+\end{figure}
 
 
 
@@ -1001,7 +1072,7 @@ images is shown for each case in Figure \ref{fig:tbi_cov}.
 The CV at each voxel is defined as the variance
 divided by the mean over the population of FA values.  Thus,
 those metrics which best minimize the voxelwise variance would
-trend towards greater alignment as quantified by the CV \cite{van-hecke2011}.
+trend towards greater alignment as quantified by the CV \citep{van-hecke2011}.
 Since minimization of the groupwise variance
 will also minimize the CV, it is expected that the SSD and Demons 
 metrics will produce relatively superior alignments to the
@@ -1050,10 +1121,11 @@ common T1-weighted template $\rightarrow$ MNI152 (FMRIB58) template. }
 %This should explore the significance of the results of the work, not repeat them. A combined Results and Discussion section is often appropriate. Avoid extensive citations and discussion of published literature.
 
 \section{Discussion and Conclusions} 
+% Again, cross-correlation was used as objective function at each level of the non-linear alignment.  
 Prior evaluation work using anatomically labeled
 data indicates that MI, CC, Demons, and
 SSD metrics are all capable of producing high quality anatomical
-alignment (e.g. \citep{Klein2009}).  All of this work, though, compares
+alignment \citep[see][]{Klein2009}.  All of this work, though, compares
 the quality of alignment at a relatively coarse scale of major gyri,
 lobes and regions.  At the voxel level, it is nearly impossible to
 determine the ground truth correspondence.  Indeed, there is no reason
@@ -1073,12 +1145,30 @@ should diligently seek to maintain independence between these two
 critical stages of a population study.  That is, the features that
 drive the minimization of a similarity metric should be independent of
 the features that will be used in hypothesis testing.  In particular,
-one should avoid combining the SSD metric for normalizing FA with
-Student's $t$-test for FA differences.  A final point is that
+one should avoid combining the SSD metric for normalization with
+Student's $t$-test for assessing {\color{red}{image-derived}} differences.  A final point is that
 cumulative distribution functions and other power assessment methods
 cannot be regarded as meaningful comparison techniques in the presence
 of normalization/statistical nonindependence.  Similar issues are
 raised in \cite{Kriegeskorte2010}.
+
+Perhaps the closest work to ours is \cite{Wenzel2010}.  The authors
+used ROC curves to examine the impact of registration strategy on the
+ability to identify effects in PET.  They found that
+their own method, which uses cross-correlation, performed
+better than the SSD-based SPM2 with respect to simulated data.  Our
+findings suggest that the difference in performance is due, in part,
+to the choice of similarity metric.  However, this cannot be verified
+without further investigation into methodological specifics. 
+{\color{red}{Also, the work of \cite{Freire2001} demonstrated
+that rigid body motion correction algorithms for alignment of
+fMRI data show a similar trend in that more robust similarity
+metrics, such as MI, are less susceptible to bias caused by 
+intensity outliers (e.g. activation) than SSD. This could 
+potentially provide additional
+motivation for favoring more robust similarity metrics
+in normalization.
+}}
 
 Caveats with our analysis include a lack of ground truth in the
 clinical component of the study.   Additionally, we are not addressing
@@ -1091,16 +1181,16 @@ the statistic used in hypothesis testing.  We also cannot argue that our analysi
 invalidates previous studies in which circularity might be an issue.  
 Finally, we do not address the very promising work concerning
 whole tensor DTI normalization \citep{Zhang2007,Hecke2007}, DTI template-based
-strategies \citep{Mori2009,Hecke2011}, or other related methods \cite{jbabdi2010}.  
+strategies \citep{Mori2009,Hecke2011}, or other related methods \citep{jbabdi2010}.  
 %Although investigation is beyond the scope
 %of this work, these whole-tensor approaches might provide the necessary
 %anatomical information to overcome the deficiencies addressed in this
 %work.
 
 Instead, we encourage the community to
-reexamine FA normalization and analysis methods and to consider the
+reexamine normalization and analysis methods and to consider the
 potential confounds highlighted in this paper and others
-\cite{Ridgway2008}.  Rank tests
+\citep{Ridgway2008}.  Rank tests
 provide a more conservative alternative as does the methodology
 presented here based on T1-weighted to DT intrasubject mapping and T1
 normalization.  To our surprise, we could not find a prior publication that directly

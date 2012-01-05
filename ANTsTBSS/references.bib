@@ -2,7 +2,7 @@
 %% http://bibdesk.sourceforge.net/
 
 
-%% Created for Nick Tustison at 2011-10-19 12:59:48 -0400 
+%% Created for Nick Tustison at 2012-01-05 09:32:33 -0500 
 
 
 %% Saved with string encoding Unicode (UTF-8) 
@@ -14,6 +14,295 @@
 @comment{jabref-meta: selector_keywords:}
 
 
+
+@article{Freire2001,
+	Abstract = {This paper describes several experiments that prove that standard motion correction methods may induce spurious activations in some motion-free fMRI studies. This artifact stems from the fact that activated areas behave like biasing outliers for the difference of square-based measures usually driving such registration methods. This effect is demonstrated first using a motion-free simulated time series including artificial activation-like signal changes. Several additional simulations explore the influence of activation amplitude and extent. The effect is finally highlighted on an actual time series obtained from a 3-T magnet. All the experiments are performed using four different realignment methods, which allows us to show that the problem may be overcome by methods based on a robust similarity measure like mutual information.},
+	Author = {Freire, L and Mangin, J F},
+	Date-Added = {2012-01-05 14:32:19 +0000},
+	Date-Modified = {2012-01-05 14:32:33 +0000},
+	Doi = {10.1006/nimg.2001.0869},
+	Journal = {Neuroimage},
+	Journal-Full = {NeuroImage},
+	Mesh = {Algorithms; Artifacts; Brain; Brain Mapping; Computer Simulation; Humans; Magnetic Resonance Imaging; Models, Neurological; Motion},
+	Month = {Sep},
+	Number = {3},
+	Pages = {709-22},
+	Pmid = {11506543},
+	Pst = {ppublish},
+	Title = {Motion correction algorithms may create spurious brain activations in the absence of subject motion},
+	Volume = {14},
+	Year = {2001},
+	Bdsk-Url-1 = {http://dx.doi.org/10.1006/nimg.2001.0869}}
+
+@article{Wenzel2010,
+	Abstract = {A b-spline-based method 'Lobster', originally designed as a general
+	technique for non-linear image registration, was tailored for stereotactical
+	normalization of brain FDG PET scans. Lobster was compared with the
+	normalization methods of SPM2 and Neurostat with respect to the impact
+	on the accuracy of voxel-based statistical analysis. (i) Computer
+	simulation: Seven representative patterns of cortical hypometabolism
+	served as artificial ground truth. They were inserted into 26 normal
+	control scans with different simulated severity levels. After stereotactical
+	normalization and voxel-based testing, statistical maps were compared
+	voxel-by-voxel with the ground truth. This was done at different
+	levels of statistical significance. There was a highly significant
+	effect of the stereotactical normalization method on the area under
+	the resulting ROC curve. Lobster showed the best average performance
+	and was most stable with respect to variation of the severity level.
+	(ii) Clinical evaluation: Statistical maps were obtained for the
+	normal controls as well as patients with Alzheimer's disease (AD,
+	n=44), Lewy-Body disease (LBD, 9), fronto-temporal dementia (FTD,
+	13), and cortico-basal dementia (CBD, 4). These maps were classified
+	as normal, AD, LBD, FTD, or CBD by two experienced readers. The stereotactical
+	normalization method had no significant effect on classification
+	by of each of the experts, but it appeared to affect agreement between
+	the experts. In conclusion, Lobster is appropriate for use in single-subject
+	analysis of brain FDG PET scans in suspected dementia, both in early
+	diagnosis (mild hypometabolism) and in differential diagnosis in
+	advanced disease stages (moderate to severe hypometabolism). The
+	computer simulation framework developed in the present study appears
+	appropriate for quantitative evaluation of the impact of the different
+	processing steps and their interaction on the performance of voxel-based
+	single-subject analysis.},
+	Author = {Wenzel, Fabian and Young, Stewart and Wilke, Florian and Apostolova, Ivayla and Arlt, S{\"o}nke and Jahn, Holger and Thiele, Frank and Buchert, Ralph},
+	Doi = {10.1016/j.neuroimage.2009.12.056},
+	Institution = {Digital Imaging Department, Philips Research, Hamburg, Germany. fabian.wenzel@philips.com},
+	Journal = {Neuroimage},
+	Keywords = {Adult; Aged; Aged, 80 and over; Alzheimer Disease, diagnosis/metabolism/radionuclide imaging; Area Under Curve; Brain, metabolism/radionuclide imaging; Computer Simulation; Dementia, diagnosis/metabolism/radionuclide imaging; Female; Fluorodeoxyglucose F18; Frontotemporal Dementia, diagnosis/metabolism/radionuclide imaging; Humans; Lewy Body Disease, diagnosis/metabolism/radionuclide imaging; Male; Middle Aged; Models, Statistical; Neurodegenerative Diseases, diagnosis/metabolism/radionuclide imaging; Positron-Emission Tomography, methods; ROC Curve; Signal Processing, Computer-Assisted},
+	Language = {eng},
+	Medline-Pst = {ppublish},
+	Month = {Apr},
+	Number = {3},
+	Owner = {stnava},
+	Pages = {994--1003},
+	Pii = {S1053-8119(09)01345-7},
+	Pmid = {20053378},
+	Timestamp = {2011.10.20},
+	Title = {B-spline-based stereotactical normalization of brain FDG PET scans in suspected neurodegenerative disease: impact on voxel-based statistical single-subject analysis.},
+	Url = {http://dx.doi.org/10.1016/j.neuroimage.2009.12.056},
+	Volume = {50},
+	Year = {2010},
+	Bdsk-Url-1 = {http://dx.doi.org/10.1016/j.neuroimage.2009.12.056}}
+
+@article{Bansal2005,
+	Abstract = {Algorithms for the semi-automated analysis of brain surfaces have
+	recently received considerable attention, and yet, they rarely receive
+	a rigorous assessment of their performance. We present a method for
+	the quantitative assessment of performance across differing surface
+	analysis algorithms and across various modifications of a single
+	algorithm. The sensitivity and specificity of an algorithm for detecting
+	known deformations added synthetically to the brains being studied
+	are assessed using curves for Receiver Operating Characteristics
+	(ROC). We also present a method for the isolation of sources of variance
+	in MRI data sets that can contribute to degradation in performance
+	of surface-matching algorithms. Isolation of these sources of variance
+	allows determination of whether degradation in performance of surface-matching
+	algorithms derives primarily from errors in registration of brains
+	to a common coordinate space, from errors in placement of the known
+	deformation, or from interindividual or between-group variability
+	in morphology of the cortical surface. We apply these methods to
+	the study of surface-matching algorithms that are based on fluid
+	flow (FF) deformation, geodesic (GD) interpolation, or nearest neighbor
+	(NN) proximity. We show that the performances of surface-matching
+	algorithms depend on the presence of interindividual and between-group
+	variability in the surfaces surrounding the cortical deformation.
+	We also show that, in general, the FF algorithm performs as well
+	as or better than the GD and NN algorithms. The large variance in
+	identifying point correspondences across brain surfaces using the
+	GD and the NN algorithms suggests strongly that these point correspondences
+	are less valid than those determined by the FF algorithm. The GD
+	and NN algorithms, moreover, are both vulnerable to detecting false-positive
+	activations at points of high curvature, particularly along large
+	fissures, cisterns, and cortical sulci.},
+	Author = {Bansal, Ravi and Staib, Lawrence H. and Whiteman, Ronald and Wang, Yongmei M. and Peterson, Bradley S.},
+	Doi = {10.1016/j.neuroimage.2004.08.054},
+	Institution = {New York State Psychiatric Institute, New York, NY 10032, USA. rb2084@columbia.edu},
+	Journal = {Neuroimage},
+	Keywords = {Algorithms; Artificial Intelligence; Brain Mapping; Cerebral Cortex, anatomy /&/ histology; Computer Simulation; Dominance, Cerebral, physiology; Humans; Image Processing, Computer-Assisted; Imaging, Three-Dimensional; Mathematical Computing; Probability Theory; ROC Curve; Sensitivity and Specificity; Surface Properties},
+	Language = {eng},
+	Medline-Pst = {ppublish},
+	Month = {Jan},
+	Number = {1},
+	Owner = {stnava},
+	Pages = {150--162},
+	Pii = {S1053-8119(04)00553-1},
+	Pmid = {15588606},
+	Timestamp = {2011.10.20},
+	Title = {ROC-based assessments of 3D cortical surface-matching algorithms.},
+	Url = {http://dx.doi.org/10.1016/j.neuroimage.2004.08.054},
+	Volume = {24},
+	Year = {2005},
+	Bdsk-Url-1 = {http://dx.doi.org/10.1016/j.neuroimage.2004.08.054}}
+
+@article{VanLaere2002,
+	Abstract = {The technique of anatomic standardization and comparison with normal
+	templates is increasingly used in clinical brain SPECT practice and
+	allows automated, operator-independent volume-of-interest (VOI) or
+	voxel-based analysis of whole-brain data. In 2 distinct clinical
+	populations with severe traumatic brain injury and cognitive impairment,
+	this study compared 3 widely available approaches that use normal
+	templates to evaluate SPECT brain perfusion deficits.In total, 74
+	subjects were studied. These included 14 patients with severe, traumatic
+	brain injury (group 1; 10 males, 4 females; mean age +/- SD, 27.6
+	+/- 8.2 y) and 15 patients with cognitive impairment (group 2; 7
+	males, 8 females; mean age, 75.8 +/- 8.6 y). These data were compared
+	with those from, respectively, 25 and 20 age- and sex-adjusted healthy
+	volunteers. All data were analyzed in 4 ways. Three semiquantitative
+	statistical algorithms were used: statistical parametric mapping
+	(SPM) using SPM99, brain registration and analysis of SPECT studies
+	(BRASS) using a voxelwise region-growing technique, and a predefined
+	VOI approach. These results were compared with visual analysis based
+	on consensus reading by 3 experienced nuclear medicine physicians.
+	Receiver operating characteristic (ROC) analysis was performed at
+	various statistical cutoffs. Moreover, as a measure of regional agreement,
+	relative regional agreement between methods was assessed.In both
+	study groups, BRASS voxel-based analysis was most accurate, as defined
+	by the area under the ROC curve (0.97 for group 1 and 0.96 for group
+	2). VOI assessment was slightly more accurate than visual consensus
+	analysis, whereas SPM showed, overall, a lower area under the ROC
+	curve. SPM analysis was also significantly less sensitive at thresholds
+	corresponding to low false-positive fractions. Regional analysis
+	showed 83\%-92\% agreement between all methods.Under clinical conditions,
+	classification of brain SPECT studies can greatly be aided by anatomic
+	standardization techniques and reference to normal data. Under the
+	investigated circumstances, SPM was found to have a lower sensitivity
+	than VOI or voxelwise region-growing techniques, especially at low
+	false-positive fractions.},
+	Author = {{Van Laere}, Koenraad J. and Warwick, James and Versijpt, Jan and Goethals, Ingeborg and Audenaert, Kurt and {Van Heerden}, Ben and Dierckx, Rudi},
+	Institution = {Division of Nuclear Medicine, P7, Ghent University Hospital, De Pintelaan 185, 9000 Ghent, Belgium. koen.vanlaere@rug.ac.be},
+	Journal = {J Nucl Med},
+	Keywords = {Adolescent; Adult; Aged; Aged, 80 and over; Brain Injuries, diagnosis/physiopathology/radionuclide imaging; Brain, pathology/radionuclide imaging; Cerebrovascular Circulation; Cognition Disorders, physiopathology/radionuclide imaging; Dementia, diagnosis/physiopathology/radionuclide imaging; Female; Humans; Image Processing, Computer-Assisted; Magnetic Resonance Imaging; Male; Middle Aged; ROC Curve; Reference Standards; Sensitivity and Specificity; Tomography, Emission-Computed, Single-Photon},
+	Language = {eng},
+	Medline-Pst = {ppublish},
+	Month = {Apr},
+	Number = {4},
+	Owner = {stnava},
+	Pages = {458--469},
+	Pmid = {11937588},
+	Timestamp = {2011.10.20},
+	Title = {Analysis of clinical brain SPECT data based on anatomic standardization and reference to normal data: an ROC-based comparison of visual, semiquantitative, and voxel-based methods.},
+	Volume = {43},
+	Year = {2002}}
+
+@article{Fitzpatrick1998,
+	Abstract = {In a previous study we demonstrated that automatic retrospective registration
+	algorithms can frequently register magnetic resonance (MR) and computed
+	tomography (CT) images of the brain with an accuracy of better than
+	2 mm, but in that same study we found that such algorithms sometimes
+	fail, leading to errors of 6 mm or more. Before these algorithms
+	can be used routinely in the clinic, methods must be provided for
+	distinguishing between registration solutions that are clinically
+	satisfactory and those that are not. One approach is to rely on a
+	human observer to inspect the registration results and reject images
+	that have been registered with insufficient accuracy. In this paper,
+	we present a methodology for evaluating the efficacy of the visual
+	assessment of registration accuracy. Since the clinical requirements
+	for level of registration accuracy are likely to be application dependent,
+	we have evaluated the accuracy of the observer's estimate relative
+	to six thresholds: 1-6 mm. The performance of the observers was evaluated
+	relative to the registration solution obtained using external fiducial
+	markers that are screwed into the patient's skull and that are visible
+	in both MR and CT images. This fiducial marker system provides the
+	gold standard for our study. Its accuracy is shown to be approximately
+	0.5 mm. Two experienced, blinded observers viewed five pairs of clinical
+	MR and CT brain images, each of which had each been misregistered
+	with respect to the gold standard solution. Fourteen misregistrations
+	were assessed for each image pair with misregistration errors distributed
+	between 0 and 10 mm with approximate uniformity. For each misregistered
+	image pair each observer estimated the registration error (in millimeters)
+	at each of five locations distributed around the head using each
+	of three assessment methods. These estimated errors were compared
+	with the errors as measured by the gold standard to determine agreement
+	relative to each of the six thresholds, where agreement means that
+	the two errors lie on the same side of the threshold. The effect
+	of error in the gold standard itself is taken into account in the
+	analysis of the assessment methods. The results were analyzed by
+	means of the Kappa statistic, the agreement rate, and the area of
+	receiver-operating-characteristic (ROC) curves. No assessment performed
+	well at 1 mm, but all methods performed well at 2 mm and higher.
+	For these five thresholds, two methods agreed with the standard at
+	least 80\% of the time and exhibited mean ROC areas greater than
+	0.84. One of these same methods exhibited Kappa statistics that indicated
+	good agreement relative to chance (Kappa > 0.6) between the pooled
+	observers and the standard for these same five thresholds. Further
+	analysis demonstrates that the results depend strongly on the choice
+	of the distribution of misregistration errors presented to the observers.},
+	Author = {Fitzpatrick, J. M. and Hill, D. L. and Shyr, Y. and West, J. and Studholme, C. and Maurer, Jr, CR},
+	Doi = {10.1109/42.730402},
+	Institution = {Department of Computer Science, Vanderbilt University, Nashville, TN 37235, USA. jmf@vuse.vanderbilt.edu},
+	Journal = {IEEE Trans Med Imaging},
+	Keywords = {Algorithms; Brain, anatomy /&/ histology/radiography; Calibration; Humans; Magnetic Resonance Imaging; Observer Variation; ROC Curve; Tomography, X-Ray Computed},
+	Language = {eng},
+	Medline-Pst = {ppublish},
+	Month = {Aug},
+	Number = {4},
+	Owner = {stnava},
+	Pages = {571--585},
+	Pmid = {9845313},
+	Timestamp = {2011.10.20},
+	Title = {Visual assessment of the accuracy of retrospective registration of MR and CT images of the brain.},
+	Url = {http://dx.doi.org/10.1109/42.730402},
+	Volume = {17},
+	Year = {1998},
+	Bdsk-Url-1 = {http://dx.doi.org/10.1109/42.730402}}
+
+@article{Hua2009,
+	Abstract = {Tensor-based morphometry (TBM) is a powerful method to map the 3D
+	profile of brain degeneration in Alzheimer's disease (AD) and mild
+	cognitive impairment (MCI). We optimized a TBM-based image analysis
+	method to determine what methodological factors, and which image-derived
+	measures, maximize statistical power to track brain change. 3D maps,
+	tracking rates of structural atrophy over time, were created from
+	1030 longitudinal brain MRI scans (1-year follow-up) of 104 AD patients
+	(age: 75.7+/-7.2 years; MMSE: 23.3+/-1.8, at baseline), 254 amnestic
+	MCI subjects (75.0+/-7.2 years; 27.0+/-1.8), and 157 healthy elderly
+	subjects (75.9+/-5.1 years; 29.1+/-1.0), as part of the Alzheimer's
+	Disease Neuroimaging Initiative (ADNI). To determine which TBM designs
+	gave greatest statistical power, we compared different linear and
+	nonlinear registration parameters (including different regularization
+	functions), and different numerical summary measures derived from
+	the maps. Detection power was greatly enhanced by summarizing changes
+	in a statistically-defined region-of-interest (ROI) derived from
+	an independent training sample of 22 AD patients. Effect sizes were
+	compared using cumulative distribution function (CDF) plots and false
+	discovery rate methods. In power analyses, the best method required
+	only 48 AD and 88 MCI subjects to give 80\% power to detect a 25\%
+	reduction in the mean annual change using a two-sided test (at alpha=0.05).
+	This is a drastic sample size reduction relative to using clinical
+	scores as outcome measures (619 AD/6797 MCI for the ADAS-Cog, and
+	408 AD/796 MCI for the Clinical Dementia Rating sum-of-boxes scores).
+	TBM offers high statistical power to track brain changes in large,
+	multi-site neuroimaging studies and clinical trials of AD.},
+	Author = {Hua, Xue and Lee, Suh and Yanovsky, Igor and Leow, Alex D. and Chou, Yi-Yu and Ho, April J. and Gutman, Boris and Toga, Arthur W. and Jack, Jr, Clifford R and Bernstein, Matt A. and Reiman, Eric M. and Harvey, Danielle J. and Kornak, John and Schuff, Norbert and Alexander, Gene E. and Weiner, Michael W. and Thompson, Paul M. and , Alzheimer's Disease Neuroimaging Initiative},
+	Institution = {Laboratory of Neuro Imaging, Department of Neurology, UCLA School of Medicine, Neuroscience Research Building 225E, Los Angeles, CA 90095-1769, USA.},
+	Journal = {Neuroimage},
+	Keywords = {Aged; Alzheimer Disease, pathology; Atrophy; Brain, pathology; Cognition Disorders, pathology; Databases, Factual; Disease Progression; Follow-Up Studies; Humans; Image Processing, Computer-Assisted, methods; Imaging, Three-Dimensional, methods; Linear Models; Magnetic Resonance Imaging; Neurodegenerative Diseases, pathology; Neuropsychological Tests; Nonlinear Dynamics; Time Factors},
+	Language = {eng},
+	Medline-Pst = {ppublish},
+	Month = {Dec},
+	Number = {4},
+	Owner = {stnava},
+	Pages = {668--681},
+	Pmid = {19615450},
+	Timestamp = {2011.10.20},
+	Title = {Optimizing power to track brain degeneration in Alzheimer's disease and mild cognitive impairment with tensor-based morphometry: an ADNI study of 515 subjects.},
+	Volume = {48},
+	Year = {2009}}
+
+@article{Brun2008,
+	Author = {Brun, Caroline and Lepor{\'e}, Natasha and Pennec, Xavier and Chou, Yi-Yu and Lee, Agatha D. and Barysheva, Marina and {de Zubicaray}, Grieg and Meredith, Matthew and McMahon, Katie and Wright, Margaret J. and Toga, Arthur W. and Thompson, Paul M.},
+	Journal = {Med Image Comput Comput Assist Interv},
+	Keywords = {Algorithms; Brain, anatomy /&/ histology/physiology; Diffusion Magnetic Resonance Imaging, methods; Female; Humans; Image Enhancement, methods; Image Interpretation, Computer-Assisted, methods; Imaging, Three-Dimensional, methods; Male; Pattern Recognition, Automated, methods; Reproducibility of Results; Sensitivity and Specificity; Subtraction Technique; Twins, Dizygotic, genetics; Twins, Monozygotic, genetics; Young Adult},
+	Language = {eng},
+	Medline-Pst = {ppublish},
+	Number = {Pt 2},
+	Owner = {stnava},
+	Pages = {914--921},
+	Pmid = {18982692},
+	Timestamp = {2011.10.20},
+	Title = {A tensor-based morphometry study of genetic influences on brain structure using a new fluid registration method.},
+	Volume = {11},
+	Year = {2008}}
 
 @article{van-hecke2011,
 	Abstract = {Diffusion tensor imaging (DTI) is increasingly being used to study white matter (WM) degeneration in patients with psychiatric and neurological disorders. In order to compare diffusion measures across subjects in an automated way, voxel-based analysis (VBA) methods were introduced. In VBA, all DTI data are transformed to a template, after which the diffusion measures of control subjects and patients are compared quantitatively in each voxel. Although VBA has many advantages compared to other post-processing approaches, such as region of interest analysis or tractography, VBA results need to be interpreted cautiously, since it has been demonstrated that they depend on the different parameter settings that are applied in the VBA processing pipeline. In this paper, we examine the effect of the template selection on the VBA results of DTI data. We hypothesized that the choice of template to which all data are transformed would also affect the VBA results. To this end, simulated DTI data sets as well as DTI data from control subjects and multiple sclerosis patients were aligned to (i) a population-specific DTI template, (ii) a subject-based DTI atlas in MNI space, and (iii) the ICBM-81 DTI atlas. Our results suggest that the highest sensitivity and specificity to detect WM abnormalities in a VBA setting was achieved using the population-specific DTI atlas, presumably due to the better spatial image alignment to this template.},
