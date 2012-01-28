@@ -2,12 +2,108 @@
 %% http://bibdesk.sourceforge.net/
 
 
-%% Created for Nick Tustison at 2011-12-28 21:12:24 -0500 
+%% Created for Nick Tustison at 2012-01-27 20:31:51 -0500 
 
 
 %% Saved with string encoding Unicode (UTF-8) 
 
 
+
+@article{tustison2009a,
+	Author = {N. J. Tustison and J. C. Gee},
+	Date-Added = {2012-01-28 01:30:49 +0000},
+	Date-Modified = {2012-01-28 01:31:47 +0000},
+	Journal = {Insight Journal},
+	Title = {Introducing Dice, Jaccard, and Other Label Overlap Measures To ITK},
+	Year = {2009}}
+
+@article{avants2008,
+	Abstract = {One of the most challenging problems in modern neuroimaging is detailed characterization of neurodegeneration. Quantifying spatial and longitudinal atrophy patterns is an important component of this process. These spatiotemporal signals will aid in discriminating between related diseases, such as frontotemporal dementia (FTD) and Alzheimer's disease (AD), which manifest themselves in the same at-risk population. Here, we develop a novel symmetric image normalization method (SyN) for maximizing the cross-correlation within the space of diffeomorphic maps and provide the Euler-Lagrange equations necessary for this optimization. We then turn to a careful evaluation of our method. Our evaluation uses gold standard, human cortical segmentation to contrast SyN's performance with a related elastic method and with the standard ITK implementation of Thirion's Demons algorithm. The new method compares favorably with both approaches, in particular when the distance between the template brain and the target brain is large. We then report the correlation of volumes gained by algorithmic cortical labelings of FTD and control subjects with those gained by the manual rater. This comparison shows that, of the three methods tested, SyN's volume measurements are the most strongly correlated with volume measurements gained by expert labeling. This study indicates that SyN, with cross-correlation, is a reliable method for normalizing and making anatomical measurements in volumetric MRI of patients and at-risk elderly individuals.},
+	Author = {Avants, B B and Epstein, C L and Grossman, M and Gee, J C},
+	Date-Added = {2012-01-28 01:21:23 +0000},
+	Date-Modified = {2012-01-28 01:21:23 +0000},
+	Doi = {10.1016/j.media.2007.06.004},
+	Journal = {Med Image Anal},
+	Journal-Full = {Medical image analysis},
+	Mesh = {Algorithms; Atrophy; Cerebral Cortex; Dementia; Humans; Image Enhancement; Image Interpretation, Computer-Assisted; Magnetic Resonance Imaging},
+	Month = {Feb},
+	Number = {1},
+	Pages = {26-41},
+	Pmc = {PMC2276735},
+	Pmid = {17659998},
+	Pst = {ppublish},
+	Title = {Symmetric diffeomorphic image registration with cross-correlation: evaluating automated labeling of elderly and neurodegenerative brain},
+	Volume = {12},
+	Year = {2008},
+	Bdsk-Url-1 = {http://dx.doi.org/10.1016/j.media.2007.06.004}}
+
+@article{tustison2010,
+	Abstract = {A variant of the popular nonparametric nonuniform intensity normalization (N3) algorithm is proposed for bias field correction. Given the superb performance of N3 and its public availability, it has been the subject of several evaluation studies. These studies have demonstrated the importance of certain parameters associated with the B-spline least-squares fitting. We propose the substitution of a recently developed fast and robust B-spline approximation routine and a modified hierarchical optimization scheme for improved bias field correction over the original N3 algorithm. Similar to the N3 algorithm, we also make the source code, testing, and technical documentation of our contribution, which we denote as "N4ITK," available to the public through the Insight Toolkit of the National Institutes of Health. Performance assessment is demonstrated using simulated data from the publicly available Brainweb database, hyperpolarized (3)He lung image data, and 9.4T postmortem hippocampus data.},
+	Author = {Tustison, Nicholas J and Avants, Brian B and Cook, Philip A and Zheng, Yuanjie and Egan, Alexander and Yushkevich, Paul A and Gee, James C},
+	Date-Added = {2012-01-27 18:43:06 +0000},
+	Date-Modified = {2012-01-27 18:43:06 +0000},
+	Doi = {10.1109/TMI.2010.2046908},
+	Journal = {IEEE Trans Med Imaging},
+	Journal-Full = {IEEE transactions on medical imaging},
+	Mesh = {Algorithms; Artifacts; Brain; Humans; Image Enhancement; Image Interpretation, Computer-Assisted; Magnetic Resonance Imaging; Reproducibility of Results; Sensitivity and Specificity},
+	Month = {Jun},
+	Number = {6},
+	Pages = {1310-20},
+	Pmc = {PMC3071855},
+	Pmid = {20378467},
+	Pst = {ppublish},
+	Title = {N4ITK: improved N3 bias correction},
+	Volume = {29},
+	Year = {2010},
+	Bdsk-Url-1 = {http://dx.doi.org/10.1109/TMI.2010.2046908}}
+
+@article{shattuck2008,
+	Abstract = {We describe the construction of a digital brain atlas composed of data from manually delineated MRI data. A total of 56 structures were labeled in MRI of 40 healthy, normal volunteers. This labeling was performed according to a set of protocols developed for this project. Pairs of raters were assigned to each structure and trained on the protocol for that structure. Each rater pair was tested for concordance on 6 of the 40 brains; once they had achieved reliability standards, they divided the task of delineating the remaining 34 brains. The data were then spatially normalized to well-known templates using 3 popular algorithms: AIR5.2.5's nonlinear warp (Woods et al., 1998) paired with the ICBM452 Warp 5 atlas (Rex et al., 2003), FSL's FLIRT (Smith et al., 2004) was paired with its own template, a skull-stripped version of the ICBM152 T1 average; and SPM5's unified segmentation method (Ashburner and Friston, 2005) was paired with its canonical brain, the whole head ICBM152 T1 average. We thus produced 3 variants of our atlas, where each was constructed from 40 representative samples of a data processing stream that one might use for analysis. For each normalization algorithm, the individual structure delineations were then resampled according to the computed transformations. We next computed averages at each voxel location to estimate the probability of that voxel belonging to each of the 56 structures. Each version of the atlas contains, for every voxel, probability densities for each region, thus providing a resource for automated probabilistic labeling of external data types registered into standard spaces; we also computed average intensity images and tissue density maps based on the three methods and target spaces. These atlases will serve as a resource for diverse applications including meta-analysis of functional and structural imaging data and other bioinformatics applications where display of arbitrary labels in probabilistically defined anatomic space will facilitate both knowledge-based development and visualization of findings from multiple disciplines.},
+	Author = {Shattuck, David W and Mirza, Mubeena and Adisetiyo, Vitria and Hojatkashani, Cornelius and Salamon, Georges and Narr, Katherine L and Poldrack, Russell A and Bilder, Robert M and Toga, Arthur W},
+	Date-Added = {2012-01-27 18:39:14 +0000},
+	Date-Modified = {2012-01-27 18:39:14 +0000},
+	Doi = {10.1016/j.neuroimage.2007.09.031},
+	Journal = {Neuroimage},
+	Journal-Full = {NeuroImage},
+	Mesh = {Adolescent; Adult; Algorithms; Atlases as Topic; Brain Mapping; Cerebral Cortex; Echo-Planar Imaging; Humans; Image Processing, Computer-Assisted; Likelihood Functions; Models, Statistical; Nonlinear Dynamics; Observer Variation; Reference Values},
+	Month = {Feb},
+	Number = {3},
+	Pages = {1064-80},
+	Pmc = {PMC2757616},
+	Pmid = {18037310},
+	Pst = {ppublish},
+	Title = {Construction of a 3D probabilistic atlas of human cortical structures},
+	Volume = {39},
+	Year = {2008},
+	Bdsk-Url-1 = {http://dx.doi.org/10.1016/j.neuroimage.2007.09.031}}
+
+@article{klein2009,
+	Abstract = {All fields of neuroscience that employ brain imaging need to communicate their results with reference to anatomical regions. In particular, comparative morphometry and group analysis of functional and physiological data require coregistration of brains to establish correspondences across brain structures. It is well established that linear registration of one brain to another is inadequate for aligning brain structures, so numerous algorithms have emerged to nonlinearly register brains to one another. This study is the largest evaluation of nonlinear deformation algorithms applied to brain image registration ever conducted. Fourteen algorithms from laboratories around the world are evaluated using 8 different error measures. More than 45,000 registrations between 80 manually labeled brains were performed by algorithms including: AIR, ANIMAL, ART, Diffeomorphic Demons, FNIRT, IRTK, JRD-fluid, ROMEO, SICLE, SyN, and four different SPM5 algorithms ("SPM2-type" and regular Normalization, Unified Segmentation, and the DARTEL Toolbox). All of these registrations were preceded by linear registration between the same image pairs using FLIRT. One of the most significant findings of this study is that the relative performances of the registration methods under comparison appear to be little affected by the choice of subject population, labeling protocol, and type of overlap measure. This is important because it suggests that the findings are generalizable to new subject populations that are labeled or evaluated using different labeling protocols. Furthermore, we ranked the 14 methods according to three completely independent analyses (permutation tests, one-way ANOVA tests, and indifference-zone ranking) and derived three almost identical top rankings of the methods. ART, SyN, IRTK, and SPM's DARTEL Toolbox gave the best results according to overlap and distance measures, with ART and SyN delivering the most consistently high accuracy across subjects and label sets. Updates will be published on the http://www.mindboggle.info/papers/ website.},
+	Author = {Klein, Arno and Andersson, Jesper and Ardekani, Babak A and Ashburner, John and Avants, Brian and Chiang, Ming-Chang and Christensen, Gary E and Collins, D Louis and Gee, James and Hellier, Pierre and Song, Joo Hyun and Jenkinson, Mark and Lepage, Claude and Rueckert, Daniel and Thompson, Paul and Vercauteren, Tom and Woods, Roger P and Mann, J John and Parsey, Ramin V},
+	Date-Added = {2012-01-27 18:36:35 +0000},
+	Date-Modified = {2012-01-27 18:36:35 +0000},
+	Doi = {10.1016/j.neuroimage.2008.12.037},
+	Journal = {Neuroimage},
+	Journal-Full = {NeuroImage},
+	Mesh = {Adult; Algorithms; Artificial Intelligence; Brain; Female; Humans; Image Enhancement; Image Interpretation, Computer-Assisted; Magnetic Resonance Imaging; Male; Nonlinear Dynamics; Pattern Recognition, Automated; Reproducibility of Results; Sensitivity and Specificity; Subtraction Technique},
+	Month = {Jul},
+	Number = {3},
+	Pages = {786-802},
+	Pmc = {PMC2747506},
+	Pmid = {19195496},
+	Pst = {ppublish},
+	Title = {Evaluation of 14 nonlinear deformation algorithms applied to human brain MRI registration},
+	Volume = {46},
+	Year = {2009},
+	Bdsk-Url-1 = {http://dx.doi.org/10.1016/j.neuroimage.2008.12.037}}
+
+@article{tustison2012,
+	Author = {N. J. Tustison and B. B. Avants},
+	Date-Added = {2012-01-27 18:03:14 +0000},
+	Date-Modified = {2012-01-27 18:06:00 +0000},
+	Journal = {Insight Journal},
+	Title = {The {TVDMFFDVR} Algorithm},
+	Year = {2012}}
 
 @incollection{modat2011,
 	Author = {M. Modat and G. R. Ridgway and P. Daga and M. J. Cardoso and D. J. Hawkes},

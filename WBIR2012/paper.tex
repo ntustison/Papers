@@ -10,6 +10,15 @@
 \usepackage{amsmath}
 \usepackage{algorithmic,eqparbox,array}
 \usepackage{algorithm}
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage{color}
+
+    \definecolor{listcomment}{rgb}{0.0,0.5,0.0}
+    \definecolor{listkeyword}{rgb}{0.0,0.0,0.5}
+    \definecolor{listnumbers}{gray}{0.65}
+    \definecolor{listlightgray}{gray}{0.955}
+    \definecolor{listwhite}{gray}{1.0}
 
 
 %\floatname{algorithm}{Procedure}
@@ -59,7 +68,7 @@ mesh, facilitating the incorporation of landmark information,
 and the possibility of modeling temporal periodicity.  In addition to
 theoretical and practical discussions of our contribution, we also describe 
 its parallelized implementation as open source in the Insight Toolkit.  
-\keywords{B-splines, DMFFD, diffeomorphism, ITK}
+\keywords{B-splines, DMFFD, diffeomorphisms, image registration, ITK}
 \end{abstract}
 
 \section{Introduction}
@@ -110,8 +119,7 @@ http://www.itk.org/
 
 We first describe the methodology by laying out a mathematical description 
 of the various algorithmic elements coupled with implementation details
-where appropriate.  This is followed by several registration examples
-to provide insight into the details of our contribution. 
+where appropriate.  This is followed by evaluation on a public data set. 
 
 \section{Methods: Formulae  and Implementation}
 
@@ -235,8 +243,7 @@ of time point samples and the number of voxels in the reference image domain, re
 $r$ is the spline order in all dimensions%
 \footnote{
 Spline orders can be specified separately for each dimension but, for simplicity,
-we only specify a single spline order.  However, the framework can easily 
-accommodate different spline orders.
+we only specify a single spline order.  
 }
 and $c$ indexes the spatio-temporal dense metric
 gradient sample.
@@ -311,12 +318,202 @@ http://www.picsl.upenn.edu/ANTs
 and accompanied by a technical report offered through the Insight Journal
 \cite{tustison2012}.%
 \footnote{
-http://www.insight-journal.org
+http://hdl.handle.net/10380/3334
 }
 The interested reader should consult \cite{tustison2012} for further details on 
 actual usage.
 
-\section{Registration Examples}
+\section{LPBA40 Evaluation}
+
+As a preliminary evaluation for our algorithm we used a portion 
+of the approach of Klein et al. \cite{Klein2009} in which 
+various open brain data sets were used to evaluate different
+segmentation algorithms.  Specifically, we used the first 20 
+subjects of the LPBA40 data
+set \cite{shattuck2008}%
+\footnote{
+http://www.loni.ucla.edu/Atlases/LPBA40
+}
+publicly available from the Laboratory of Neuro Imaging at
+the University of California, Los Angeles.  Preprocessing included
+brain extraction using the provided masks and N4 bias correction
+\cite{tustison2010}.  
+
+Batch registration was facilitated by the inclusion of the proposed
+method in our ANTs interface to the new Insight Toolkit registration
+framework called \verb#antsRegistration# which is detailed in 
+\cite{tustison2012}.  An active development version is found in 
+the ANTS Sourceforge repository.%
+\footnote{
+http://sourceforge.net/projects/advants/
+}
+A portion of the batch script used to produce the registrations is 
+found in Listing \ref{listing:script}.  Each image was histogram-
+matched prior to application of an initial affine transform using
+the Demons metric.  The resulting transform was composed with the
+proposed work using a neighborhood cross correlation similarity metric
+\cite{avants2008} of radius = 4.  A multi-resolution strategy was 
+employed where the initial B-spline velocity field mesh size was 
+$24\times24\times12\times1$ which was doubled at each level.  
+Other registration parameters can be gleaned from the Listing \ref{listing:script}.
+Batch processing was performed on the linux cluster at the 
+University of Virginia with each job allocated 4 nodes for
+multi-threading purposes.  Each registration took approximately
+3 hours.
+
+\vspace{2mm}
+\lstset{frame = htb,
+        framerule = 0.25pt,
+        float,
+        fontadjust,
+        backgroundcolor={\color{listlightgray}},
+        basicstyle = {\ttfamily\scriptsize},
+        keywordstyle = {\ttfamily\color{listkeyword}\textbf},
+        identifierstyle = {\ttfamily},
+        commentstyle = {\ttfamily\color{listcomment}\textit},
+        stringstyle = {\ttfamily},
+        showstringspaces = false,
+        showtabs = false
+        numbers = none,
+        numbersep = 6pt,
+        numberstyle={\ttfamily\color{listnumbers}},
+        tabsize = 2,
+        language=bash,
+        floatplacement=!h,
+        caption={Representative script used for the LPBA40 
+        evaluation.},
+        captionpos=b,
+        label=listing:script
+        }
+\begin{lstlisting}
+# Register the n4 corrected moving LPBA subject to the 
+# n4 corrected fixed LPBA subject.
+
+antsRegistration --dimensionality 3 \
+                 --output ${prefix} \
+                 --use-histogram-matching 1 \
+                 --transform Affine[0.5] \                # affine stage
+                 --metric Demons[${fixed_n4},${moving_n4},1,0,Regular,0.01] \ 
+                 --iterations 100x100x100 \
+                 --smoothing-sigmas 4.0x3.0x2.0 \
+                 --shrink-factors 4x3x2 \
+                 --transform tvdmffd[0.75,24x24x12x1,4] \ # tv dmffd stage
+                 --metric CC[${fixed_n4},${moving_n4},1,4] \ 
+                 --iterations 40x50x2 \
+                 --smoothing-sigmas 1.0x0.5x0.0 \
+                 --shrink-factors 3x2x1
+
+# Apply the resulting transforms (affine + tvdmffd) to the 
+# moving labels.
+                   
+antsApplyTransforms --dimensionality 3 \
+                    --input ${moving_labels} \
+                    --reference-image ${fixed_n4} \
+                    --output ${moving_warped_labels} \
+                    --n NearestNeighbor \
+                    --transform ${prefix}1Warp.nii.gz \
+                    --transform ${prefix}0Affine.mat \
+                    --default-value 0
+\end{lstlisting}
+
+Registration assessment used the average target overlap 
+\cite{tustison2009a} for each of the 56 LPBA40 labeled regions.
+The numerical values of this assessment are given in Table 1.
+These values were projected onto subject 1 for display in Fig. 1
+which can be compared to a similar display given in \cite{Klein2009}
+with the caveat that the colormap is slightly different. 
+
+\begin{figure}
+\centering
+\begin{tabular}{c}
+  \includegraphics[width=120mm]{Figures/leftHemisphere.png} \\
+  \includegraphics[width=120mm]{Figures/rightHemisphere.png}
+\end{tabular}
+\caption{Average regional total overlap measures mapped onto Subject 1
+of the LPBA40 data set.}
+\label{fig:lpba40}
+\end{figure}
+
+\setlength{\tabcolsep}{4pt}
+
+\begin{table}[ht]
+\begin{minipage}[b]{0.5\linewidth}\centering
+\begin{tabular}{lc}
+{\bf Region} & {\bf Overlap} \\
+\hline
+L superior frontal gyrus & 0.802 \\
+R superior frontal gyrus & 0.810 \\
+L middle frontal gyrus & 0.790 \\
+R middle frontal gyrus & 0.778 \\
+L inferior frontal gyrus & 0.753 \\
+R inferior frontal gyrus & 0.728 \\
+L precentral gyrus & 0.687 \\
+R precentral gyrus & 0.674 \\
+L middle orbitofrontal gyrus & 0.687 \\
+R middle orbitofrontal gyrus & 0.671 \\
+L lateral orbitofrontal gyrus & 0.669 \\
+R lateral orbitofrontal gyrus & 0.607 \\
+L gyrus rectus & 0.654 \\
+R gyrus rectus & 0.652 \\
+L postcentral gyrus & 0.604 \\
+R postcentral gyrus & 0.620 \\
+L superior parietal gyrus & 0.709 \\
+R superior parietal gyrus & 0.701 \\
+L supramarginal gyrus & 0.619 \\
+R supramarginal gyrus & 0.623 \\
+L angular gyrus & 0.594 \\
+R angular gyrus & 0.620 \\
+L precuneus & 0.668 \\
+R precuneus & 0.659 \\
+L superior occipital gyrus & 0.548 \\
+R superior occipital gyrus & 0.561 \\
+L middle occipital gyrus & 0.671 \\
+R middle occipital gyrus & 0.696 \\
+\hline
+\end{tabular}
+\end{minipage}
+\begin{minipage}[b]{0.5\linewidth}
+\centering
+\begin{tabular}{lc}
+{\bf Region} & {\bf Overlap} \\
+\hline
+L inferior occipital gyrus & 0.621 \\
+R inferior occipital gyrus & 0.637 \\
+L cuneus & 0.622 \\
+R cuneus & 0.624 \\
+L superior temporal gyrus & 0.750 \\
+R superior temporal gyrus & 0.737 \\
+L middle temporal gyrus & 0.660 \\
+R middle temporal gyrus & 0.644 \\
+L inferior temporal gyrus & 0.662 \\
+R inferior temporal gyrus & 0.674 \\
+L parahippocampal gyrus & 0.711 \\
+R parahippocampal gyrus & 0.707 \\
+L lingual gyrus & 0.694 \\
+R lingual gyrus & 0.681 \\
+L fusiform gyrus & 0.703 \\
+R fusiform gyrus & 0.719 \\
+L insular cortex & 0.812 \\
+R insular cortex & 0.768 \\
+L cingulate gyrus & 0.691 \\
+R cingulate gyrus & 0.676 \\
+L caudate & 0.704 \\
+R caudate & 0.717 \\
+L putamen & 0.773 \\
+R putamen & 0.761 \\
+L hippocampus & 0.753 \\
+R hippocampus & 0.742 \\
+cerebellum & 0.935 \\
+brainstem & 0.899 \\
+\hline
+\end{tabular}
+\end{minipage}
+\vspace{1.0mm}
+\caption{Average target overlap values for cross-registration of the first 
+20 subjects of the LPBA40 data set.  A visual depiction of these values is
+given in Figure \ref{fig:lpba40}.
+}
+\end{table}
 
 \section{Discussion and Conclusions}
 This work constitutes an advantageous combination of the continuous aspects of
