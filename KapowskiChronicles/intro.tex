@@ -1,15 +1,12 @@
 \section{Introduction}
 
-Neuroscientific investigations into cortical morphological changes/differences have illuminated
-interesting correlations with normal and pathological neurodevelopment in 
-addition to cognitive function.
+% Neuroscientific investigations into cortical morphological
+% changes/differences have illuminated interesting correlations with
+% normal and pathological neurodevelopment in  addition to cognitive function.
 Historically rooted in the meticulous work of von Economo \citep{economo2008},
-computational methods for modeling the
-cortical gray matter have resulted in numerous studies 
-exploring such relationships.  
-These analysis techniques
-have been instrumental in demonstrating 
-the presence of regional cortical abnormalities in such conditions as 
+imaging-based structural analysis of the brain now plays a fundamental role
+in identifying the relationship between cortical morphology, disease and cognition.
+Quantitative cortical measures are able to identify abnormalities in such conditions as 
 Huntington's disease \citep{rosas2002,rosas2005,selemon2004}, 
 schizophrenia \citep{nesvag2008}, bipolar disorder \cite{lyoo2006}, Alzheimer's disease and frontotemporal
 dementia \citep{du2007,dickerson2009}, Parkinson's disease \citep{jubault2011},
@@ -19,28 +16,25 @@ cocaine addiction \citep{makris2008}, Tourette syndrome in children \citep{sowel
 scoliosis in
 female adolescents \citep{wang2012}, obsessive compulsive
 disorder \citep{shin2007}, ADHD \citep{almeida-montes2012}, obesity \citep{raji2010}, and heritable \citep{peterson2009}
-and elderly \citep{ballmaier2004} depression.  Further study 
-topics exploring correlations with cortical thickness include
-normal aging \citep{kochunov2011},
-gender differences \citep{luders2006a},
-anatomical asymmetries 
+and elderly \citep{ballmaier2004} depression.  Cortical thickness also
+varies normally as a function of age \citep{kochunov2011},
+gender \citep{luders2006a}, handedness
 \citep{luders2006,amunts2007}, intelligence \citep{shaw2006}, athletic
 ability \citep{wei2011}, musical ability \citep{bermudez2009,foster2010}, 
-white collar criminals \citep{raine2011}, and Tetris-playing
+tendency toward criminality \citep{raine2011}, and Tetris-playing
 ability in female adolescents \citep{haier2009}.  Additionally,
-recent studies have demonstrated possible functional 
+recent studies demonstrate possible functional 
 connectivity relationships using cortical thickness measures
 \cite{worsley2005,lerch2006,he2007}.
-Although these study findings
+Although these findings
 are subject to debate and interpretation \citep{gernsbacher2007}, 
 the availability of quantitative
 computational methods for extracting such information
 has proven invaluable for developing and refining fundamental 
 neuroscience hypotheses.
 
-Broadly characterized as surface mesh-based or volumetric \citep{scott2009,clarkson2011}, such 
-techniques have been introduced and extensively developed over 
-the last $10+$ years.  Representative of the former is the
+Computational methods for analyzing the cortex may be 
+broadly characterized as surface mesh-based or volumetric \citep{scott2009,clarkson2011}.  Representative of the former is the
 Freesurfer%
 \footnote{
 http://surfer.nmr.mgh.harvard.edu/
@@ -54,7 +48,7 @@ and white matter surfaces from individual subject MR data are modeled with polyg
 which are then used to determine local cortical thickness based on a specified correspondence between 
 the surface models.
 
-Image volumetric (or meshless) techniques are varied both in algorithmic terms as well as
+Image volumetric (or meshless) techniques vary both in algorithmic terms as well as
 the underlying definition of cortical thickness.  An early, foundational technique is the 
 method of \cite{jones2000} in which the inner and outer surface geometry is used to determine the
 solution to Laplace's equation in which thickness is measured by integrating along the 
@@ -67,22 +61,26 @@ pial surface.    Although the Laplacian-based approach has several advantages
 including generally lower computational times and 
 non-crossing correspondence paths, direct correlative assessments with histology
 are difficult as the quantified distances 
-are not necessarily Euclidean.  Other volumetric algorithms have employed coupled
+are not necessarily Euclidean.  Other volumetric algorithms employ coupled
 level sets \citep{zeng1999}, model-free intelligent search strategies either normal to 
 the gray-white matter interface \citep{scott2009} or using a min-max rule \citep{clement-vachet2011}.
 Most relevant to this work is the DiReCT (Diffeomorphic Registration-based 
 Cortical Thickness) algorithm proposed by \cite{das2009} in which a 
 a registration-based approach proposed where the derived diffeomorphic mapping between the 
 white and pial matter surfaces is used to propagate thickness values 
-through the cortical gray matter.
+through the cortical gray matter.  A unique benefit of DiReCT is that it
+naturally estimates the boundaries of buried sulci by employing a
+diffeomorphic constraint on the probabilistic estimate of the gray
+matter and cerebrospinal fluid interface.  
 
-Despite the numerous techniques that have been proposed in the literature (of which
-only a fraction has been cited), several requisite processing components are 
-common to many of them which are prior to quantification of cortical thickness.
-These include inhomogeneity correction, skull stripping, and $n$-tissue segmentation 
-for differentiating the gray and white matters.  For post-processing statistical analysis 
-across populations, construction of population-specific unbiased templates
-is also  beneficial.
+Despite the variety of techniques for estimating cortical thickness
+from imaging data (of which
+only a fraction are cited), several common pre-processing components
+may be identified.
+The most fundamental of these include inhomogeneity correction, skull stripping, and $n$-tissue segmentation 
+for differentiating the gray and white matter.  For statistical analysis 
+across large populations, construction of population-specific unbiased templates
+is also beneficial \cite{}.
 In addition, some of these steps might include a crucial registration component, e.g. 
 propagating template-based tissue priors for improved segmentation.  The requisite
 additional components coupled with the general lack of availability of published
@@ -94,24 +92,30 @@ Whereas the entire Freesurfer processing pipeline has been made publicly availab
 tuned by the original authors in terms of implementation, and described in great detail 
 (specifically in terms of suggested parameters); both volumetric methods were 
 implemented solely by the authors of the evaluation (not the actual software developers) using 
-unspecified parameters making the comparisons less than ideal.
+unspecified parameters making the comparisons less than
+ideal. \textcolor{blue}{might also note the Klein 2011 evaluation that
+  raises the difficulty of comparing volumetric and surface-based
+  methods and the bias induced by the domain representation.}
 
-In this work we describe our cortical thickness software pipeline which 
-we have made open source as part of our Advanced Normalization Tools (ANTs) 
-repository.  This includes all the necessary preprocessing steps consisting
+In this work, we describe our C$++$ based cortical thickness pipeline
+which is freely available as part of the Advanced Normalization Tools
+(ANTs) software package.  This includes all the necessary preprocessing steps consisting
 of well-vetted previously published algorithms for bias correction \cite{tustison2010},
 brain extraction \cite{avants2010a}, $n$-tissue segmentation \cite{avants2011a},
 template construction \cite{avants2010}, and image normalization \cite{avants2011}.
 We also describe improvements made to the original DiReCT algorithm \cite{das2009}.
 Equally as important, we demonstrate how to coordinate
 these pipeline components and provide a set of useful parameters
-which are used to analyze the publicly available IXI data set. This is 
-encapsulated in a well-documented shell script which is also available in ANTS. 
+which are employed to analyze the publicly available IXI data set. The
+full pipeline and parameter set is 
+encapsulated in a well-documented shell script which is also available in ANTs. 
 Furthermore, we provide all the derived image data and other processing scripts on 
-a github repository specifically meant for this publication.  This permits
-the set of results described in this work to be fully reproducible thus
-permitting other researchers to use a complete volumetric pipeline for measuring
-cortical thickness.
+a github repository specifically meant for this publication.  The
+availability of both the code and data permits
+the set of results described in this work to be fully reproducible.  This
+permits other researchers to contrast their own results against
+this baseline processing and to adapt the given volumetric pipeline for measuring
+cortical thickness in their own datasets.
 
 
 

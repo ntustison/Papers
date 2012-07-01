@@ -6,6 +6,9 @@ The ANTs-based cortical thickness estimation workflow is illustrated
 in Figure \ref{fig:pipeline}.  The steps are as follows:
 \begin{enumerate}
   \item initial N4 bias correction on input anatomical MRI,
+    \textcolor{blue}{do you usually bias correct the raw image?  phil
+      had some problems with the automated (otsu) masking employed
+      therein .... esp with elderly brain}
   \item brain extraction using a hybrid segmentation/template-based strategy,
   \item alternating between prior-based segmentation and white matter posterior
         probability weighted bias correction,
@@ -137,7 +140,7 @@ algorithms.
 The work of \cite{avants2010} explicitly models the geometric component of the 
 normalized space during optimization to produce such mean templates.  Coupling the intrinsic symmetry of 
 SyN pairwise registration \citep{avants2011} and an
-optimized sharpening/averaging of the template appearance, Symmetric Group
+optimized shape-based sharpening/averaging of the template appearance, Symmetric Group
 Normalization (SyGN) is a powerful framework for producing optimal population-specific
 templates \citep{avants2010} with arbitrary similarity metric choice.  
 
@@ -179,6 +182,12 @@ Within this work multiple templates were created for all stages of
 image processing and analysis.  The creation of these templates are described
 in the corresponding data section.
 
+\textcolor{blue}{what is the motivation of the multivar template here?
+  it would seem useful to add an FA component to the segmentation step
+  to aid in cortical / wm delineation which would motivate the
+  multivar template approach but might be difficult to establish that
+  this actually helps .... though we could compare both ways : univar
+  and multivar }
 
 %Given a set of representative images, 
 %$\{I_1, I_2, \ldots, I_M\}$, optimization involves finding the set of paired
@@ -272,20 +281,29 @@ available on the website associated with this submission.
   The warped template probability map is thresholded at 0.5 and the resulting mask is dilated
 with a radius of 2.  Atropos is used to generate an initial 3-tissue segmentation estimate within the mask
 region.  Each of the three tissue masks undergo specific morphological operations which are then
-combined to create a brain extraction mask for use in the rest of the cortical thickness workflow.
+combined to create a brain extraction mask for use in the rest of the
+cortical thickness workflow.  \textcolor{blue}{does there need to be a
+  bit more technical detail here?  while you can refer to the script,
+  why perform these operations?  there are numerous references, most
+  germane probably some recent stuff from J Prince ( i think ) and the
+  freesurfer watershed approach which came from ... i forget ... maybe
+  one of the french groups.}
 
-A comparison using open access brain data with publicly available brain extraction algorithms 
-including  AFNI's \verb#3dIntracranial# \citep{ward1999}, FSL's \verb#BET2# \citep{smith2002}, 
-Freesurfer's \verb#mri_watershed# \citep{segonne2004}, and BrainSuite \citep{dogdas2005}  demonstrated
-that our combined registration/segmentation approach \citep{avants2010a} performs at the top level
-alongside BrainSuite (tuned) and FreeSurfer.
+A comparison using open access brain data with publicly available
+brain extraction algorithms including AFNI's \verb#3dIntracranial#
+\citep{ward1999}, FSL's \verb#BET2# \citep{smith2002}, Freesurfer's
+\verb#mri_watershed# \citep{segonne2004}, and BrainSuite
+\citep{dogdas2005} demonstrated that our combined
+registration/segmentation approach \citep{avants2010a} performs at the
+top level alongside BrainSuite (tuned) and FreeSurfer.
+\textcolor{blue}{ok you have the segonne ref here ... }
 
 
 \subsubsection{DiReCT Cortical Thickness Estimation}
 
 Although the basic formulation of DiReCT as reported in this work is as it 
 was introduced in \cite{das2009}, we have made several 
-improvements (perhaps the most significant being that this particular 
+improvements.  Perhaps the most significant advance is that this particular 
 ITK-compatible implementation has been significantly multi-threaded,
 is written in ITK coding style, and has been made publicly available through 
 ANTs complete with a unique user interface design developed specifically for 
