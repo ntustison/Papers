@@ -6,9 +6,6 @@ The ANTs-based cortical thickness estimation workflow is illustrated
 in Figure \ref{fig:pipeline}.  The steps are as follows:
 \begin{enumerate}
   \item initial N4 bias correction on input anatomical MRI,
-    \textcolor{blue}{do you usually bias correct the raw image?  phil
-      had some problems with the automated (otsu) masking employed
-      therein .... esp with elderly brain}
   \item brain extraction using a hybrid segmentation/template-based strategy,
   \item alternating between prior-based segmentation and white matter posterior
         probability weighted bias correction,
