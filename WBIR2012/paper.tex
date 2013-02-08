@@ -40,10 +40,8 @@
 %                                     \toctitle is used
 %
 \author{Nicholas J. Tustison\inst{1} \and Brian B. Avants\inst{2}}
-%
-\authorrunning{N. Tustison et al.} % abbreviated author list (for running head)
-%
 
+\authorrunning{N. J. Tustison and B. B.  Avants} % abbreviated author list (for running head)
 \institute{University of Virginia, Charlottesville VA 22903, USA,\\
 \email{ntustison@virginia.edu}
 \and
@@ -60,14 +58,13 @@ characteristic velocity field is represented by spatiotemporal B-splines
 \cite{de-craene2011}, we present a diffeomorphic B-spline-based
 image registration algorithm combining and extending these techniques.  
 The advancements of the proposed framework
-over previous work include a preconditioned gradient descent algorithm, 
-potential spatial weighting 
-of the gradient permitting (among other things) enforcement of 
-stationary boundary conditions, multiresolution in terms of the B-spline
-mesh, facilitating the incorporation of landmark information, 
-and the possibility of modeling temporal periodicity.  In addition to
+over previous work include a preconditioned gradient descent algorithm and 
+potential weighting 
+of the metric gradient permitting, among other things, enforcement of 
+stationary boundary conditions.  In addition to
 theoretical and practical discussions of our contribution, we also describe 
-its parallelized implementation as open source in the Insight Toolkit.  
+its parallelized implementation as open source in the Insight Toolkit and
+perform an evaluation on publicly available brain data.
 \keywords{B-splines, DMFFD, diffeomorphisms, image registration, ITK}
 \end{abstract}
 
@@ -77,10 +74,11 @@ image registration research include the B-spline parameterized approach
 (so called {\em free-form deformation}) with early contributions 
 including \cite{szeliski1997,thevenaz1998,rueckert1999}.  Amongst the 
 variant extensions, the 
-{\em directly manipulated free-form deformation} approach  
- addressed the hemstitching issue associated with the
-problematic energy topographies caused by the distribution of the uniform 
-B-spline shape functions over the transformation domain \cite{tustison2009}.
+{\em directly manipulated free-form deformation} approach  \cite{tustison2009} 
+ addressed the hemstitching issue associated with steepest descent traversal of
+problematic energy topographies during the course of optimization.
+%caused by the distribution of the uniform 
+%B-spline shape functions over the transformation domain 
 
 Other important image registration research
 reflected increased emphasis on topological transformation considerations
@@ -110,23 +108,24 @@ modeling temporal periodicity and
 the enforcement of stationary boundaries consistent with diffeomorphic
 transforms.
 We also incorporate B-spline mesh multi-resolution capabilities
-for increased control during registration progress.  
+for increased control during registration progression.  
 Most importantly, we also describe
-our parallelized algorithmic implementation as open source available through the Insight Toolkit.%
+the parallelized algorithmic implementation as open source available through the Insight Toolkit.%
 \footnote{
 http://www.itk.org/
 }
 
 We first describe the methodology by laying out a mathematical description 
 of the various algorithmic elements coupled with implementation details
-where appropriate.  This is followed by evaluation on a public data set. 
+where appropriate.  This is followed by an evaluation on publicly available
+brain data. 
 
 \section{Methods: Formulae  and Implementation}
 
 In this section, we explain the underlying theory focusing on
 differences with previous work.  We first explain how B-spline
 velocity fields can be used to produce diffeomorphisms through
-analytical integration involving the B-spline basis functions. 
+numerical integration involving the B-spline basis functions. 
 We then show how our previous work involving optimization in 
 B-spline vector spaces \cite{tustison2009} can be used for
 optimization of diffeomorphisms.  Additional insight is then
@@ -153,7 +152,6 @@ equation, viz.
   \label{eq:integral}
 \phi(\mathbf{x},t_b) &= \phi(\mathbf{x},t_a) + \int_{t_a}^{t_b} v(\phi(\mathbf{x}), t) dt.
 \end{align}
-
 In the case of 
 $d$-dimensional registration, we can represent the time-dependent velocity field  
 as a $(d + 1)$-dimensional B-spline object
@@ -178,8 +176,8 @@ where
   k_3 &= v\left( \phi_{n} + \frac{k_2}{2}, t_{n} + \frac{\Delta t}{2} \right)\Delta t \\
   k_4 &= v\left( \phi_{n} + k_3, t_{n} + \Delta t \right)\Delta t
 \end{align}  
-which provides a less computationally expensive, more stable alternative than other numerical
-methods.
+which provides a more stable and reliable alternative than other numerical
+methods \cite{press1996}.
 
 
 %Combining Eqns. (\ref{eq:ode}) and (\ref{eq:integral}) we obtain
@@ -218,15 +216,16 @@ In \cite{tustison2009}
 it was observed that optimization of FFD registration with gradient descent is 
 intrinsically susceptible to problematic energy topographies.  However, a
 well-understood preconditioned gradient was proposed based on the work 
-described in \cite{tustison2006} which substantially 
-improves performance which we refer to as DMFFD image registration.  
-Similarly, we propose the following velocity field control
-point lattice preconditioned gradient,
+described in \cite{tustison2006} which we denote as directly manipulated
+free-form deformation (DMFFD) image registration.  This alternative demonstrates 
+improved performance over the steepest descent equivalent \cite{tustison2009}.
+
+Similarly, for the time-varying velocity field case we propose the following preconditioned gradient,
 $\delta v_{i_1,\ldots,i_d,i_t}$, given the similarity metric, $\Pi$,%
 \footnote
 {
 Current options include neighborhood cross correlation (CC), mutual information (MI), and
-Demons-style sum of squared differences (Demons).
+sum of squared differences (SSD).
 }
 \begin{align}
 \label{eq:dmffd}
@@ -242,76 +241,89 @@ dense gradient field sampled in $t \in [0,1]$. $N_t$ and $N_\Omega$ are the numb
 of time point samples and the number of voxels in the reference image domain, respectively.
 $r$ is the spline order in all dimensions%
 \footnote{
-Spline orders can be specified separately for each dimension but, for simplicity,
+In terms of implementation spline orders can be specified separately for each dimension but, for simplicity,
 we only specify a single spline order.  
 }
 and $c$ indexes the spatio-temporal dense metric
 gradient sample.
-Combining DMFFD optimization with the B-spline velocity field transform discussed in
-the previous subsection, we outline the iterative routine for optimizing the 
-velocity field control in Algorithm \ref{alg1}.
 
-\begin{algorithm}                    
-\caption{Gradient descent optimization of the B-spline velocity field}        
-\label{alg1}      
-\begin{algorithmic}[1]
-\REQUIRE images $\mathcal{I}$ and $\mathcal{J}$
-\REQUIRE  user-specified similarity metric $\Pi$ 
-\REQUIRE  velocity field mesh size and multiresolution schedule, $R$
-\REQUIRE  number of time point samples, $N_t$ (default: 4)
-\REQUIRE  spline order (default: 3)
-\REQUIRE  gradient step size, $\lambda$ (default: 0.25)
-\ENSURE velocity field control point lattice, $v$
-\STATE $v \gets \mathbf{0}$ \COMMENT{Initialize velocity field}
-\FOR{number of resolution levels} 
-\FOR{number of iterations for current level} 
-  \STATE $G \gets []$  \COMMENT{Initialize dense gradient storage array}
-\FOR{$t = 1 \to N_t$ } 
-  \STATE $t' \gets \frac{t-1}{N_t-1}$  \COMMENT{Scale time point to $[0,1]$}
-  \STATE $\mathcal{I}' \gets \mathcal{I} \circ \phi(\mathbf{x}, t')$  \COMMENT{Warp $\mathcal{I}$ to the current time point}
-  \STATE $\mathcal{J}' \gets \mathcal{J} \circ \phi^{-1}(\mathbf{x}, 1-t')$ \COMMENT{Warp $\mathcal{J}$ to the current time point}
-  \STATE $G[t] \gets \frac{\partial \Pi(\mathcal{I}',\mathcal{J}')}{\partial \mathbf{x}}$  \COMMENT{Store dense similarity metric gradient}
-\ENDFOR  
-  \STATE $\delta v \gets B(G)$ \COMMENT{Calculate velocity lattice gradient (Eqn. (\ref{eq:dmffd}))}
-  \STATE $v \gets v + \lambda\delta v$ \COMMENT{Take a step in the gradient direction}
-\ENDFOR  
-  \STATE $v \gets R(v)$         \COMMENT{Refine lattice based on schedule}
-%  \IF {converged}
-%    \RETURN $v$
-%  \ENDIF
-\ENDFOR  
-\end{algorithmic}
-\end{algorithm}
+Additionally, in \cite{tustison2006} it was shown that one could associate each 
+metric gradient sample, $\left( \frac{\partial \Pi}{\partial \mathbf{x}}\right)_c$ with a confidence
+weighting.  Thus, in order to enforce stationary boundaries, we 
+assign image boundary metric gradients a value of zero with a corresponding
+large confidence value.  
+
+%Combining DMFFD optimization with the B-spline velocity field transform discussed in
+%the previous subsection, we outline the iterative routine for optimizing the 
+%velocity field control points in Algorithm \ref{alg1}.
+
+%\begin{algorithm}                    
+%\caption{Gradient descent optimization of the B-spline velocity field}        
+%\label{alg1}      
+%\begin{algorithmic}[1]
+%\REQUIRE images $\mathcal{I}$ and $\mathcal{J}$
+%\REQUIRE  user-specified similarity metric $\Pi$ 
+%\REQUIRE  velocity field mesh size and multiresolution schedule, $R$
+%\REQUIRE  number of time point samples, $N_t$ (default: 4)
+%\REQUIRE  spline order (default: 3)
+%\REQUIRE  gradient step size, $\lambda$ (default: 0.25)
+%\ENSURE velocity field control point lattice, $v$
+%\STATE $v \gets \mathbf{0}$ \COMMENT{Initialize velocity field}
+%\FOR{number of resolution levels} 
+%\FOR{number of iterations for current level} 
+%  \STATE $G \gets []$  \COMMENT{Initialize dense gradient storage array}
+%\FOR{$t = 1 \to N_t$ } 
+%  \STATE $t' \gets \frac{t-1}{N_t-1}$  \COMMENT{Scale time point to $[0,1]$}
+%  \STATE $\mathcal{I}' \gets \mathcal{I} \circ \phi(\mathbf{x}, t')$  \COMMENT{Warp $\mathcal{I}$ to the current time point}
+%  \STATE $\mathcal{J}' \gets \mathcal{J} \circ \phi^{-1}(\mathbf{x}, 1-t')$ \COMMENT{Warp $\mathcal{J}$ to the current time point}
+%  \STATE $G[t] \gets \frac{\partial \Pi(\mathcal{I}',\mathcal{J}')}{\partial \mathbf{x}}$  \COMMENT{Store dense similarity metric gradient}
+%\ENDFOR  
+%  \STATE $\delta v \gets B(G)$ \COMMENT{Calculate velocity lattice gradient (Eqn. (\ref{eq:dmffd}))}
+%  \STATE $v \gets v + \lambda\delta v$ \COMMENT{Take a step in the gradient direction}
+%\ENDFOR  
+%  \STATE $v \gets R(v)$         \COMMENT{Refine lattice based on schedule}
+%%  \IF {converged}
+%%    \RETURN $v$
+%%  \ENDIF
+%\ENDFOR  
+%\end{algorithmic}
+%\end{algorithm}
 
 \subsection{Implementation}
 
-As mentioned previously, the registration algorithm has been implemented in the
+As mentioned previously, the registration algorithm has been implemented 
+and introduced into the
 Insight Toolkit and consists of the following major classes: 
 \begin{itemize}
-  \item \verb#itk::TimeVaryingVelocityFieldIntegrationImageFilter#
-  \item \verb#itk::TimeVaryingBSplineVelocityFieldTransform#
-  \item \verb#itk::TimeVaryingBSplineVelocityFieldImageRegistrationMethod#
-  \item \verb#itk::TimeVaryingBSplineVelocityFieldTransformParametersAdaptor#
-  \item \verb#itk::BSplineScatteredDataPointSetToImageFilter#
-\end{itemize}
-The \verb#TimeVaryingVelocityFieldIntegrationImageFilter# class implements
-the Runge-Kutta integration described earlier.  Given a 
-velocity field control point lattice as 
+  \item \verb#itk::TimeVaryingVelocityFieldIntegrationImageFilter# ---
+Implementation of 
+the Runge-Kutta integration.  Given a 
+sampled velocity field derived from the control point lattice as 
 input and the lower and upper integration limits, integration is performed 
 in a multi-threaded fashion (since each point in the domain
-can be integrated separately).  The \verb#TimeVaryingBSplineVelocityFieldTransform# 
-is derived from the base transform class which handles the mapping of geometric primitives
-for warping images.  The DMFFD gradient calculation  is handled by the class \verb#BSplineScatteredDataPointSetToImageFilter# (cf. Eqn. \ref{eq:dmffd} and line 11
-of Algorithm \ref{alg1}) which takes as input the dense similarity metric and an optional
-weighting for each gradient sample.  This permits enforcement of stationary physical
-boundaries by specifying a zero gradient on the boundaries and a large weighting.
-Coordinating all the elements of image registration is the
-\verb#TimeVaryingBSplineVelocityFieldImageRegistrationMethod# class which
-encapsulates Algorithm \ref{alg1}.  The resolution scheduling is determined
-by the \verb#TimeVaryingBSplineVelocityFieldTransformParametersAdaptor# class.
-We provide access to the new ITK 
+can be integrated separately).  
+  \item \verb#itk::TimeVaryingBSplineVelocityFieldTransform#:
+Handles the mapping of geometric primitives
+using the transform described in this work.  It is defined by the velocity field
+control point lattice which is sampled prior to being integrated to yield the 
+resulting displacement field.  
+  \item \verb#itk::TimeVaryingBSplineVelocityFieldImageRegistrationMethod#: 
+  Coordinates the optimization
+  using gradient descent given an user-specified number of resolution levels, shrink
+  factors, and smoothing choices.  
+  \item \verb#itk::TimeVaryingBSplineVelocityFieldTransformParametersAdaptor#:
+  Handles the decomposition of the B-spline mesh resolution during the multi-resolution optimization
+  given a user-specified scheduling. 
+  \item \verb#itk::BSplineScatteredDataPointSetToImageFilter#:
+  Calculates the similarity metric gradient (cf. Eqn. \ref{eq:dmffd}) which takes as input the 
+  dense similarity metric gradient and an optional weighting for each gradient sample.  As 
+  described earlier, this permits enforcement of stationary physical boundaries. % by specifying a zero gradient on the boundaries and a large weighting. 
+\end{itemize}
+
+Access to the new ITK 
 registration framework (including the B-spline velocity field transform) 
-through the command line module \verb#antsRegistration# available both in ANTs%
+is facilitated
+via the command line module \verb#antsRegistration# available both in ANTs%
 \footnote{
 http://www.picsl.upenn.edu/ANTs
 }
@@ -320,8 +332,8 @@ and accompanied by a technical report offered through the Insight Journal
 \footnote{
 http://hdl.handle.net/10380/3334
 }
-The interested reader should consult \cite{tustison2012} for further details on 
-actual usage.
+%The interested reader should consult \cite{tustison2012} for further details on 
+%actual usage.
 
 \section{LPBA40 Evaluation}
 
@@ -339,14 +351,15 @@ the University of California, Los Angeles.  Preprocessing included
 brain extraction using the provided masks and N4 bias correction
 \cite{tustison2010}.  
 
-Batch registration was facilitated by the inclusion of the proposed
-method in our ANTs interface to the new Insight Toolkit registration
-framework called \verb#antsRegistration# which is detailed in 
-\cite{tustison2012}.  An active development version is found in 
-the ANTS Sourceforge repository.%
-\footnote{
-http://sourceforge.net/projects/advants/
-}
+%Batch processing was facilitated by the inclusion of the proposed
+%method in the ANTs interface to the new Insight Toolkit registration
+%framework called \verb#antsRegistration# which is detailed in 
+%\cite{tustison2012}.  An active development version is found in 
+%the ANTS Sourceforge repository.%
+%\footnote{
+%http://sourceforge.net/projects/advants/
+%}
+
 A portion of the batch script used to produce the registrations is 
 found in Listing \ref{listing:script}.  Each image was histogram-
 matched prior to application of an initial affine transform using
@@ -357,7 +370,7 @@ employed where the initial B-spline velocity field mesh size was
 $24\times24\times12\times1$ which was doubled at each level.  
 Other registration parameters can be gleaned from the Listing \ref{listing:script}.
 Batch processing was performed on the linux cluster at the 
-University of Virginia with each job allocated 4 nodes for
+University of Virginia with allocation of 4 nodes for each job
 multi-threading purposes.  Each registration took approximately
 3 hours.
 
@@ -419,7 +432,7 @@ antsApplyTransforms --dimensionality 3 \
 Registration assessment used the average target overlap 
 \cite{tustison2009a} for each of the 56 LPBA40 labeled regions.
 The numerical values of this assessment are given in Table 1.
-These values were projected onto subject 1 for display in Fig. 1
+These values were projected onto LBPA40 Subject 1 for display in Fig. 1
 which can be compared to a similar display given in \cite{Klein2009}
 with the caveat that the colormap is slightly different. 
 
@@ -523,9 +536,8 @@ DMFFD optimization of the B-spline velocity field which facilitates
 convergence and permits enforcement of stationary boundary conditions.  
 While not discussed, further advantages include incorporation of temporal 
 periodicity in dealing with the possibility of multiple images describing
-periodic motion (e.g. cardiac or pulmonary motion).  Although not discussed
-in this work, a future publication will explore these possibilities in 
-greater detail. 
+periodic motion (e.g. cardiac or pulmonary motion). A future publication 
+will explore these possibilities in greater detail. 
 
 \bibliographystyle{splncs03}
 \bibliography{references}

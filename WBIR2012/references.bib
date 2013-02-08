@@ -2,19 +2,65 @@
 %% http://bibdesk.sourceforge.net/
 
 
-%% Created for Nick Tustison at 2012-01-27 20:31:51 -0500 
+%% Created for Nick Tustison at 2012-03-22 17:52:48 -0400 
 
 
 %% Saved with string encoding Unicode (UTF-8) 
 
 
 
+@book{press1996,
+	Abstract = {Source code for routines and examples from several Numerical Recipes titles. Offers HTML files that enable user with Web browser to navigate among all program files. Includes SLATEC Common Mathematical Library featuring over 1400 mathematical and statistical routines},
+	Annote = {LDR    01619cmm  2200349 a 4500
+001    5007038
+005    20020903201346.0
+008    990322s1996    xxu        b        eng  
+035    $9(DLC)   99382414
+906    $a7$bcbc$corignew$du$encip$f19$gy-gencompf
+955    $avb22 to bccd 03-23-99
+010    $a   99382414 
+020    $a0521576083
+040    $aDLC$cDLC$dDLC
+050 00 $aQA297
+082 10 $a519.4$213
+245 00 $aNumerical recipes$h[computer file].
+246 1  $iOther title on container:$aArt of scientific computing
+250    $aCode CD-ROM v 2.06.
+256    $aComputer programs.
+260    $a[Cambridge] :$bCambridge University Press,$cc1996.
+300    $a1 computer laser optical disc ;$c4 3/4 in.
+538    $aSystem requirements: DOS, Windows, or OS/2 computer, or Macintosh; CD-ROM drive (ISO 9660-compatibility required for Macintosh).
+500    $aTitle from disc label.
+500    $a"William H. Press, Saul A. Teukolsky, William T. Vetterling, Brian P. Flannery"--Container.
+520    $aSource code for routines and examples from several Numerical Recipes titles. Offers HTML files that enable user with Web browser to navigate among all program files. Includes SLATEC Common Mathematical Library featuring over 1400 mathematical and statistical routines.
+650  0 $aNumerical analysis$xSoftware.
+650  0 $aScience$xMathematics$xSoftware.
+700 1  $aPress, William H.
+710 2  $aNumerical Recipes Software (Firm)
+856 42 $3Publisher description$uhttp://www.loc.gov/catdir/description/cam0210/99382414.html
+991    $bc-MRC$hQA297$i[1999 00037]$tCopy 1$wCF
+},
+	Author = {Press, William H},
+	Call-Number = {QA297},
+	Date-Added = {2012-03-15 16:37:54 +0000},
+	Date-Modified = {2012-03-15 16:37:54 +0000},
+	Dewey-Call-Number = {519.4},
+	Edition = {Code CD-ROM v 2.06},
+	Genre = {Numerical analysis},
+	Isbn = {0521576083},
+	Library-Id = {99382414},
+	Publisher = {Cambridge University Press},
+	Title = {Numerical recipes},
+	Url = {http://www.loc.gov/catdir/description/cam0210/99382414.html},
+	Year = {1996},
+	Bdsk-Url-1 = {http://www.loc.gov/catdir/description/cam0210/99382414.html}}
+
 @article{tustison2009a,
 	Author = {N. J. Tustison and J. C. Gee},
 	Date-Added = {2012-01-28 01:30:49 +0000},
-	Date-Modified = {2012-01-28 01:31:47 +0000},
+	Date-Modified = {2012-03-22 21:52:30 +0000},
 	Journal = {Insight Journal},
-	Title = {Introducing Dice, Jaccard, and Other Label Overlap Measures To ITK},
+	Title = {Introducing {Dice}, {Jaccard}, and Other Label Overlap Measures To {ITK}},
 	Year = {2009}}
 
 @article{avants2008,
@@ -41,7 +87,7 @@
 	Abstract = {A variant of the popular nonparametric nonuniform intensity normalization (N3) algorithm is proposed for bias field correction. Given the superb performance of N3 and its public availability, it has been the subject of several evaluation studies. These studies have demonstrated the importance of certain parameters associated with the B-spline least-squares fitting. We propose the substitution of a recently developed fast and robust B-spline approximation routine and a modified hierarchical optimization scheme for improved bias field correction over the original N3 algorithm. Similar to the N3 algorithm, we also make the source code, testing, and technical documentation of our contribution, which we denote as "N4ITK," available to the public through the Insight Toolkit of the National Institutes of Health. Performance assessment is demonstrated using simulated data from the publicly available Brainweb database, hyperpolarized (3)He lung image data, and 9.4T postmortem hippocampus data.},
 	Author = {Tustison, Nicholas J and Avants, Brian B and Cook, Philip A and Zheng, Yuanjie and Egan, Alexander and Yushkevich, Paul A and Gee, James C},
 	Date-Added = {2012-01-27 18:43:06 +0000},
-	Date-Modified = {2012-01-27 18:43:06 +0000},
+	Date-Modified = {2012-01-30 19:05:10 +0000},
 	Doi = {10.1109/TMI.2010.2046908},
 	Journal = {IEEE Trans Med Imaging},
 	Journal-Full = {IEEE transactions on medical imaging},
@@ -52,7 +98,7 @@
 	Pmc = {PMC3071855},
 	Pmid = {20378467},
 	Pst = {ppublish},
-	Title = {N4ITK: improved N3 bias correction},
+	Title = {{N4ITK}: improved {N3} bias correction},
 	Volume = {29},
 	Year = {2010},
 	Bdsk-Url-1 = {http://dx.doi.org/10.1109/TMI.2010.2046908}}
@@ -61,7 +107,7 @@
 	Abstract = {We describe the construction of a digital brain atlas composed of data from manually delineated MRI data. A total of 56 structures were labeled in MRI of 40 healthy, normal volunteers. This labeling was performed according to a set of protocols developed for this project. Pairs of raters were assigned to each structure and trained on the protocol for that structure. Each rater pair was tested for concordance on 6 of the 40 brains; once they had achieved reliability standards, they divided the task of delineating the remaining 34 brains. The data were then spatially normalized to well-known templates using 3 popular algorithms: AIR5.2.5's nonlinear warp (Woods et al., 1998) paired with the ICBM452 Warp 5 atlas (Rex et al., 2003), FSL's FLIRT (Smith et al., 2004) was paired with its own template, a skull-stripped version of the ICBM152 T1 average; and SPM5's unified segmentation method (Ashburner and Friston, 2005) was paired with its canonical brain, the whole head ICBM152 T1 average. We thus produced 3 variants of our atlas, where each was constructed from 40 representative samples of a data processing stream that one might use for analysis. For each normalization algorithm, the individual structure delineations were then resampled according to the computed transformations. We next computed averages at each voxel location to estimate the probability of that voxel belonging to each of the 56 structures. Each version of the atlas contains, for every voxel, probability densities for each region, thus providing a resource for automated probabilistic labeling of external data types registered into standard spaces; we also computed average intensity images and tissue density maps based on the three methods and target spaces. These atlases will serve as a resource for diverse applications including meta-analysis of functional and structural imaging data and other bioinformatics applications where display of arbitrary labels in probabilistically defined anatomic space will facilitate both knowledge-based development and visualization of findings from multiple disciplines.},
 	Author = {Shattuck, David W and Mirza, Mubeena and Adisetiyo, Vitria and Hojatkashani, Cornelius and Salamon, Georges and Narr, Katherine L and Poldrack, Russell A and Bilder, Robert M and Toga, Arthur W},
 	Date-Added = {2012-01-27 18:39:14 +0000},
-	Date-Modified = {2012-01-27 18:39:14 +0000},
+	Date-Modified = {2012-03-22 21:51:33 +0000},
 	Doi = {10.1016/j.neuroimage.2007.09.031},
 	Journal = {Neuroimage},
 	Journal-Full = {NeuroImage},
@@ -72,7 +118,7 @@
 	Pmc = {PMC2757616},
 	Pmid = {18037310},
 	Pst = {ppublish},
-	Title = {Construction of a 3D probabilistic atlas of human cortical structures},
+	Title = {Construction of a {3D} probabilistic atlas of human cortical structures},
 	Volume = {39},
 	Year = {2008},
 	Bdsk-Url-1 = {http://dx.doi.org/10.1016/j.neuroimage.2007.09.031}}
@@ -81,7 +127,7 @@
 	Abstract = {All fields of neuroscience that employ brain imaging need to communicate their results with reference to anatomical regions. In particular, comparative morphometry and group analysis of functional and physiological data require coregistration of brains to establish correspondences across brain structures. It is well established that linear registration of one brain to another is inadequate for aligning brain structures, so numerous algorithms have emerged to nonlinearly register brains to one another. This study is the largest evaluation of nonlinear deformation algorithms applied to brain image registration ever conducted. Fourteen algorithms from laboratories around the world are evaluated using 8 different error measures. More than 45,000 registrations between 80 manually labeled brains were performed by algorithms including: AIR, ANIMAL, ART, Diffeomorphic Demons, FNIRT, IRTK, JRD-fluid, ROMEO, SICLE, SyN, and four different SPM5 algorithms ("SPM2-type" and regular Normalization, Unified Segmentation, and the DARTEL Toolbox). All of these registrations were preceded by linear registration between the same image pairs using FLIRT. One of the most significant findings of this study is that the relative performances of the registration methods under comparison appear to be little affected by the choice of subject population, labeling protocol, and type of overlap measure. This is important because it suggests that the findings are generalizable to new subject populations that are labeled or evaluated using different labeling protocols. Furthermore, we ranked the 14 methods according to three completely independent analyses (permutation tests, one-way ANOVA tests, and indifference-zone ranking) and derived three almost identical top rankings of the methods. ART, SyN, IRTK, and SPM's DARTEL Toolbox gave the best results according to overlap and distance measures, with ART and SyN delivering the most consistently high accuracy across subjects and label sets. Updates will be published on the http://www.mindboggle.info/papers/ website.},
 	Author = {Klein, Arno and Andersson, Jesper and Ardekani, Babak A and Ashburner, John and Avants, Brian and Chiang, Ming-Chang and Christensen, Gary E and Collins, D Louis and Gee, James and Hellier, Pierre and Song, Joo Hyun and Jenkinson, Mark and Lepage, Claude and Rueckert, Daniel and Thompson, Paul and Vercauteren, Tom and Woods, Roger P and Mann, J John and Parsey, Ramin V},
 	Date-Added = {2012-01-27 18:36:35 +0000},
-	Date-Modified = {2012-01-27 18:36:35 +0000},
+	Date-Modified = {2012-03-22 21:50:31 +0000},
 	Doi = {10.1016/j.neuroimage.2008.12.037},
 	Journal = {Neuroimage},
 	Journal-Full = {NeuroImage},
@@ -92,7 +138,7 @@
 	Pmc = {PMC2747506},
 	Pmid = {19195496},
 	Pst = {ppublish},
-	Title = {Evaluation of 14 nonlinear deformation algorithms applied to human brain MRI registration},
+	Title = {Evaluation of 14 nonlinear deformation algorithms applied to human brain {MRI} registration},
 	Volume = {46},
 	Year = {2009},
 	Bdsk-Url-1 = {http://dx.doi.org/10.1016/j.neuroimage.2008.12.037}}
@@ -109,8 +155,8 @@
 	Author = {M. Modat and G. R. Ridgway and P. Daga and M. J. Cardoso and D. J. Hawkes},
 	Booktitle = {Progress in Biomedical Optics and Imaging - Proceedings of SPIE},
 	Date-Added = {2011-12-29 02:09:11 +0000},
-	Date-Modified = {2011-12-29 02:12:24 +0000},
-	Title = {Log-Euclidean free-form deformation},
+	Date-Modified = {2012-03-22 21:50:42 +0000},
+	Title = {Log-{E}uclidean free-form deformation},
 	Volume = {7962},
 	Year = {2011}}
 
@@ -119,14 +165,14 @@
 	Author = {Tustison, Nicholas and Gee, James},
 	Booktitle = {Medical Imaging and Augmented Reality},
 	Date-Added = {2011-12-22 05:17:26 +0000},
-	Date-Modified = {2011-12-22 05:27:37 +0000},
+	Date-Modified = {2012-03-22 21:52:18 +0000},
 	Editor = {Yang, Guang-Zhong and Jiang, TianZi and Shen, Dinggang and Gu, Lixu and Yang, Jie},
 	Isbn = {978-3-540-37220-2},
 	Keyword = {Computer Science},
 	Pages = {76-83},
 	Publisher = {Springer Berlin / Heidelberg},
 	Series = {Lecture Notes in Computer Science},
-	Title = {Generalized $n$-D $C^k$ {B}-Spline Scattered Data Approximation with Confidence Values},
+	Title = {Generalized $n$-{D} ${C}^k$ {B}-Spline Scattered Data Approximation with Confidence Values},
 	Volume = {4091},
 	Year = {2006},
 	Bdsk-Url-1 = {http://dx.doi.org/10.1007/11812715_10}}
@@ -135,7 +181,7 @@
 	Abstract = {In this paper we propose a diffeomorphic non-rigid registration algorithm based on free-form deformations (FFDs) which are modelled by B-splines. In contrast to existing non-rigid registration methods based on FFDs the proposed diffeomorphic non-rigid registration algorithm based on free-form deformations (FFDs) which are modelled by B-splines. To construct a diffeomorphic transformation we compose a sequence of free-form deformations while ensuring that individual FFDs are one-to-one transformations. We have evaluated the algorithm on 20 normal brain MR images which have been manually segmented into 67 anatomical structures. Using the agreement between manual segmentation and segmentation propagation as a measure of registration quality we have compared the algorithm to an existing FFD registration algorithm and a modified FFD registration algorithm which penalises non-diffeomorphic transformations. The results show that the proposed algorithm generates diffeomorphic transformations while providing similar levels of performance as the existing FFD registration algorithm in terms of registration accuracy.},
 	Author = {Rueckert, Daniel and Aljabar, Paul and Heckemann, Rolf A and Hajnal, Joseph V and Hammers, Alexander},
 	Date-Added = {2011-12-20 03:47:06 +0000},
-	Date-Modified = {2011-12-20 03:47:06 +0000},
+	Date-Modified = {2012-03-22 21:51:21 +0000},
 	Journal = {Med Image Comput Comput Assist Interv},
 	Journal-Full = {Medical image computing and computer-assisted intervention : MICCAI ... International Conference on Medical Image Computing and Computer-Assisted Intervention},
 	Mesh = {Algorithms; Artificial Intelligence; Brain; Computer Simulation; Humans; Image Enhancement; Image Interpretation, Computer-Assisted; Magnetic Resonance Imaging; Models, Biological; Numerical Analysis, Computer-Assisted; Pattern Recognition, Automated; Reproducibility of Results; Sensitivity and Specificity; Subtraction Technique},
@@ -143,7 +189,7 @@
 	Pages = {702-9},
 	Pmid = {17354834},
 	Pst = {ppublish},
-	Title = {Diffeomorphic registration using B-splines},
+	Title = {Diffeomorphic registration using {B}-splines},
 	Volume = {9},
 	Year = {2006}}
 
@@ -190,7 +236,7 @@
 	Abstract = {In this paper we present a new approach for the nonrigid registration of contrast-enhanced breast MRI. A hierarchical transformation model of the motion of the breast has been developed. The global motion of the breast is modeled by an affine transformation while the local breast motion is described by a free-form deformation (FFD) based on B-splines. Normalized mutual information is used as a voxel-based similarity measure which is insensitive to intensity changes as a result of the contrast enhancement. Registration is achieved by minimizing a cost function, which represents a combination of the cost associated with the smoothness of the transformation and the cost associated with the image similarity. The algorithm has been applied to the fully automated registration of three-dimensional (3-D) breast MRI in volunteers and patients. In particular, we have compared the results of the proposed nonrigid registration algorithm to those obtained using rigid and affine registration techniques. The results clearly indicate that the nonrigid registration algorithm is much better able to recover the motion and deformation of the breast than rigid or affine registration algorithms.},
 	Author = {Rueckert, D and Sonoda, L I and Hayes, C and Hill, D L and Leach, M O and Hawkes, D J},
 	Date-Added = {2011-12-18 19:56:03 +0000},
-	Date-Modified = {2011-12-18 19:56:03 +0000},
+	Date-Modified = {2012-03-22 21:51:12 +0000},
 	Doi = {10.1109/42.796284},
 	Journal = {IEEE Trans Med Imaging},
 	Journal-Full = {IEEE transactions on medical imaging},
@@ -200,7 +246,7 @@
 	Pages = {712-21},
 	Pmid = {10534053},
 	Pst = {ppublish},
-	Title = {Nonrigid registration using free-form deformations: application to breast MR images},
+	Title = {Nonrigid registration using free-form deformations: application to breast {MR} images},
 	Volume = {18},
 	Year = {1999},
 	Bdsk-Url-1 = {http://dx.doi.org/10.1109/42.796284}}
@@ -226,7 +272,7 @@
 	Abstract = {Nonrigid image registration is an important task for many medical imaging applications. In particular, for radiation oncology it is desirable to track respiratory motion for thoracic cancer treatment. B-splines are convenient for modeling nonrigid deformations, but ensuring invertibility can be a challenge. This paper describes sufficient conditions for local invertibility of deformations based on B-spline bases. These sufficient conditions can be used with constrained optimization to enforce local invertibility. We also incorporate these conditions into nonrigid image registration methods based on a simple penalty approach that encourages diffeomorphic deformations. Traditional Jacobian penalty methods penalize negative Jacobian determinant values only at grid points. In contrast, our new method enforces a sufficient condition for invertibility directly on the deformation coefficients to encourage invertibility globally over a 3D continuous domain. The proposed penalty approach requires substantially less compute time than Jacobian penalties per iteration.},
 	Author = {Chun, Se Young and Fessler, Jeffrey A},
 	Date-Added = {2011-12-18 19:51:33 +0000},
-	Date-Modified = {2011-12-18 19:51:33 +0000},
+	Date-Modified = {2012-03-22 21:50:00 +0000},
 	Doi = {10.1109/JSTSP.2008.2011116},
 	Journal = {IEEE J Sel Top Signal Process},
 	Journal-Full = {IEEE journal of selected topics in signal processing},
@@ -236,7 +282,7 @@
 	Pmc = {PMC3004236},
 	Pmid = {21179392},
 	Pst = {ppublish},
-	Title = {A simple regularizer for B-spline nonrigid image registration that encourages local invertibility},
+	Title = {A simple regularizer for {B}-spline nonrigid image registration that encourages local invertibility},
 	Volume = {3},
 	Year = {2009},
 	Bdsk-Url-1 = {http://dx.doi.org/10.1109/JSTSP.2008.2011116}}

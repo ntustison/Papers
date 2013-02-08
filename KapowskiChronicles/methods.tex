@@ -116,7 +116,7 @@ described in this work.
 
 \begin{figure*}
   \centering
-  \includegraphics[width=130mm]{Figures/Kapowski_pipeline.pdf}
+  \includegraphics[width=170mm]{Figures/Kapowski_pipeline2.pdf}
   \caption{The ANTs T1 processing workflow containing all elements for 
   determining cortical thickness. Not shown is the optional single subject
   to template registration.}
@@ -337,10 +337,14 @@ The nonrigid image registration evaluation project is an ongoing
 framework for evaluating image registration algorithms \citep{christensen2006}.
 The initial data set introduced into the project consists of 
 16 (8 male and 8 female) high resolution skull-stripped brain 
-data with 32 cortical labels manually drawn using published protocol.
+data with 32 cortical labels (cf Table \ref{table:nirep_labels}) manually drawn using a 
+published protocol.%
+\footnote{
+http://www.nirep.org/
+}
 Given the gray matter labels, the white matter and CSF were identified 
 for each of the 16 subjects using Atropos.  Similar to the LPBA40
-data set, a NIREP template was created from all 16 subjects and each the
+data set, a NIREP template was created from all 16 subjects and each of the
 warped labels were used to create probabilistic estimates of the 
 labeled region boundaries. These probability maps were used as 
 spatial prior probabilities during the 3-tissue segmentation component
@@ -350,13 +354,39 @@ NIREP priors to the space of the individual subject.  The initial warped
 white matter probability map is used as the weighted confidence mask 
 in the follow-up bias correction step.
 
-\subsection{IXI Data for Pipeline Evaluation}
+\begin{table}
+\centering
+\begin{tabular*}{0.475\textwidth}{@{\extracolsep{\fill}} l l}
+\toprule
+  1) L occipital lobe & 2) R occipital lobe \\
+  3) L cingulate gyrus & 4) R cingulate gyrus \\
+  5) L insula gyrus & 6) R insula gyrus \\
+  7) L temporal lobe & 8) R temporal lobe \\
+  9) L superior temporal gyr. & 10) R superior temporal gyr. \\
+  11) L infero temporal region & 12) R infero temporal region \\
+  13) L parahippocampal gyr. & 14) R parahippocampal gyr. \\
+  15) L frontal pole & 16) R frontal pole \\
+  17) L superior frontal gyrus & 18) R superior frontal gyrus \\
+  19) L middle frontal gyrus & 20) R middle frontal gyrus \\
+  21) L inferior gyrus & 22) R inferior gyrus \\
+  23) L orbital frontal gyrus & 24) R orbital frontal gyrus \\
+  25) L precentral gyrus & 26) R precentral gyrus \\
+  27) L superior parietal lobule & 28) R superior parietal lobule \\
+  29) L inferior parietal lobule & 30) R inferior parietal lobule \\
+  31) L postcentral gyrus & 32)   R postcentral gyrus \\  
+\bottomrule
+\end{tabular*}
+\caption{The 32 cortical NIREP labels.}
+\label{table:nirep_labels}
+\end{table}
 
+\subsection{IXI Data for Pipeline Evaluation}
+                                          
 The IXI data%
 \footnote{
 http://biomedic.doc.ic.ac.uk/brain-development/
 }
-consists of approximately 600 healthy subjects imaged at three sites 
+used for the evaluation consists of 577 healthy subjects imaged at three sites 
 using several modalities (T1-weighted, T2-weighted, proton density, magnetic 
 resonance angiography, and diffusion tensor imaging).  The 
 database also consists of  demographic information such as age, weight,
@@ -367,8 +397,8 @@ thickness measured using the ANTs pipeline.
 
 \begin{figure}
   \centering
-  \includegraphics[width=90mm]{Figures/template.pdf}
-  \caption{Sample multivariate template constructed from a subset of the IXI data (female, age 40--50).  Axial slices of five of the 37 total subjects from this cohort are shown. }
+  \includegraphics[width=90mm]{Figures/template50_60.pdf}
+  \caption{Sample multivariate template constructed from a subset of the IXI data (female, age 50--60).  Axial slices of five of the 37 total subjects from this cohort are shown. }
   \label{fig:template}
 \end{figure}
 

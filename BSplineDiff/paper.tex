@@ -1,0 +1,325 @@
+%% This is file `elsarticle-template-1-num.tex',
+%%
+%% Copyright 2009 Elsevier Ltd
+%%
+%% This file is part of the 'Elsarticle Bundle'.
+%% ---------------------------------------------
+%%
+%% It may be distributed under the conditions of the LaTeX Project Public
+%% License, either version 1.2 of this license or (at your option) any
+%% later version.  The latest version of this license is in
+%%    http://www.latex-project.org/lppl.txt
+%% and version 1.2 or later is part of all distributions of LaTeX
+%% version 1999/12/01 or later.
+%%
+%% The list of all files belonging to the 'Elsarticle Bundle' is
+%% given in the file `manifest.txt'.
+%%
+%% Template article for Elsevier's document class `elsarticle'
+%% with numbered style bibliographic references
+%%
+%% $Id: elsarticle-template-1-num.tex 149 2009-10-08 05:01:15Z rishi $
+%% $URL: http://lenova.river-valley.com/svn/elsbst/trunk/elsarticle-template-1-num.tex $
+%%
+
+%\documentclass[preprint,authoryear,review,12pt]{elsarticle}
+\documentclass[final,5p,times,twocolumn]{elsarticle}
+
+%% Use the option review to obtain double line spacing
+%% \documentclass[preprint,review,12pt]{elsarticle}
+
+%% Use the options 1p,two column; 3p; 3p,twocolumn; 5p; or 5p,twocolumn
+%% for a journal layout:
+%% \documentclass[final,1p,times]{elsarticle}
+%% \documentclass[final,1p,times,twocolumn]{elsarticle}
+%% \documentclass[final,3p,times]{elsarticle}
+%% \documentclass[final,3p,times,twocolumn]{elsarticle}
+%% \documentclass[final,5p,times]{elsarticle}
+%% \documentclass[final,5p,times,twocolumn]{elsarticle}
+
+
+\usepackage{color}
+\usepackage{multirow,booktabs,ctable,array}
+\usepackage{lscape}
+\usepackage{amsmath}
+\usepackage{lineno}
+\usepackage{ulem}
+\usepackage{setspace}
+\usepackage{listings}
+\usepackage{float}
+
+
+\floatstyle{plain}
+\newfloat{command}{thp}{lop}
+\floatname{command}{Command}
+
+%\usepackage[nomarkers,notablist]{endfloat}
+
+%% if you use PostScript figures in your article
+%% use the graphics package for simple commands
+%% \usepackage{graphics}
+%% or use the graphicx package for more complicated commands
+%% \usepackage{graphicx}
+%% or use the epsfig package if you prefer to use the old commands
+%% \usepackage{epsfig}
+
+%% The amssymb package provides various useful mathematical symbols
+\usepackage{amssymb}
+%% The amsthm package provides extended theorem environments
+% \usepackage{amsthm}
+ 
+ \usepackage{makecell}
+
+%% The lineno packages adds line numbers. Start line numbering with
+%% \begin{linenumbers}, end it with \end{linenumbers}. Or switch it on
+%% for the whole article with \linenumbers after \end{frontmatter}.
+%% \usepackage{lineno}
+
+%% natbib.sty is loaded by default. However, natbib options can be
+%% provided with \biboptions{...} command. Following options are
+%% valid:
+
+%%   round  -  round parentheses are used (default)
+%%   square -  square brackets are used   [option]
+%%   curly  -  curly braces are used      {option}
+%%   angle  -  angle brackets are used    <option>
+%%   semicolon  -  multiple citations separated by semi-colon
+%%   colon  - same as semicolon, an earlier confusion
+%%   comma  -  separated by comma
+%%   numbers-  selects numerical citations
+%%   super  -  numerical citations as superscripts
+%%   sort   -  sorts multiple citations according to order in ref. list
+%%   sort&compress   -  like sort, but also compresses numerical citations
+%%   compress - compresses without sorting
+%%
+%% \biboptions{comma,round}
+
+% \biboptions{}
+
+\providecommand{\OO}[1]{\operatorname{O}\bigl(#1\bigr)}
+
+\graphicspath{{./Figures/}
+                          }
+
+\long\def\symbolfootnote[#1]#2{\begingroup%
+\def\thefootnote{\fnsymbol{footnote}}\footnote[#1]{#2}\endgroup}
+
+    \usepackage{color}
+
+    \definecolor{listcomment}{rgb}{0.0,0.5,0.0}
+    \definecolor{listkeyword}{rgb}{0.0,0.0,0.5}
+    \definecolor{listnumbers}{gray}{0.65}
+    \definecolor{listlightgray}{gray}{0.955}
+    \definecolor{listwhite}{gray}{1.0}
+
+\newcommand{\lstsetcpp}
+{
+\lstset{frame = tb,
+        framerule = 0.25pt,
+        float,
+        fontadjust,
+        backgroundcolor={\color{listlightgray}},
+        basicstyle = {\ttfamily\scriptsize},
+        keywordstyle = {\ttfamily\color{listkeyword}\textbf},
+        identifierstyle = {\ttfamily},
+        commentstyle = {\ttfamily\color{listcomment}\textit},
+        stringstyle = {\ttfamily},
+        showstringspaces = false,
+        showtabs = false,
+        numbers = none,
+        numbersep = 6pt,
+        numberstyle={\ttfamily\color{listnumbers}},
+        tabsize = 2,
+        language=[ANSI]C++,
+        floatplacement=!h,
+        caption={},
+        captionpos=b,
+        }
+}
+
+
+\journal{Medical Image Analysis}
+
+\begin{document}
+
+
+\begin{frontmatter}
+
+\title{Explicit B-spline Regularization in Diffeomorphic Image Registration}
+
+
+
+\author[label1]{Nicholas J.~Tustison\fnref{label0}}
+%  \ead{ntustison@virginia.edu}
+  \fntext[label0]{\scriptsize Corresponding author:  PO Box 801339, Charlottesville, VA 22908; T:  434-924-7730; email address:  ntustison@virginia.edu }
+\author[label2]{Brian B.~Avants}
+
+\address[label1]{Department of Radiology and Medical Imaging, University of Virginia, Charlottesville, VA}
+\address[label2]{Penn Image Computing and Science Laboratory, Department of Radiology, University of Pennsylvania, Philadelphia, PA}
+
+
+
+%\maketitle
+
+%\linenumbers
+
+
+\begin{abstract}
+Important contributions in the evolution of image registration algorithms include those 
+in which the correspondence relationship is characterized by diffeomorphic constraints.
+The  popularity of these diffeomorphic image registration methods is due largely to their 
+topological properties and success in providing solutions to small and large deformation 
+estimation problems. Variants of diffeomorphic algorithms include those characterized by 
+time-varying velocity fields, constant velocity fields, and symmetrical considerations. 
+To enforce transform plausibility, regularization of the velocity field is usually enforced 
+either implicitly through penalization of the Laplacian or through explicit Gaussian smoothing.
+In this work, we demonstrate that B-splines provide a suitable alternative for regularization 
+and provide a new “flavor” of diffeomorphic image registration solutions.  This is showcased
+by an open source, well-vetted implementation of three popular diffeomorphic variants available
+through the Insight Toolkit ITK and the Advanced Normalization Tools (ANTs) repository.  
+Evaluation is also performed using publicly available brain data used in the MICCAI 
+2012 brain atlas labeling challenge.
+\end{abstract}
+
+\begin{keyword}
+%% keywords here, in the form: keyword \sep keyword
+\end{keyword}
+
+\end{frontmatter}
+%
+%
+\newpage
+
+
+%% MSC codes here, in the form: \MSC code \sep code
+%% or \MSC[2008] code \sep code (2000 is the default)
+
+%%
+%% Start line numbering here if you want
+%%
+% \linenumbers
+
+%% main text
+
+\section{Introduction}
+%State the objectives of the work and provide an adequate background, avoiding a detailed literature survey or a summary of the results.
+
+Significant algorithmic developments characterizing modern intensity-based
+image registration research include the B-spline parameterized approach
+(so called {\em free-form deformation}) with early contributions 
+including \cite{szeliski1997,thevenaz1998,rueckert1999}.  Amongst the 
+variant extensions, the 
+{\em directly manipulated free-form deformation} approach  \cite{tustison2009} 
+ addressed the hemstitching issue associated with steepest descent traversal of
+problematic energy topographies during the course of optimization.
+%caused by the distribution of the uniform 
+%B-spline shape functions over the transformation domain 
+
+Other important image registration research
+reflected increased emphasis on topological transformation considerations
+in modeling biological/physical systems where topology is 
+consistent throughout the course of deformation or a 
+homeomorphic relationship is assumed between image domains.
+Methods such as LDDMM \cite{beg2005} optimize time-varying velocity field 
+flows to yield diffeomorphic transformations.  Alternatively, the FFD 
+variant reported in \cite{rueckert2006} enforced diffeomorphic transforms
+by concatenating multiple FFD transforms, each of which is constrained
+to describe a one-to-one mapping.  Another FFD registration
+incorporated the recent log-Euclidean framework for enforcing diffeomorphic
+transformations \cite{Modat2011}.
+Recently, the work of 
+\cite{de-craene2011} combined these registration concepts into a single
+framework called {\em temporal free-form deformation} in which the 
+time-varying velocity field characteristic of LDDMM-style algorithms
+is modeled using a 4-D B-spline object (3-D + time).  Integration of 
+the velocity field yields the mapping between parameterized time points.
+
+In this work, we describe our extension to these methods.  Similar to 
+\cite{de-craene2011}, we also use an $N$-D + time B-spline object to 
+represent the characteristic velocity field.  However, we use the 
+directly manipulated free-form deformation optimization formulation to improve 
+convergence during the course of optimization.  This also facilitates
+modeling temporal periodicity and
+the enforcement of stationary boundaries consistent with diffeomorphic
+transforms.
+We also incorporate B-spline mesh multi-resolution capabilities
+for increased control during registration progression.  
+Most importantly, we also describe
+the parallelized algorithmic implementation as open source available through the Insight Toolkit.%
+\footnote{
+http://www.itk.org/
+}
+
+We first describe the methodology by laying out a mathematical description 
+of the various algorithmic elements coupled with implementation details
+where appropriate.  This is followed by an evaluation on publicly available
+brain data. 
+
+
+\section{Material and Methods}
+%Provide sufficient detail to allow the work to be reproduced. Methods already published should be indicated by a reference: only relevant modifications should be described.
+
+{\color{red}{\em Remember Brian's suggestion of adding the work where we integrated the velocity field (via the control point lattice) as opposed to integrating the path through the velocity field.}}
+
+
+Three popular algorithms [1,2,3] (and their B-spline analogs) were implemented as part of the recent refactoring of the Insight Toolkit (ITK) [5] and included as part of the Advanced Normalization Tools (ANTs) repository [6].  Thus, all code used for this work is available as open source.   For comparison, the ITK-based, well-vetted SyN algorithm [3], which uses explicit Gaussian regularization, was used to provide the canonical mappings in the MICCAI 2012 multi-atlas labeling challenge [7] between 20 training subjects and 15 testing subjects (140 labeled structures).  Using the exact same parameters, except those specific to the regularization, we produced the analogous B-spline SyN mappings for the same data and compared transformations using the Dice overlap.
+
+\section{Results}
+%Results should be clear and concise.
+
+Sample label results (with ground truth) are showin in Fig. 1.  Box plots comparing the Dice metrics between the two diffeomorphic registration algorithms are pro-vided in Fig. 1.  A paired Student’s t-test demonstrated that B-spline SyN produced slightly better average overlap ($p < 1e-4$).  
+
+\section{Discussion}
+%This should explore the significance of the results of the work, not repeat them. A combined Results and Discussion section is often appropriate. Avoid extensive citations and discussion of published literature.
+
+B-spline regularization is easily adapted into the diffeomorphic registration framework and performs comparably to analogous algorithms which we demonstrated in the case of SyN.  Even more importantly, all source code and data used in this work is publicly available for the interested researcher to explore.
+
+\section{Conclusions}
+%The main conclusions of the study may be presented in a short Conclusions section, which may stand alone or form a subsection of a Discussion or Results and Discussion section.
+
+%% The Appendices part is started with the command \appendix;
+%% appendix sections are then done as normal sections
+%% \appendix
+
+%% \section{}
+%% \label{}
+
+%% References
+%%
+%% Following citation commands can be used in the body text:
+%% Usage of \cite is as follows:
+%%   \citep{key}          ==>>  [#]
+%%   \cite[chap. 2]{key} ==>>  [#, chap. 2]
+%%   \citet{key}         ==>>  Author [#]
+
+%% References with bibTeX database:
+
+\section*{Acknowledgments}
+
+\section*{References}
+
+\bibliographystyle{elsarticle-harv}
+\bibliography{references}
+
+
+%% Authors are advised to submit their bibtex database files. They are
+%% requested to list a bibtex style file in the manuscript if they do
+%% not want to use model1-num-names.bst.
+
+%% References without bibTeX database:
+
+% \begin{thebibliography}{00}
+
+%% \bibitem must have the following form:
+%%   \bibitem{key}...
+%%
+
+% \bibitem{}
+
+% \end{thebibliography}
+
+
+\end{document}
+
+%%
+%% End of file `elsarticle-template-1-num.tex'.

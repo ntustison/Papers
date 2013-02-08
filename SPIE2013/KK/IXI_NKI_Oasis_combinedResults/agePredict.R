@@ -1,0 +1,113 @@
+demographics <- read.csv( file = "demographics.csv", header = TRUE );
+# volumes <- read.csv( file = "volume.csv", header = TRUE );
+thickness <- read.csv( file = "thickness.csv", header = TRUE );
+
+indices <- which( demographics$AGE >= 0 & demographics$AGE <= 100 );
+thickness <- thickness[indices,];
+demographics <- demographics[indices,];
+
+cortical_labels <- c( "L occipital", "R occipital",
+                     "L cingulate", "R cingulate",
+                     "L insula",    "R insula",
+                     "L temporal pole",   "R temporal pole",
+                     "L superior temporal", "R superior temporal",
+                     "L infero temporal", "R infero temporal",
+                     "L parahippocampal", "R parahippocampal",
+                     "L frontal pole",    "R frontal pole",
+                     "L superior frontal","R superior frontal",
+                     "L middle frontal",  "R middle frontal",
+                     "L inferior",        "R inferior",
+                     "L orbital frontal", "R orbital frontal",
+                     "L precentral",      "R precentral",
+                     "L superior parietal", "R superior parietal",
+                     "L inferior parietal", "R inferior parietal",
+                     "L postcentral",       "R postcentral" );
+
+nSamples <- 100;
+male_color = "darkred";
+female_color = "navyblue";
+
+age <- demographics$AGE;
+id <- demographics$ID;
+gender <- cut( demographics$SEX, breaks = c( 0.5, 1.5, 2.5 ), label = c( "male", "female" ) );
+
+ixi <- indices[which( indices <= 360 )];
+nki <- indices[which( indices >= 361 & indices <= 537 )];
+oasis <- indices[which( indices >= 537 )];
+
+ixiAge <- age[ixi];
+nkiAge <- age[nki];
+oasisAge <- age[oasis];
+
+ixiGender <- gender[ixi];
+nkiGender <- gender[nki];
+oasisGender <- gender[oasis];
+
+
+
+sampled.th <- seq( min( thickness ), max( thickness ) , length = nSamples );
+sampled.age <- seq( 0, 100, length = nSamples );
+
+for( i in 1:32 )
+  {
+  th <- thickness[,i];
+
+  ixiThickness <- th[ixi];
+  nkiThickness <- th[nki];
+  oasisThickness <- th[oasis];
+
+#    n <- lm( formula = th ~ age + gender );
+#   n <- lm( formula = age ~ md + th + I(th^2) + vo + th:vo + gender );
+#   n <- lm( formula = age ~ md + th + vo + gender );
+
+    n <- lm( formula = th ~ age + I(age^2) + gender + age:gender );
+
+#   coeffs <- coef( n );
+#   pvalues <- anova( n )[,"Pr(>F)"];
+
+  male.data <- list();
+  female.data <- list();
+
+  male.data$x <- data.frame( age = sampled.age, th = sampled.th, gender = rep( "male", nSamples ) );
+  female.data$x <- data.frame( age = sampled.age, th = sampled.th, gender = rep( "female", nSamples ) );
+
+  male.data$y <- predict( n, male.data$x, interval = "p", level = 0.95 );
+  female.data$y <- predict( n, female.data$x, interval = "p", level = 0.95 );
+
+  pdf( file = paste( "yylabel", i, "_results.pdf", sep = "" ), 8, 6 );
+
+  plot( c( 0, 100 ), c( min( thickness ), max( thickness) ), type = "n",
+    xlab = expression( paste( bold( "Age (years)" ) ) ),
+    ylab = expression( paste( bold( "Thickness (mm)" ) ) ),
+    frame.plot = FALSE  );
+  title( main = paste( "Cortical thickness results (", cortical_labels[i], ")", sep = "" ), col.main = "black", font.main = 2 );
+
+  # plot male
+
+  points( ixiAge[ixiGender == "male"], ixiThickness[ixiGender == "male"], pch = 22, lwd = 0.5, cex = 0.75, col = male_color );
+  points( nkiAge[nkiGender == "male"], nkiThickness[nkiGender == "male"], pch = 23, lwd = 0.5, cex = 0.75, col = male_color );
+  points( oasisAge[oasisGender == "male"], oasisThickness[oasisGender == "male"], pch = 24, lwd = 0.5, cex = 0.75, col = male_color );
+  lines( male.data$x[,1], male.data$y[,1], lty=1, col = male_color, lwd = 3 );
+  lines( male.data$x[,1], male.data$y[,2], col = male_color , lty = 2, lwd = 2 )
+  lines( male.data$x[,1], male.data$y[,3], col = male_color , lty = 2, lwd = 2 )
+
+  # plot female
+  points( ixiAge[ixiGender == "female"], ixiThickness[ixiGender == "female"], pch = 22, lwd = 0.5, cex = 0.75, col = female_color );
+  points( nkiAge[nkiGender == "female"], nkiThickness[nkiGender == "female"], pch = 23, lwd = 0.5, cex = 0.75, col = female_color );
+  points( oasisAge[oasisGender == "male"], oasisThickness[oasisGender == "male"], pch = 24, lwd = 0.5, cex = 0.75, col = female_color );
+  lines( female.data$x[,1], female.data$y[,1], lty=1, col = female_color, lwd = 3 );
+  lines( female.data$x[,1], female.data$y[,2], col = female_color , lty = 2, lwd = 2 )
+  lines( female.data$x[,1], female.data$y[,3], col = female_color , lty = 2, lwd = 2 )
+
+  legend( "topright", c( "Female (IXI)", "Male (IXI)", "Female (NKI)", "Male (NKI)", "Female (Oasis)", "Male (Oasis)"  ),
+     col = c( female_color, male_color, female_color, male_color, female_color, male_color ),
+   pch = c( 22, 22, 23, 23, 24, 24 ),
+   title = expression( paste( bold( "Gender" ) ) ),
+  # box.lwd = 2,
+    bty = "n",
+    lwd = 2 );
+  axis( 1, tick = TRUE, lwd = 2, font = 2 );
+  axis( 2, tick = TRUE, lwd = 2, font = 2 );
+  dev.off();
+
+  }
