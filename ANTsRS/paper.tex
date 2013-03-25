@@ -1,0 +1,504 @@
+%% This is file `elsarticle-template-1-num.tex',
+%%
+%% Copyright 2009 Elsevier Ltd
+%%
+%% This file is part of the 'Elsarticle Bundle'.
+%% ---------------------------------------------
+%%
+%% It may be distributed under the conditions of the LaTeX Project Public
+%% License, either version 1.2 of this license or (at your option) any
+%% later version.  The latest version of this license is in
+%%    http://www.latex-project.org/lppl.txt
+%% and version 1.2 or later is part of all distributions of LaTeX
+%% version 1999/12/01 or later.
+%%
+%% The list of all files belonging to the 'Elsarticle Bundle' is
+%% given in the file `manifest.txt'.
+%%
+%% Template article for Elsevier's document class `elsarticle'
+%% with numbered style bibliographic references
+%%
+%% $Id: elsarticle-template-1-num.tex 149 2009-10-08 05:01:15Z rishi $
+%% $URL: http://lenova.river-valley.com/svn/elsbst/trunk/elsarticle-template-1-num.tex $
+%%
+
+%\documentclass[preprint,authoryear,review,12pt]{elsarticle}
+\documentclass[final,5p,times,twocolumn]{elsarticle}
+
+%% Use the option review to obtain double line spacing
+%% \documentclass[preprint,review,12pt]{elsarticle}
+
+%% Use the options 1p,two column; 3p; 3p,twocolumn; 5p; or 5p,twocolumn
+%% for a journal layout:
+%% \documentclass[final,1p,times]{elsarticle}
+%% \documentclass[final,1p,times,twocolumn]{elsarticle}
+%% \documentclass[final,3p,times]{elsarticle}
+%% \documentclass[final,3p,times,twocolumn]{elsarticle}
+%% \documentclass[final,5p,times]{elsarticle}
+%% \documentclass[final,5p,times,twocolumn]{elsarticle}
+
+
+\usepackage{color}
+\usepackage{multirow,booktabs,ctable,array}
+\usepackage{lscape}
+\usepackage{amsmath}
+\usepackage{lineno}
+\usepackage{ulem}
+\usepackage{setspace}
+\usepackage{listings}
+\usepackage{float}
+\usepackage{listings}
+\usepackage{color,colortbl}
+\usepackage{rccol}
+\usepackage[table]{xcolor}
+
+    \definecolor{listcomment}{rgb}{0.0,0.5,0.0}
+    \definecolor{listkeyword}{rgb}{0.0,0.0,0.5}
+    \definecolor{listnumbers}{gray}{0.65}
+    \definecolor{listlightgray}{gray}{0.955}
+    \definecolor{listwhite}{gray}{1.0}
+    \definecolor{lightcyan}{rgb}{0.88,1,1}
+
+\newcommand{\lstsetcpplong}
+{
+\lstset{frame = tb,
+        framerule = 0.25pt,
+        float,
+        fontadjust,
+        backgroundcolor={\color{listlightgray}},
+        basicstyle = {\ttfamily\scriptsize},
+        keywordstyle = {\ttfamily\color{listkeyword}\textbf},
+        identifierstyle = {\ttfamily},
+        commentstyle = {\ttfamily\color{listcomment}\textit},
+        stringstyle = {\ttfamily},
+        showstringspaces = false,
+        showtabs = false,
+        numbers = none,
+        numbersep = 6pt,
+        numberstyle={\ttfamily\color{listnumbers}},
+        tabsize = 2,
+        language=,
+        floatplacement=!h,
+        caption={\small \baselineskip 12pt DiReCT long command line menu which is invoked using the `{\ttfamily {-}{-}help}' option.  The short command line menu is obtained by typing `{\ttfamily {-}h}'},
+        captionpos=b,
+        label=listing:long
+        }
+}
+
+\floatstyle{plain}
+\newfloat{command}{thp}{lop}
+\floatname{command}{Command}
+
+%\usepackage[nomarkers,notablist]{endfloat}
+
+%% if you use PostScript figures in your article
+%% use the graphics package for simple commands
+%% \usepackage{graphics}
+%% or use the graphicx package for more complicated commands
+%% \usepackage{graphicx}
+%% or use the epsfig package if you prefer to use the old commands
+%% \usepackage{epsfig}
+
+%% The amssymb package provides various useful mathematical symbols
+\usepackage{amssymb}
+%% The amsthm package provides extended theorem environments
+% \usepackage{amsthm}
+ 
+ \usepackage{makecell}
+
+%% The lineno packages adds line numbers. Start line numbering with
+%% \begin{linenumbers}, end it with \end{linenumbers}. Or switch it on
+%% for the whole article with \linenumbers after \end{frontmatter}.
+%% \usepackage{lineno}
+
+%% natbib.sty is loaded by default. However, natbib options can be
+%% provided with \biboptions{...} command. Following options are
+%% valid:
+
+%%   round  -  round parentheses are used (default)
+%%   square -  square brackets are used   [option]
+%%   curly  -  curly braces are used      {option}
+%%   angle  -  angle brackets are used    <option>
+%%   semicolon  -  multiple citations separated by semi-colon
+%%   colon  - same as semicolon, an earlier confusion
+%%   comma  -  separated by comma
+%%   numbers-  selects numerical citations
+%%   super  -  numerical citations as superscripts
+%%   sort   -  sorts multiple citations according to order in ref. list
+%%   sort&compress   -  like sort, but also compresses numerical citations
+%%   compress - compresses without sorting
+%%
+%% \biboptions{comma,round}
+
+% \biboptions{}
+
+\providecommand{\OO}[1]{\operatorname{O}\bigl(#1\bigr)}
+
+\graphicspath{
+             {./Figures/}
+             }
+
+\long\def\symbolfootnote[#1]#2{\begingroup%
+\def\thefootnote{\fnsymbol{footnote}}\footnote[#1]{#2}\endgroup}
+
+
+
+\journal{NeuroImage}
+
+\begin{document}
+
+
+\begin{frontmatter}
+
+\title{Multivariate Neuroanalysis with ANTsR:  Application to Supervised Brain Segmentation}
+
+\author[label1]{Nicholas J.~Tustison
+  \fnref{label0}}
+  \fntext[label0]{\scriptsize Corresponding author:  PO Box 801339, Charlottesville, VA 22908; T:  434-924-7730; email address:  ntustison@virginia.edu.
+  }
+\author[label2]{K.~L.~Shrinidhi}
+\author[label2]{Jeffrey T.~Duda}
+\author[label2]{Philip A.~Cook}
+\author[label1]{Christopher Durst}
+\author[label1]{James C.~Gee}
+\author[label1]{Murray C.~Grossman}
+\author[label1]{Max Wintermark}
+\author[label2]{Brian B.~Avants}
+\address[label1]{Department of Radiology and Medical Imaging, University of Virginia, Charlottesville, VA}
+\address[label2]{Penn Image Computing and Science Laboratory, University of Pennsylvania,
+                Philadelphia, PA}
+
+%\maketitle
+
+\linenumbers
+
+\begin{abstract} 
+Improvements in image acquisition and increasingly sophisticated statistical techniques 
+for neuroanalysis have spurred the development of advanced computational frameworks for studying the
+brain---many of which
+have been made publicly available.  One such popular toolkit is the open source Advanced
+Normalization Tools (ANTs) which contains a suite of well-vetted processing tools for
+core data transformation tasks such as image registration, image segmentation, 
+inhomogeneity field correction and template building.  However, despite the numerous
+solutions afforded by such tools, neuroscience (and data analysis in general) requires
+a statistical platform for making inferences with respect to given hypotheses once the 
+requisite data transformations have been performed.  In this paper, we describe the
+coupling of ANTs with the widely-used R language---an open source environment for 
+statistical processing and data visualization---which we denote as ANTsR.  One of the
+many benefits from such an integration is the accessibility to advanced statistical 
+and machine learning techniques.  To showcase the flexibility and power of ANTsR, we 
+apply the combination of one such technique, Random Forests, and ANTs processing 
+tools to the difficult problem of brain tumor segmentation.  This includes evaluation on 
+the public data set from the MICCAI 2012 BRATS challenge consisting of both real and simulated
+data.  To facilitate reproducibility, all scripts and data used in this paper are 
+publicly available for download.  
+\end{abstract}
+
+\begin{keyword}
+advanced normalization tools \sep BRATS \sep brain tumor segmentation \sep R project \sep random forests
+%% keywords here, in the form: keyword \sep keyword
+\end{keyword}
+
+\end{frontmatter}
+%
+%
+\newpage
+
+%% MSC codes here, in the form: \MSC code \sep code
+%% or \MSC[2008] code \sep code (2000 is the default)
+
+%%
+%% Start line numbering here if you want
+%%
+% \linenumbers
+
+%% The Appendices part is started with the command \appendix;
+%% appendix sections are then done as normal sections
+%% \appendix
+
+%% \section{}
+%% \label{}
+
+%% References
+%%
+%% Following citation commands can be used in the body text:
+%% Usage of \cite is as follows:
+%%   \citep{key}          ==>>  [#]
+%%   \cite[chap. 2]{key} ==>>  [#, chap. 2]
+%%   \citet{key}         ==>>  Author [#]
+
+%% main text
+
+%\input{intro}
+%
+%\input{methods}
+
+\section{Introduction}
+
+O
+
+\section{Materials and Methods}
+
+\subsection{ANTsR:  An ANTs/R Interface}
+
+\subsubsection{Installation}
+
+The ANTsR package is publicly available on the github project hosting service.%
+\footnote{
+https://github.com/stnava/ANTsR
+}
+Prior to installation of ANTsR, several external R packages
+need to be installed including: \verb#Rcpp#, \verb#signal#, \verb#timeSeries#, 
+\verb#mFilter#, \verb#doParallel#, \verb#robust#, \verb#magic#, \verb#knitr#, \verb#pixmap#, 
+\verb#rgl#, \verb#misc3d# which is facilitated by the 
+\verb#install.packages()# mechanism.  Additionally, in order
+to perform the supervised brain segmentation as described 
+in later sections, one would need to also install 
+\verb#randomForest#, \verb#snowfall#, \verb#rlecuyer#,
+and \verb#ggplot2#. 
+
+CMake%
+\footnote{
+http://www.cmake.org/
+}
+is an open source tool for the management and building of 
+large-scale software projects.  It is used
+to coordinate the downloading of external packages,
+such as the Insight Toolkit (ITK)%
+\footnote{
+http://www.itk.org/
+}
+and ANTs.  Detailed instructions for download and
+installation can be found on the ANTsR github website.
+
+
+
+\subsection{Supervised Brain Segmentation}
+
+
+
+\subsubsection{Random Forests}
+
+Building on the developments of Ho \cite{ho1995} and Amit and Geman \cite{amit1997},
+Breiman introduced Random Forests for classification/regression \cite{breiman2001} which performs relatively well against other machine learning strategies such as support vector machines and neural networks.
+
+\subsubsection{Multi-Modality Feature Image Preprocessing}
+
+Although several studies have pointed out the importance of
+intensity normalization and bias correction, our experience 
+with the training data illustrated a degradation in performance
+when one or both steps (using \cite{nyul2000} and \cite{tustison2010},
+respectively) were performed due to the presence of the tumor/edema complex.  
+Instead we simply windowed the image intensity
+for all images to be between the quantiles $[0.01,0.99]$ and
+subsequently rescaled to $[0,1]$.  This strategy seemed to provide 
+the best classification (probably due to the fact that the intensity
+corruption due to bias was relatively minimal in the data used).
+However, improved results might be obtained
+by a more sophisticated strategy in which an initial supervised segmentation 
+is used to find the probabilistic estimates of the normal tissue
+locations (as done in this work) which could then be followed by using
+only the probabilistic maps of the normal tissues to construct a
+weight, or confidence, mask for estimating the inhomogeneity bias
+using N4 \cite{tustison2010} followed by a repeated application of 
+the supervised segmentation strategy described.  Note that a similar
+iterative-based strategy until convergence is implemented in the ANTs script \verb#antsAtroposN4.sh#.
+
+\subsubsection{Multi-Modality Feature Image Generation}
+
+Key to any supervised regression or classification protocol are the 
+selected features for training and subsequent testing.  Based on previous
+work and our own experience, we selected the following feature images
+to showcase the supervised segmentation strategy developed in this work.
+
+\begin{itemize}
+  \item Per modality (FLAIR, T1, T1C, T2)
+    \begin{itemize}
+      \item First-order neighborhood statistical images:
+            mean, variance, skewness, and entropy. 
+            Neighborhood radius = 3.
+    \item GMM-based posteriors: CSF, gray matter, white matter, edema, and tumor
+    \item GMM connected component geometry features:  volume, volume to 
+          surface area ratio, eccentricity, elongation
+    \item Template-based:  symmetric template difference and contralateral difference.
+          Gaussian smoothing ($\sigma = 4$mm).
+    \end{itemize}
+  \item Misc.
+    \begin{itemize}
+    \item Normalized Euclidean distance
+    \item Log Jacobian  
+    \end{itemize}
+\end{itemize}
+
+For each modality, we create four first-order statistical feature images,
+five Gaussian mixture model (GMM)-based posterior probability feature images,
+four geometry features generated from the GMM posterior probability images
+based on connected components, and two difference images using symmetric template
+construction for a total of 4 modalities $\times$ (4 + 5 + 4 + 2) feature images per modality $=$ 60 images.  We employ two additional images consisting of the 
+Euclidean distance image \cite{maurer2003} created from the skull-stripped 
+binary mask rescaled to the range $[0,1]$ and the log
+Jacobian image derived from the spatial normalization of the symmetric multivariate template and individual subject images.  Given the intensity corrected images
+the corresponding multivariate template images, and a brain mask for each subject
+creation of all feature images is performed using the script \verb#createFeatureImages.sh#.
+
+Prior  cluster centers for specific tissue types learned from training data \cite{reynolds2009} are used in the GMM to create multiple feature images.  
+Given $M$ tissue types (e.g. CSF, gray matter,
+white matter, edema, and tumor), a GMM formulates the 
+probability distribution at each voxel, $\mathbf{x}$, as the
+sum of Gaussian components, $\mathcal{N}(\mathbf{x}|\mu,\sigma)$, i.e.
+\begin{align}
+p\left(\mathbf{x}|\mu_m,\sigma_m,\lambda_m\right) = \sum_{i=1}^M \lambda_m \mathcal{N}(\mathbf{x}|\mu_m,\sigma_m)
+\end{align}
+where $\sum_{m=1}^M \lambda_m = 1$.  One popular method for 
+determining the parameters of the GMM is maximum likelihood 
+estimation which can performed using the Atropos segmentation 
+tool \cite{avants2011}.  In contrast to previous generative
+modeling approaches for multi-modal tumor segmentation 
+(e.g. \cite{prastawa2003,zikic2012}), we do not use multivariate 
+Gaussians to specify tissue probabilities but rather incorporate each
+univariate probability map into the feature vector of the training
+data.  As pointed out in \cite{menze2010}, multivariate modeling
+might obscure the distinct biological information provided by each 
+modality.  Instead, we let the random forest construction 
+process determine the optimal combination of such multivariate
+information.
+Additionally, maximum posterior labeling from the GMM processing
+is used to determine the connected components for each label.  
+Geometric features (assigned voxel-wise) include the physical volumes 
+of each connected component including the volume to surface area ratio, 
+the elongation, and eccentricity. 
+
+In order to better characterize deviations from normal
+multi-modal brain shape and appearance, several features were derived 
+using population-specific multivariate template 
+construction. A recent neuroimaging reproducibility study
+by Landman et al. resulted in an open data cohort of 21
+normal individuals, each imaged twice, comprising several
+modalities including arterial spin labeling, 
+fluid attenuated inversion recovery (FLAIR),
+diffusion tensor imaging, functional imaging, T1, and T2 
+\cite{landman2011}.
+
+Given $K$ image modality types for $N$ subjects,  
+${\mathbf I} = \{I_1,I_2,\ldots, I_K\}$, multivariate 
+template construction iterates between optimizing the set 
+of diffeomorphic transforms between the subjects and the 
+template, 
+$\left\{\left(\phi_1,\phi_1^{-1}\right),\ldots,\left(\phi_N,\phi_N^{-1}\right)\right\}$ 
+and constructing the 
+optimal multivariate template appearance 
+$\mathbf{J}=\{J_1,J_2,\ldots, J_K\}$ to minimize the
+following cost function:
+\begin{align}
+  \sum_{n=1}^N 
+        \Bigg[ D &\left( \psi(\mathbf{x}),\phi_1^n(\mathbf{x},1)\right) \\ \nonumber 
+        +& \sum_{k=1}^K \lambda_k \Pi_k \left(I_k^n\left(\phi_n(\mathbf{x},0.5)\right),J_k\left(\phi^{-1}_n(\mathbf{x},0.5)\right)\right)\Bigg]
+\end{align}
+where $D$ is the diffeomorphic shape distance,
+\begin{align}
+D\left( \phi( \mathbf{x},0),\phi( \mathbf{x},1)\right) = \int_0^1 \| \nu(\mathbf{x},t)\|_L dt
+\end{align}
+dependent on the choice of linear operator, $L$, and $\nu$
+is the velocity field
+\begin{align}
+\nu\left( \phi(\mathbf{x},t) \right) = \frac{d\phi(\mathbf{x},t)}{dt},\,\,\, \phi(\mathbf{x},0) = \mathbf{x}.
+\end{align}
+Each pairwise registration employing the similarity metric $\Pi_k$ can 
+be assigned a relative weighting, $\lambda_k$, to weight a particular
+modality's influence in the construction process.  Further theoretical
+details can be found in \cite{avants2008,avants2010}.
+In terms of implementation, this algorithm is 
+encapsulated in the script \verb#antsMultivariateTemplateConstruction.sh#,
+available in the ANTs repository, which permits parallel processing on
+an individual workstation or on a large computational cluster.
+
+\begin{figure}
+  \centering
+  \begin{tabular}{cc}
+    \includegraphics[width=40mm]{Figures/S_templateFA_140.png} &
+    \includegraphics[width=40mm]{Figures/S_templateFLAIR_140.png} \\
+    (a) & (b) \\
+    \includegraphics[width=40mm]{Figures/S_templateT1_140.png} &
+    \includegraphics[width=40mm]{Figures/S_templateT2_140.png} \\
+    (c) & (d) 
+  \end{tabular}
+  \caption{Multivariate symmetric template created from the Kirby 
+           21 data described in \cite{landman2011}.  Shown are the
+           (a) fractional anisotropy (FA), (b) FLAIR, (c) MPRAGE, 
+           and (d) T2 template components.
+          }
+  \label{fig:symmetrictemplates}
+\end{figure}
+
+
+
+
+
+
+
+
+\subsubsection{\underline{Bra}in \underline{T}umor \underline{S}egmentation Challenge Data}
+
+The Brain tumor segmentation
+Associated with the 2012 International Conference on Medical Image Computing and Computer Assisted
+Intervention (MICCAI),%
+\footnote{
+http://www.miccai2012.org
+}
+the 
+
+
+\subsubsection{MS lesion segmentation challenge Challenge Data}
+
+\section{Results}
+
+\begin{table*}
+\caption{Dice scores from the MICCAI 2012 BRATs Study}
+\begin{center}
+\begin{tabular*}{0.975\textwidth}{@{\extracolsep{\fill} } c c c c c c c c c}
+\toprule
+{} & \multicolumn{2}{c}{High-grade (real)} & \multicolumn{2}{c}{Low-grade (real)} & \multicolumn{2}{c}{High-grade (simulated)} & \multicolumn{2}{c}{Low-grade (simulated)}\\
+{\bf Method} & Edema & Tumor & Edema & Tumor & Edema & Tumor & Edema & Tumor\\
+\midrule
+\cite{zikic2012} & {$0.70 \pm 0.09$} & {$0.71 \pm 0.24$} & {$0.44 \pm 0.18$} & {$0.62 \pm 0.27$} & {$0.65 \pm 0.27$} & {$0.90 \pm 0.05$} & {$0.55 \pm 0.23$} & {$0.71 \pm 0.20$} \\
+\cite{bauer2012} & {$0.61 \pm 0.15$} & {$0.62 \pm 0.27$} & {$0.35 \pm 0.18$} & {$0.49 \pm 0.26$} & {$0.68 \pm 0.26$} & {$0.90 \pm 0.06$} & {$0.57 \pm 0.24$} & {$0.74 \pm 0.10$} \\
+\rowcolor{yellow}
+ANTsR & {$0.64 \pm 0.18$} & {$0.65 \pm 0.30$} & {$0.48 \pm 0.16$} & {$0.69 \pm 0.21$} & {$0.75 \pm 0.25$} & {$0.94 \pm 0.04$} & {$0.65 \pm 0.25$} & {$0.83 \pm 0.09$}  \\
+\bottomrule
+\end{tabular*}
+\end{center}
+\end{table*}
+
+\section{Discussion and Conclusions} 
+
+%% References with bibTeX database:
+
+\section*{Acknowledgments}
+
+\section*{References}
+
+\bibliographystyle{elsarticle-harv}
+\bibliography{references}
+
+
+%% Authors are advised to submit their bibtex database files. They are
+%% requested to list a bibtex style file in the manuscript if they do
+%% not want to use model1-num-names.bst.
+
+%% References without bibTeX database:
+
+% \begin{thebibliography}{00}
+
+%% \bibitem must have the following form:
+%%   \bibitem{key}...
+%%
+
+% \bibitem{}
+
+% \end{thebibliography}
+
+
+\end{document}
+
+%%
+%% End of file `elsarticle-template-1-num.tex'.
