@@ -38,7 +38,7 @@
 %% \documentclass[final,5p,times,twocolumn]{elsarticle}
 
 
-\usepackage{color}
+\usepackage{color,hyperref}
 \usepackage{multirow,booktabs,ctable,array}
 \usepackage{lscape}
 \usepackage{amsmath}
@@ -295,6 +295,47 @@ open science \sep reproducibility
   = 100 with 3 levels: $100\times50\times50$).  Changing these parameters 
   (which are crucial to performance) isn't
   accessible to the user from c3d.  
+
+  \item Collaborators should help verify findings by repeating a
+(representative subset of a) study independently, from scratch,
+preferably on another computer perhaps even with a different operating
+system.  A scientist can do this him/herself as well.  Personal
+experience suggests that this procedure will often uncover coding
+errors sometimes simply by forcing one to reread code or scripts again
+or clarify documentation.
+ 
+  \item
+    \textcolor{blue}{\href{http://en.wikipedia.org/wiki/Accuracy_and_precision}{Accuracy
+        and precision (link)}} --- most studies ignore precision.  it
+    is critical in longitudinal studies.   precision is impacted by
+    parameter choices as well as computational architecture
+    (Freesurfer paper)
+
+   \item parameters impact accuracy - e.g. clarkson's paper vs our
+     recent tuning of DiReCT parameters w.r.t. expected thickness values.
+
+  \item  Biological plausibility is important---a more accurate method
+    may produce less biologically plausible results.
+    Cross-referencing with other fields is critical e.g. patterns of
+    MRI atrophy should match pathology distribution.  There is an art
+    to this, of course.
+
+  \item Prediction---an algorithm that yields a ``more significant''
+    result is not always better.  might mean ``finds more effected
+    areas'' or smaller p-values.  Testing prediction is complements
+    studies of significance and cumulative distribution functions.
+
+  \item Verification is supported by open science technology for
+    sharing data and code.
+
+   \item Great resources for data-sharing:
+  	\begin{itemize}
+	   \item figshare
+           \item MIDAS 
+           \item slicedrop
+           \item R 
+        \end{itemize}
+
   \item Great resources for code-sharing
   	\begin{itemize}
 		  \item github
