@@ -150,7 +150,7 @@
 
 \begin{frontmatter}
 
-\title{Multivariate Neuroanalysis with ANTsR:  Application to Supervised Brain Segmentation}
+\title{Multivariate Neuroanalysis with ANTsR:  Application to Supervised Brain Segmentation with Concatenated Random Forests}
 
 \author[label1]{Nicholas J.~Tustison
   \fnref{label0}}
@@ -235,7 +235,45 @@ advanced normalization tools \sep BRATS \sep brain tumor segmentation \sep R pro
 
 \section{Introduction}
 
-O
+ANTs (Advanced Normalization Tools) originated with the open source availing
+of state-of-the-art registration algorithms for neuroimage analysis
+\cite{avants2008a} built upon the mature and well-vetted Insight Toolkit
+of the National Institutes of Health.  Since then, the toolkit has grown to include 
+several algorithmic solutions necessary
+for robust medical image analysis including bias correction \cite{tustison2010}, 
+$n$-tissue multivariate segmentation \cite{avants2011}, template construction \cite{avants2010}, 
+and cortical thickness estimation \cite{das2009} (many of which have been
+introduced into ITK partially in an attempted leveraging of Linus's Law).%
+\footnote{
+``Given enough eyeballs, all bugs are shallow.'' --Linus Torvalds
+}   
+However, in the evolution of the toolkit, it became clear (as neuroimaging
+research certainly falls under the popular rubric of ``big data analysis'')
+that robust statistical machinery was lacking for proper inferences regarding
+the data produced by the various ANTs tools.
+ANTsR was developed
+specifically to provide an interface between a 
+powerful neuroimaging toolkit for producing reliable imaging data 
+transformations and the R project%
+\footnote{
+http://www.r-project.org
+}
+for statistical computing and visualization thus providing a complete
+set of tools for multivariate image analysis. 
+
+In addition to describing ANTsR basics and how it can be generally
+used in multivariate neuroimaging studies, we showcase its use in
+a particularly salient application for performing supervised brain
+segmentation using random forests.  Although random forests have
+been proposed previously in the literature for supervised brain 
+segmentation (e.g. \cite{geremia2011,zikic2012}), we demonstrate that ANTsR
+significantly facilitates the construction of a fully functional, 
+parallelizable workflow for such a task and that performance 
+exceeds that of the top competitors in the recent Multimodal Brain
+Tumor Segmentation Challenge as part of the MICCAI 2012 conference.%
+\footnote{
+http://www2.imm.dtu.dk/projects/BRATS2012/  
+}
 
 \section{Materials and Methods}
 
@@ -271,40 +309,108 @@ http://www.itk.org/
 and ANTs.  Detailed instructions for download and
 installation can be found on the ANTsR github website.
 
-
-
 \subsection{Supervised Brain Segmentation}
 
+Given a set of training data consisting of 
+labeled (csf, gray matter, white matter, edema, and tumor),
+multimodal brain image data, 
+supervised brain segmentation entails the generation of a 
+statistical model from such training data which can
+then be extended to testing data, i.e. unlabeled 
+brain data.  In subsequent sections, we introduce the generic
+{\it random forest} modeling framework which takes as input
+a set of {\it feature images} (also described in a later section)
+and labels for each training subject 
+and outputs a statistical model.  This model, in turn, can then
+be used to provide a probabilistic estimate of the labels in an
+unlabeled subject. 
 
+One of the core extensions that we provide in this work is
+the use of concatenated random forests for improved probabilistic estimation
+of the labels.
+As we demonstrate in the Results section, the set of feature
+images employed work sufficiently well for good performance
+on the training data (which exceeds that of what has been
+currently published in the literature).  However, we discovered
+that further improvements could be gained by using the probabilistic 
+label estimates as input to enhance preprocessing before a 
+second round of feature image generation including 
+modality-specific, prior-based $n$-tissue segmentation and 
+random forest model creation. 
 
 \subsubsection{Random Forests}
 
-Building on the developments of Ho \cite{ho1995} and Amit and Geman \cite{amit1997},
-Breiman introduced Random Forests for classification/regression \cite{breiman2001} which performs relatively well against other machine learning strategies such as support vector machines and neural networks.
+Several machine learning concepts were integrated to create 
+the random forests framework first articulated in its entirety by Breiman
+et al. \cite{breiman2001} for performing classification/regression.  
+Although decision trees had been previously explored in the literature, 
+it was the success of ``boosting''-style machine learning 
+techniques, such as AdaBoost \cite{schapire1990,freund1997}, which influenced 
+the aggregation of such decision trees into ``forests'' 
+with randomized node optimization for improved
+classification/regression performance \cite{ho1995,amit1997}.
+The final element of bootstrap aggregating or ``bagging'' (i.e.
+random sampling of the training data) was
+introduced by Breiman \cite{breiman1996} to achieve improved
+accuracy.  
 
-\subsubsection{Multi-Modality Feature Image Preprocessing}
+Early adoption \cite{viola2005} and success in the
+computer vision community
+has led to a recent surge within the medical image analysis
+community of using random forests for handling complex 
+classification/regression tasks including
+normal brain segmentation \cite{yi2009},
+MS lesion segmentation \cite{geremia2011}, 
+multimodal brain tumor segmentation
+\cite{zikic2012,geremia2012}, brain extraction \cite{iglesias2010}, 
+anatomy detection in computed tomography \cite{criminisi2013}, and
+segmentation of echocardiographic images \cite{verhoek2011}.
+A thorough introduction for those interested in delving deeper 
+into the more theoretical aspects of random forests can be found
+in \cite{criminisi2011}.
+
+One of the principal advantages of R is the extensive community of
+developers  who have contributed on the order of thousands of packages 
+extending R's capabilities beyond its core functionality.
+Most relevant for the work described in this paper
+is the \verb#randomForest# package developed from Breiman's original
+Fortran code by Liaw and Wiener (described briefly in \cite{liaw2002}).
+
+
+\subsubsection{Multi-Modal Feature Image Preprocessing}
 
 Although several studies have pointed out the importance of
 intensity normalization and bias correction, our experience 
 with the training data illustrated a degradation in performance
-when one or both steps (using \cite{nyul2000} and \cite{tustison2010},
-respectively) were performed due to the presence of the tumor/edema complex.  
-Instead we simply windowed the image intensity
+when one or both steps (using \cite{nyul2000} and N4 \cite{tustison2010},
+respectively) were performed due to the presence of the tumor/edema complex. 
+ 
+As a corrective, for the first stage we simply windowed the image intensity
 for all images to be between the quantiles $[0.01,0.99]$ and
-subsequently rescaled to $[0,1]$.  This strategy seemed to provide 
-the best classification (probably due to the fact that the intensity
-corruption due to bias was relatively minimal in the data used).
-However, improved results might be obtained
-by a more sophisticated strategy in which an initial supervised segmentation 
-is used to find the probabilistic estimates of the normal tissue
-locations (as done in this work) which could then be followed by using
-only the probabilistic maps of the normal tissues to construct a
-weight, or confidence, mask for estimating the inhomogeneity bias
-using N4 \cite{tustison2010} followed by a repeated application of 
-the supervised segmentation strategy described.  Note that a similar
-iterative-based strategy until convergence is implemented in the ANTs script \verb#antsAtroposN4.sh#.
+subsequently rescaled to $[0,1]$.  From these ``corrected'' images,
+the first set of feature images were derived.  For the training cohort, these
+data were used to create the random forest regression model for the first
+stage.  During the second stage, the probabilistic estimates
+of the white matter and gray matter labels were used to generate a
+``pure tissue weight mask'' to estimate the bias field 
+using N4 (although the resulting bias field estimation was used
+to correct the image within the entire cerebral mask).  Formally, this 
+involved generation of a probabilistic map defined as:
+\begin{align}
+  P_{pure\,\,tissue}(\mathbf{x}) = \sum_{i=1}^N P_i(\mathbf{x}) \prod_{j=1, j \neq i}^N \left( 1 - P_j(\mathbf{x}) \right)
+\end{align}
+where $N$ is the set of user-selected tissue labels (in our
+case $N=2$ consisting of the gray and white matter probability
+maps).
 
-\subsubsection{Multi-Modality Feature Image Generation}
+Both rescaling and weighted bias correction were applied to produce
+the ``corrected images'' for the second stage resulting in
+modified features images for the second stage.  Note that we
+perform a similar iterative scenario for normal brain 
+segmentation \cite{avants2011} (encapsulated in the ANTs script 
+\verb#antsAtroposN4.sh#).
+
+\subsubsection{Multi-Modal Feature Image Generation}
 
 Key to any supervised regression or classification protocol are the 
 selected features for training and subsequent testing.  Based on previous
@@ -329,10 +435,11 @@ to showcase the supervised segmentation strategy developed in this work.
     \item Template-based:  symmetric template difference and contralateral difference.
           Gaussian smoothing ($\sigma = 4$mm).
     \end{itemize}
-  \item Misc.
+  \item Not modality specific
     \begin{itemize}
     \item Normalized Euclidean distance
     \item Log Jacobian  
+    \item T1C,T1 difference image
     \end{itemize}
 \end{itemize}
 
@@ -340,7 +447,8 @@ For each modality, we create four first-order statistical feature images,
 five Gaussian mixture model (GMM)-based posterior probability feature images,
 four geometry features generated from the GMM posterior probability images
 based on connected components, and two difference images using symmetric template
-construction for a total of 4 modalities $\times$ (4 + 5 + 4 + 2) feature images per modality $=$ 60 images.  We employ two additional images consisting of the 
+construction for a total of 4 modalities $\times$ (4 + 5 + 4 + 2) feature images per modality $=$ 60 total
+feature images.  We employ two additional images consisting of the 
 Euclidean distance image \cite{maurer2003} created from the skull-stripped 
 binary mask rescaled to the range $[0,1]$ and the log
 Jacobian image derived from the spatial normalization of the symmetric multivariate template and individual subject images.  Given the intensity corrected images
@@ -468,8 +576,8 @@ the
 \midrule
 \cite{zikic2012} & {$0.70 \pm 0.09$} & {$0.71 \pm 0.24$} & {$0.44 \pm 0.18$} & {$0.62 \pm 0.27$} & {$0.65 \pm 0.27$} & {$0.90 \pm 0.05$} & {$0.55 \pm 0.23$} & {$0.71 \pm 0.20$} \\
 \cite{bauer2012} & {$0.61 \pm 0.15$} & {$0.62 \pm 0.27$} & {$0.35 \pm 0.18$} & {$0.49 \pm 0.26$} & {$0.68 \pm 0.26$} & {$0.90 \pm 0.06$} & {$0.57 \pm 0.24$} & {$0.74 \pm 0.10$} \\
-\rowcolor{yellow}
-ANTsR & {$0.64 \pm 0.18$} & {$0.65 \pm 0.30$} & {$0.48 \pm 0.16$} & {$0.69 \pm 0.21$} & {$0.75 \pm 0.25$} & {$0.94 \pm 0.04$} & {$0.65 \pm 0.25$} & {$0.83 \pm 0.09$}  \\
+ANTsR & {$0.65 \pm 0.15$} & {$0.66 \pm 0.28$} & {$0.49 \pm 0.16$} & {$0.65 \pm 0.21$} & {$0.68 \pm 0.25$} & {$0.91 \pm 0.08$} & {$0.61 \pm 0.25$} & {$0.84 \pm 0.09$} \\
+w/ Atropos & {$0.68 \pm 0.15$} & {$0.67 \pm 0.30$} & {$0.50 \pm 0.15$} & {$0.67 \pm 0.23$} & {$0.74 \pm 0.26$} & {$0.92 \pm 0.09$} & {$0.65 \pm 0.26$} & {$0.84\pm 0.08$} \\
 \bottomrule
 \end{tabular*}
 \end{center}

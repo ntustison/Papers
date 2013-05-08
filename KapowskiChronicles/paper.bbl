@@ -1,0 +1,492 @@
+\begin{thebibliography}{80}
+\expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
+\expandafter\ifx\csname url\endcsname\relax
+  \def\url#1{\texttt{#1}}\fi
+\expandafter\ifx\csname urlprefix\endcsname\relax\def\urlprefix{URL }\fi
+
+\bibitem[{Almeida~Montes et~al.(2012)Almeida~Montes, Prado~Alc{\'a}ntara,
+  Mart{\'\i}nez~Garc{\'\i}a, De~La~Torre, Avila~Acosta, and
+  Duarte}]{almeida-montes2012}
+Almeida~Montes, L.~G., Prado~Alc{\'a}ntara, H., Mart{\'\i}nez~Garc{\'\i}a,
+  R.~B., De~La~Torre, L.~B., Avila~Acosta, D., Duarte, M.~G., Mar 2012. Brain
+  cortical thickness in {ADHD}: Age, sex, and clinical correlations. J Atten
+  Disord.
+
+\bibitem[{Amunts et~al.(2007)Amunts, Armstrong, Malikovic, H{\"o}mke, Mohlberg,
+  Schleicher, and Zilles}]{amunts2007}
+Amunts, K., Armstrong, E., Malikovic, A., H{\"o}mke, L., Mohlberg, H.,
+  Schleicher, A., Zilles, K., Feb 2007. Gender-specific left-right asymmetries
+  in human visual cortex. J Neurosci 27~(6), 1356--64.
+
+\bibitem[{Ashburner and Friston(2005)}]{ashburner2005}
+Ashburner, J., Friston, K.~J., Jul 2005. Unified segmentation. Neuroimage
+  26~(3), 839--51.
+
+\bibitem[{Avants et~al.(2010{\natexlab{a}})Avants, Klein, Tustison, Woo, and
+  Gee}]{avants2010a}
+Avants, B.~B., Klein, A., Tustison, N.~J., Woo, J., Gee, J.~C.,
+  2010{\natexlab{a}}. Evaluation of an open-access, automated brain extraction
+  method on multi-site multi-disorder dat. Human Brain Mapping.
+
+\bibitem[{Avants et~al.(2011{\natexlab{a}})Avants, Tustison, Song, Cook, Klein,
+  and Gee}]{avants2011}
+Avants, B.~B., Tustison, N.~J., Song, G., Cook, P.~A., Klein, A., Gee, J.~C.,
+  Feb 2011{\natexlab{a}}. A reproducible evaluation of {ANTs} similarity metric
+  performance in brain image registration. Neuroimage 54~(3), 2033--44.
+
+\bibitem[{Avants et~al.(2011{\natexlab{b}})Avants, Tustison, Wu, Cook, and
+  Gee}]{avants2011a}
+Avants, B.~B., Tustison, N.~J., Wu, J., Cook, P.~A., Gee, J.~C., Dec
+  2011{\natexlab{b}}. An open source multivariate framework for $n$-tissue
+  segmentation with evaluation on public data. Neuroinformatics 9~(4),
+  381--400.
+
+\bibitem[{Avants et~al.(2010{\natexlab{b}})Avants, Yushkevich, Pluta, Minkoff,
+  Korczykowski, Detre, and Gee}]{avants2010}
+Avants, B.~B., Yushkevich, P., Pluta, J., Minkoff, D., Korczykowski, M., Detre,
+  J., Gee, J.~C., Feb 2010{\natexlab{b}}. The optimal template effect in
+  hippocampus studies of diseased populations. Neuroimage 49~(3), 2457--66.
+
+\bibitem[{Ballmaier et~al.(2004)Ballmaier, Sowell, Thompson, Kumar, Narr,
+  Lavretsky, Welcome, DeLuca, and Toga}]{ballmaier2004}
+Ballmaier, M., Sowell, E.~R., Thompson, P.~M., Kumar, A., Narr, K.~L.,
+  Lavretsky, H., Welcome, S.~E., DeLuca, H., Toga, A.~W., Feb 2004. Mapping
+  brain size and cortical gray matter changes in elderly depression. Biol
+  Psychiatry 55~(4), 382--9.
+
+\bibitem[{Bermudez et~al.(2009)Bermudez, Lerch, Evans, and
+  Zatorre}]{bermudez2009}
+Bermudez, P., Lerch, J.~P., Evans, A.~C., Zatorre, R.~J., Jul 2009.
+  Neuroanatomical correlates of musicianship as revealed by cortical thickness
+  and voxel-based morphometry. Cereb Cortex 19~(7), 1583--96.
+
+\bibitem[{Boyes et~al.(2008)Boyes, Gunter, Frost, Janke, Yeatman, Hill,
+  Bernstein, Thompson, Weiner, Schuff, Alexander, Killiany, DeCarli, Jack, Fox,
+  and {ADNI Study}}]{boyes2008}
+Boyes, R.~G., Gunter, J.~L., Frost, C., Janke, A.~L., Yeatman, T., Hill, D.
+  L.~G., Bernstein, M.~A., Thompson, P.~M., Weiner, M.~W., Schuff, N.,
+  Alexander, G.~E., Killiany, R.~J., DeCarli, C., Jack, C.~R., Fox, N.~C.,
+  {ADNI Study}, Feb 2008. Intensity non-uniformity correction using {N3} on
+  3-{T} scanners with multichannel phased array coils. Neuroimage 39~(4),
+  1752--62.
+
+\bibitem[{Christensen et~al.(2006)Christensen, Geng, Kuhl, Bruss, Grabowski,
+  Pirwani, Vannier, Allen, and Damasio}]{christensen2006}
+Christensen, G.~E., Geng, X., Kuhl, J.~G., Bruss, J., Grabowski, T.~J.,
+  Pirwani, I.~A., Vannier, M.~W., Allen, J.~S., Damasio, H., 2006. Introduction
+  to the non-rigid image registration evaluation project ({NIREP}). In:
+  Proceedings of the Third international conference on Biomedical Image
+  Registration. WBIR'06. Springer-Verlag, Berlin, Heidelberg, pp. 128--135.
+
+\bibitem[{Chung et~al.(2005)Chung, Robbins, Dalton, Davidson, Alexander, and
+  Evans}]{chung2005}
+Chung, M.~K., Robbins, S.~M., Dalton, K.~M., Davidson, R.~J., Alexander, A.~L.,
+  Evans, A.~C., May 2005. Cortical thickness analysis in autism with heat
+  kernel smoothing. Neuroimage 25~(4), 1256--65.
+
+\bibitem[{Clarkson et~al.(2011)Clarkson, Cardoso, Ridgway, Modat, Leung,
+  Rohrer, Fox, and Ourselin}]{clarkson2011}
+Clarkson, M.~J., Cardoso, M.~J., Ridgway, G.~R., Modat, M., Leung, K.~K.,
+  Rohrer, J.~D., Fox, N.~C., Ourselin, S., Aug 2011. A comparison of voxel and
+  surface based cortical thickness estimation methods. Neuroimage 57~(3),
+  856--65.
+
+\bibitem[{Collins et~al.(1994)Collins, Neelin, Peters, and Evans}]{Collins1994}
+Collins, D.~L., Neelin, P., Peters, T.~M., Evans, A.~C., 1994. Automatic {3D}
+  intersubject registration of {MR} volumetric data in standardized {T}alairach
+  space. J Comput Assist Tomogr 18~(2), 192--205.
+
+\bibitem[{Dale et~al.(1999)Dale, Fischl, and Sereno}]{dale1999}
+Dale, A.~M., Fischl, B., Sereno, M.~I., Feb 1999. Cortical surface-based
+  analysis. i. segmentation and surface reconstruction. Neuroimage 9~(2),
+  179--94.
+
+\bibitem[{Das et~al.(2009)Das, Avants, Grossman, and Gee}]{das2009}
+Das, S.~R., Avants, B.~B., Grossman, M., Gee, J.~C., Apr 2009. Registration
+  based cortical thickness measurement. Neuroimage 45~(3), 867--79.
+
+\bibitem[{DaSilva et~al.(2007)DaSilva, Granziera, Snyder, and
+  Hadjikhani}]{dasilva2007}
+DaSilva, A. F.~M., Granziera, C., Snyder, J., Hadjikhani, N., Nov 2007.
+  Thickening in the somatosensory cortex of patients with migraine. Neurology
+  69~(21), 1990--5.
+
+\bibitem[{Davatzikos and Bryan(1996)}]{davatzikos1996}
+Davatzikos, C., Bryan, N., 1996. Using a deformable surface model to obtain a
+  shape representation of the cortex. IEEE Trans Med Imaging 15~(6), 785--95.
+
+\bibitem[{Dickerson et~al.(2009)Dickerson, Bakkour, Salat, Feczko, Pacheco,
+  Greve, Grodstein, Wright, Blacker, Rosas, Sperling, Atri, Growdon, Hyman,
+  Morris, Fischl, and Buckner}]{dickerson2009}
+Dickerson, B.~C., Bakkour, A., Salat, D.~H., Feczko, E., Pacheco, J., Greve,
+  D.~N., Grodstein, F., Wright, C.~I., Blacker, D., Rosas, H.~D., Sperling,
+  R.~A., Atri, A., Growdon, J.~H., Hyman, B.~T., Morris, J.~C., Fischl, B.,
+  Buckner, R.~L., Mar 2009. The cortical signature of {A}lzheimer's disease:
+  regionally specific cortical thinning relates to symptom severity in very
+  mild to mild {AD} dementia and is detectable in asymptomatic amyloid-positive
+  individuals. Cereb Cortex 19~(3), 497--510.
+
+\bibitem[{Dogdas et~al.(2005)Dogdas, Shattuck, and Leahy}]{dogdas2005}
+Dogdas, B., Shattuck, D.~W., Leahy, R.~M., Dec 2005. Segmentation of skull and
+  scalp in {3-D} human {MRI} using mathematical morphology. Hum Brain Mapp
+  26~(4), 273--85.
+
+\bibitem[{Du et~al.(2007)Du, Schuff, Kramer, Rosen, Gorno-Tempini, Rankin,
+  Miller, and Weiner}]{du2007}
+Du, A.-T., Schuff, N., Kramer, J.~H., Rosen, H.~J., Gorno-Tempini, M.~L.,
+  Rankin, K., Miller, B.~L., Weiner, M.~W., Apr 2007. Different regional
+  patterns of cortical thinning in {A}lzheimer's disease and frontotemporal
+  dementia. Brain 130~(Pt 4), 1159--66.
+
+\bibitem[{Economo et~al.(2008)Economo, Koskinas, and Triarhou}]{economo2008}
+Economo, C., Koskinas, G.~N., Triarhou, L.~C., 2008. Atlas of
+  cytoarchitectonics of the adult human cerebral cortex, 1st Edition. Karger,
+  Basil.
+
+\bibitem[{Evans et~al.(2012)Evans, Janke, Collins, and Baillet}]{evans2012}
+Evans, A.~C., Janke, A.~L., Collins, D.~L., Baillet, S., Aug 2012. Brain
+  templates and atlases. Neuroimage 62~(2), 911--22.
+
+\bibitem[{Fedorov et~al.(2011)Fedorov, Li, Pohl, Bouix, Styner, Addicott,
+  Wyatt, Daunais, Wells, and Kikinis}]{fedorov2011}
+Fedorov, A., Li, X., Pohl, K.~M., Bouix, S., Styner, M., Addicott, M., Wyatt,
+  C., Daunais, J.~B., Wells, W.~M., Kikinis, R., 2011. Atlas-guided
+  segmentation of vervet monkey brain {MRI}. Open Neuroimag J 5, 186--97.
+
+\bibitem[{Fischl and Dale(2000)}]{fischl2000}
+Fischl, B., Dale, A.~M., Sep 2000. Measuring the thickness of the human
+  cerebral cortex from magnetic resonance images. Proc Natl Acad Sci U S A
+  97~(20), 11050--5.
+
+\bibitem[{Fischl et~al.(2002)Fischl, Salat, Busa, Albert, Dieterich,
+  Haselgrove, van~der Kouwe, Killiany, Kennedy, Klaveness, Montillo, Makris,
+  Rosen, and Dale}]{fischl2002}
+Fischl, B., Salat, D.~H., Busa, E., Albert, M., Dieterich, M., Haselgrove, C.,
+  van~der Kouwe, A., Killiany, R., Kennedy, D., Klaveness, S., Montillo, A.,
+  Makris, N., Rosen, B., Dale, A.~M., Jan 2002. Whole brain segmentation:
+  automated labeling of neuroanatomical structures in the human brain. Neuron
+  33~(3), 341--55.
+
+\bibitem[{Fischl et~al.(1999)Fischl, Sereno, and Dale}]{fischl1999}
+Fischl, B., Sereno, M.~I., Dale, A.~M., Feb 1999. Cortical surface-based
+  analysis. ii: Inflation, flattening, and a surface-based coordinate system.
+  Neuroimage 9~(2), 195--207.
+
+\bibitem[{Fischl et~al.(2004)Fischl, van~der Kouwe, Destrieux, Halgren,
+  S{\'e}gonne, Salat, Busa, Seidman, Goldstein, Kennedy, Caviness, Makris,
+  Rosen, and Dale}]{fischl2004}
+Fischl, B., van~der Kouwe, A., Destrieux, C., Halgren, E., S{\'e}gonne, F.,
+  Salat, D.~H., Busa, E., Seidman, L.~J., Goldstein, J., Kennedy, D., Caviness,
+  V., Makris, N., Rosen, B., Dale, A.~M., Jan 2004. Automatically parcellating
+  the human cerebral cortex. Cereb Cortex 14~(1), 11--22.
+
+\bibitem[{Fortier et~al.(2011)Fortier, Leritz, Salat, Venne, Maksimovskiy,
+  Williams, Milberg, and McGlinchey}]{fortier2011}
+Fortier, C.~B., Leritz, E.~C., Salat, D.~H., Venne, J.~R., Maksimovskiy, A.~L.,
+  Williams, V., Milberg, W.~P., McGlinchey, R.~E., Dec 2011. Reduced cortical
+  thickness in abstinent alcoholics and association with alcoholic behavior.
+  Alcohol Clin Exp Res 35~(12), 2193--201.
+
+\bibitem[{Foster and Zatorre(2010)}]{foster2010}
+Foster, N. E.~V., Zatorre, R.~J., Oct 2010. Cortical structure predicts success
+  in performing musical transformation judgments. Neuroimage 53~(1), 26--36.
+
+\bibitem[{Gernsbacher(2007)}]{gernsbacher2007}
+Gernsbacher, M.~A., Jan 2007. Presidential column: The eye of the beholder.
+  Observer 20~(1).
+
+\bibitem[{Haier et~al.(2009)Haier, Karama, Leyba, and Jung}]{haier2009}
+Haier, R.~J., Karama, S., Leyba, L., Jung, R.~E., 2009. {MRI} assessment of
+  cortical thickness and functional activity changes in adolescent girls
+  following three months of practice on a visual-spatial task. BMC Res Notes 2,
+  174.
+
+\bibitem[{Hardan et~al.(2006)Hardan, Muddasani, Vemulapalli, Keshavan, and
+  Minshew}]{hardan2006}
+Hardan, A.~Y., Muddasani, S., Vemulapalli, M., Keshavan, M.~S., Minshew, N.~J.,
+  Jul 2006. An {MRI} study of increased cortical thickness in autism. Am J
+  Psychiatry 163~(7), 1290--2.
+
+\bibitem[{He et~al.(2007)He, Chen, and Evans}]{he2007}
+He, Y., Chen, Z.~J., Evans, A.~C., Oct 2007. Small-world anatomical networks in
+  the human brain revealed by cortical thickness from {MRI}. Cereb Cortex
+  17~(10), 2407--19.
+
+\bibitem[{Jones et~al.(2000)Jones, Buchbinder, and Aharon}]{jones2000}
+Jones, S.~E., Buchbinder, B.~R., Aharon, I., Sep 2000. Three-dimensional
+  mapping of cortical thickness using {L}aplace's equation. Hum Brain Mapp
+  11~(1), 12--32.
+
+\bibitem[{Jubault et~al.(2011)Jubault, Gagnon, Karama, Ptito, Lafontaine,
+  Evans, and Monchi}]{jubault2011}
+Jubault, T., Gagnon, J.-F., Karama, S., Ptito, A., Lafontaine, A.-L., Evans,
+  A.~C., Monchi, O., Mar 2011. Patterns of cortical thickness and surface area
+  in early {P}arkinson's disease. Neuroimage 55~(2), 462--7.
+
+\bibitem[{Kim et~al.(2005)Kim, Singh, Lee, Lerch, Ad-Dab'bagh, MacDonald, Lee,
+  Kim, and Evans}]{kim2005}
+Kim, J.~S., Singh, V., Lee, J.~K., Lerch, J., Ad-Dab'bagh, Y., MacDonald, D.,
+  Lee, J.~M., Kim, S.~I., Evans, A.~C., Aug 2005. Automated {3-D} extraction
+  and evaluation of the inner and outer cortical surfaces using a {L}aplacian
+  map and partial volume effect classification. Neuroimage 27~(1), 210--21.
+
+\bibitem[{Klein et~al.(2010)Klein, Ghosh, Avants, Yeo, Fischl, Ardekani, Gee,
+  Mann, and Parsey}]{klein2010}
+Klein, A., Ghosh, S.~S., Avants, B., Yeo, B. T.~T., Fischl, B., Ardekani, B.,
+  Gee, J.~C., Mann, J.~J., Parsey, R.~V., May 2010. Evaluation of volume-based
+  and surface-based brain image registration methods. Neuroimage 51~(1),
+  214--20.
+
+\bibitem[{Kochunov et~al.(2011)Kochunov, Glahn, Lancaster, Thompson, Kochunov,
+  Rogers, Fox, Blangero, and Williamson}]{kochunov2011}
+Kochunov, P., Glahn, D.~C., Lancaster, J., Thompson, P.~M., Kochunov, V.,
+  Rogers, B., Fox, P., Blangero, J., Williamson, D.~E., Sep 2011. Fractional
+  anisotropy of cerebral white matter and thickness of cortical gray matter
+  across the lifespan. Neuroimage 58~(1), 41--9.
+
+\bibitem[{Kovacevic(2006)}]{kovacevic2006}
+Kovacevic, J., 2006. From the editor-in-chief. IEEE Trans Imag Process 15~(12).
+
+\bibitem[{K{\"u}hn et~al.(2010)K{\"u}hn, Schubert, and Gallinat}]{kuhn2010}
+K{\"u}hn, S., Schubert, F., Gallinat, J., Dec 2010. Reduced thickness of medial
+  orbitofrontal cortex in smokers. Biol Psychiatry 68~(11), 1061--5.
+
+\bibitem[{Lerch et~al.(2006)Lerch, Worsley, Shaw, Greenstein, Lenroot, Giedd,
+  and Evans}]{lerch2006}
+Lerch, J.~P., Worsley, K., Shaw, W.~P., Greenstein, D.~K., Lenroot, R.~K.,
+  Giedd, J., Evans, A.~C., Jul 2006. Mapping anatomical correlations across
+  cerebral cortex ({MACACC}) using cortical thickness from {MRI}. Neuroimage
+  31~(3), 993--1003.
+
+\bibitem[{Luders et~al.(2006{\natexlab{a}})Luders, Narr, Thompson, Rex, Jancke,
+  and Toga}]{luders2006}
+Luders, E., Narr, K.~L., Thompson, P.~M., Rex, D.~E., Jancke, L., Toga, A.~W.,
+  Aug 2006{\natexlab{a}}. Hemispheric asymmetries in cortical thickness. Cereb
+  Cortex 16~(8), 1232--8.
+
+\bibitem[{Luders et~al.(2006{\natexlab{b}})Luders, Narr, Thompson, Rex, Woods,
+  Deluca, Jancke, and Toga}]{luders2006a}
+Luders, E., Narr, K.~L., Thompson, P.~M., Rex, D.~E., Woods, R.~P., Deluca, H.,
+  Jancke, L., Toga, A.~W., Apr 2006{\natexlab{b}}. Gender effects on cortical
+  thickness and the influence of scaling. Hum Brain Mapp 27~(4), 314--24.
+
+\bibitem[{Lyoo et~al.(2006)Lyoo, Sung, Dager, Friedman, Lee, Kim, Kim, Dunner,
+  and Renshaw}]{lyoo2006}
+Lyoo, I.~K., Sung, Y.~H., Dager, S.~R., Friedman, S.~D., Lee, J.-Y., Kim,
+  S.~J., Kim, N., Dunner, D.~L., Renshaw, P.~F., Feb 2006. Regional cerebral
+  cortical thinning in bipolar disorder. Bipolar Disord 8~(1), 65--74.
+
+\bibitem[{MacDonald et~al.(2000)MacDonald, Kabani, Avis, and
+  Evans}]{macdonald2000}
+MacDonald, D., Kabani, N., Avis, D., Evans, A.~C., Sep 2000. Automated {3-D}
+  extraction of inner and outer surfaces of cerebral cortex from {MRI}.
+  Neuroimage 12~(3), 340--56.
+
+\bibitem[{Magnotta et~al.(1999)Magnotta, Andreasen, Schultz, Harris, Cizadlo,
+  Heckel, Nopoulos, and Flaum}]{magnotta1999}
+Magnotta, V.~A., Andreasen, N.~C., Schultz, S.~K., Harris, G., Cizadlo, T.,
+  Heckel, D., Nopoulos, P., Flaum, M., Mar 1999. Quantitative in vivo
+  measurement of gyrification in the human brain: changes associated with
+  aging. Cereb Cortex 9~(2), 151--60.
+
+\bibitem[{Makris et~al.(2008)Makris, Gasic, Kennedy, Hodge, Kaiser, Lee, Kim,
+  Blood, Evins, Seidman, Iosifescu, Lee, Baxter, Perlis, Smoller, Fava, and
+  Breiter}]{makris2008}
+Makris, N., Gasic, G.~P., Kennedy, D.~N., Hodge, S.~M., Kaiser, J.~R., Lee,
+  M.~J., Kim, B.~W., Blood, A.~J., Evins, A.~E., Seidman, L.~J., Iosifescu,
+  D.~V., Lee, S., Baxter, C., Perlis, R.~H., Smoller, J.~W., Fava, M., Breiter,
+  H.~C., Oct 2008. Cortical thickness abnormalities in cocaine addiction--a
+  reflection of both drug use and a pre-existing disposition to drug abuse?
+  Neuron 60~(1), 174--88.
+
+\bibitem[{Mazziotta et~al.(1995)Mazziotta, Toga, Evans, Fox, and
+  Lancaster}]{Mazziotta1995}
+Mazziotta, J.~C., Toga, A.~W., Evans, A., Fox, P., Lancaster, J., Jun 1995. A
+  probabilistic atlas of the human brain: theory and rationale for its
+  development. the {International Consortium for Brain Mapping} ({ICBM}).
+  Neuroimage 2~(2), 89--101.
+
+\bibitem[{Nesv{\aa}g et~al.(2008)Nesv{\aa}g, Lawyer, Varn{\"a}s, Fjell,
+  Walhovd, Frigessi, J{\"o}nsson, and Agartz}]{nesvag2008}
+Nesv{\aa}g, R., Lawyer, G., Varn{\"a}s, K., Fjell, A.~M., Walhovd, K.~B.,
+  Frigessi, A., J{\"o}nsson, E.~G., Agartz, I., Jan 2008. Regional thinning of
+  the cerebral cortex in schizophrenia: effects of diagnosis, age and
+  antipsychotic medication. Schizophr Res 98~(1-3), 16--28.
+
+\bibitem[{Otsu(1979)}]{otsu1979}
+Otsu, N., 1979. A threshold selection method from gray-level histograms. EEE
+  Trans. Sys., Man., Cyber. 9~(1), 62--66.
+
+\bibitem[{Peterson et~al.(2009)Peterson, Warner, Bansal, Zhu, Hao, Liu, Durkin,
+  Adams, Wickramaratne, and Weissman}]{peterson2009}
+Peterson, B.~S., Warner, V., Bansal, R., Zhu, H., Hao, X., Liu, J., Durkin, K.,
+  Adams, P.~B., Wickramaratne, P., Weissman, M.~M., Apr 2009. Cortical thinning
+  in persons at increased familial risk for major depression. Proc Natl Acad
+  Sci U S A 106~(15), 6273--8.
+
+\bibitem[{Raine et~al.(2011)Raine, Laufer, Yang, Narr, Thompson, and
+  Toga}]{raine2011}
+Raine, A., Laufer, W.~S., Yang, Y., Narr, K.~L., Thompson, P., Toga, A.~W., Oct
+  2011. Increased executive functioning, attention, and cortical thickness in
+  white-collar criminals. Hum Brain Mapp.
+
+\bibitem[{Raji et~al.(2010)Raji, Ho, Parikshak, Becker, Lopez, Kuller, Hua,
+  Leow, Toga, and Thompson}]{raji2010}
+Raji, C.~A., Ho, A.~J., Parikshak, N.~N., Becker, J.~T., Lopez, O.~L., Kuller,
+  L.~H., Hua, X., Leow, A.~D., Toga, A.~W., Thompson, P.~M., Mar 2010. Brain
+  structure and obesity. Hum Brain Mapp 31~(3), 353--64.
+
+\bibitem[{Ramasamy et~al.(2009)Ramasamy, Benedict, Cox, Fritz, Abdelrahman,
+  Hussein, Minagar, Dwyer, and Zivadinov}]{ramasamy2009}
+Ramasamy, D.~P., Benedict, R. H.~B., Cox, J.~L., Fritz, D., Abdelrahman, N.,
+  Hussein, S., Minagar, A., Dwyer, M.~G., Zivadinov, R., Jul 2009. Extent of
+  cerebellum, subcortical and cortical atrophy in patients with {MS}: a
+  case-control study. J Neurol Sci 282~(1-2), 47--54.
+
+\bibitem[{Rosas et~al.(2005)Rosas, Hevelone, Zaleta, Greve, Salat, and
+  Fischl}]{rosas2005}
+Rosas, H.~D., Hevelone, N.~D., Zaleta, A.~K., Greve, D.~N., Salat, D.~H.,
+  Fischl, B., Sep 2005. Regional cortical thinning in preclinical {H}untington
+  disease and its relationship to cognition. Neurology 65~(5), 745--7.
+
+\bibitem[{Rosas et~al.(2002)Rosas, Liu, Hersch, Glessner, Ferrante, Salat,
+  van~der Kouwe, Jenkins, Dale, and Fischl}]{rosas2002}
+Rosas, H.~D., Liu, A.~K., Hersch, S., Glessner, M., Ferrante, R.~J., Salat,
+  D.~H., van~der Kouwe, A., Jenkins, B.~G., Dale, A.~M., Fischl, B., Mar 2002.
+  Regional and progressive thinning of the cortical ribbon in {H}untington's
+  disease. Neurology 58~(5), 695--701.
+
+\bibitem[{Scott et~al.(2009)Scott, Bromiley, Thacker, Hutchinson, and
+  Jackson}]{scott2009}
+Scott, M. L.~J., Bromiley, P.~A., Thacker, N.~A., Hutchinson, C.~E., Jackson,
+  A., Apr 2009. A fast, model-independent method for cerebral cortical
+  thickness estimation using {MRI}. Med Image Anal 13~(2), 269--85.
+
+\bibitem[{S{\'e}gonne et~al.(2004)S{\'e}gonne, Dale, Busa, Glessner, Salat,
+  Hahn, and Fischl}]{segonne2004}
+S{\'e}gonne, F., Dale, A.~M., Busa, E., Glessner, M., Salat, D., Hahn, H.~K.,
+  Fischl, B., Jul 2004. A hybrid approach to the skull stripping problem in
+  {MRI}. Neuroimage 22~(3), 1060--75.
+
+\bibitem[{Selemon et~al.(2004)Selemon, Rajkowska, and
+  Goldman-Rakic}]{selemon2004}
+Selemon, L.~D., Rajkowska, G., Goldman-Rakic, P.~S., Jan 2004. Evidence for
+  progression in frontal cortical pathology in late-stage {H}untington's
+  disease. J Comp Neurol 468~(2), 190--204.
+
+\bibitem[{Shattuck et~al.(2008)Shattuck, Mirza, Adisetiyo, Hojatkashani,
+  Salamon, Narr, Poldrack, Bilder, and Toga}]{shattuck2008}
+Shattuck, D.~W., Mirza, M., Adisetiyo, V., Hojatkashani, C., Salamon, G., Narr,
+  K.~L., Poldrack, R.~A., Bilder, R.~M., Toga, A.~W., Feb 2008. Construction of
+  a {3D} probabilistic atlas of human cortical structures. Neuroimage 39~(3),
+  1064--80.
+
+\bibitem[{Shattuck et~al.(2001)Shattuck, Sandor-Leahy, Schaper, Rottenberg, and
+  Leahy}]{shattuck2001}
+Shattuck, D.~W., Sandor-Leahy, S.~R., Schaper, K.~A., Rottenberg, D.~A., Leahy,
+  R.~M., May 2001. Magnetic resonance image tissue classification using a
+  partial volume model. Neuroimage 13~(5), 856--76.
+
+\bibitem[{Shaw et~al.(2006)Shaw, Greenstein, Lerch, Clasen, Lenroot, Gogtay,
+  Evans, Rapoport, and Giedd}]{shaw2006}
+Shaw, P., Greenstein, D., Lerch, J., Clasen, L., Lenroot, R., Gogtay, N.,
+  Evans, A., Rapoport, J., Giedd, J., Mar 2006. Intellectual ability and
+  cortical development in children and adolescents. Nature 440~(7084), 676--9.
+
+\bibitem[{Shin et~al.(2007)Shin, Yoo, Lee, Ha, Lee, Lee, Kim, Kim, and
+  Kwon}]{shin2007}
+Shin, Y.-W., Yoo, S.~Y., Lee, J.~K., Ha, T.~H., Lee, K.~J., Lee, J.~M., Kim,
+  I.~Y., Kim, S.~I., Kwon, J.~S., Nov 2007. Cortical thinning in obsessive
+  compulsive disorder. Hum Brain Mapp 28~(11), 1128--35.
+
+\bibitem[{Sled et~al.(1998)Sled, Zijdenbos, and Evans}]{sled1998}
+Sled, J.~G., Zijdenbos, A.~P., Evans, A.~C., Feb 1998. A nonparametric method
+  for automatic correction of intensity nonuniformity in {MRI} data. IEEE Trans
+  Med Imaging 17~(1), 87--97.
+
+\bibitem[{Smith(2002)}]{smith2002}
+Smith, S.~M., Nov 2002. Fast robust automated brain extraction. Hum Brain Mapp
+  17~(3), 143--55.
+
+\bibitem[{Smith et~al.(2004)Smith, Jenkinson, Woolrich, Beckmann, Behrens,
+  Johansen-Berg, Bannister, De~Luca, Drobnjak, Flitney, Niazy, Saunders,
+  Vickers, Zhang, De~Stefano, Brady, and Matthews}]{smith2004}
+Smith, S.~M., Jenkinson, M., Woolrich, M.~W., Beckmann, C.~F., Behrens, T.
+  E.~J., Johansen-Berg, H., Bannister, P.~R., De~Luca, M., Drobnjak, I.,
+  Flitney, D.~E., Niazy, R.~K., Saunders, J., Vickers, J., Zhang, Y.,
+  De~Stefano, N., Brady, J.~M., Matthews, P.~M., 2004. Advances in functional
+  and structural {MR} image analysis and implementation as {FSL}. Neuroimage 23
+  Suppl 1, S208--19.
+
+\bibitem[{Sowell et~al.(2008)Sowell, Kan, Yoshii, Thompson, Bansal, Xu, Toga,
+  and Peterson}]{sowell2008}
+Sowell, E.~R., Kan, E., Yoshii, J., Thompson, P.~M., Bansal, R., Xu, D., Toga,
+  A.~W., Peterson, B.~S., Jun 2008. Thinning of sensorimotor cortices in
+  children with {T}ourette syndrome. Nat Neurosci 11~(6), 637--9.
+
+\bibitem[{Talairach and Tournoux(1988)}]{Talairach1988}
+Talairach, J., Tournoux, P., 1988. Co-planar stereotaxic atlas of the human
+  brain: 3-Dimensional proportional system---An approach to cerebral imaging.
+  Thieme.
+
+\bibitem[{Thompson et~al.(2005)Thompson, Lee, Dutton, Geaga, Hayashi, Eckert,
+  Bellugi, Galaburda, Korenberg, Mills, Toga, and Reiss}]{thompson2005}
+Thompson, P.~M., Lee, A.~D., Dutton, R.~A., Geaga, J.~A., Hayashi, K.~M.,
+  Eckert, M.~A., Bellugi, U., Galaburda, A.~M., Korenberg, J.~R., Mills, D.~L.,
+  Toga, A.~W., Reiss, A.~L., Apr 2005. Abnormal cortical complexity and
+  thickness profiles mapped in williams syndrome. J Neurosci 25~(16), 4146--58.
+
+\bibitem[{Tustison et~al.(2010)Tustison, Avants, Cook, Zheng, Egan, Yushkevich,
+  and Gee}]{tustison2010}
+Tustison, N.~J., Avants, B.~B., Cook, P.~A., Zheng, Y., Egan, A., Yushkevich,
+  P.~A., Gee, J.~C., Jun 2010. {N4ITK}: improved {N3} bias correction. IEEE
+  Trans Med Imaging 29~(6), 1310--20.
+
+\bibitem[{Vachet et~al.(2011)Vachet, Hazlett, Niethammer, Oguz, Cates,
+  Whitaker, Piven, and Styner}]{clement-vachet2011}
+Vachet, C., Hazlett, H.~C., Niethammer, M., Oguz, I., Cates, J., Whitaker, R.,
+  Piven, J., Styner, M., February 2011. Group-wise automatic mesh-based
+  analysis of cortical thickness. In: Benoit M.~Dawant, D. R.~H. (Ed.), SPIE
+  Medical Imaging: Image Processing.
+
+\bibitem[{Wang et~al.(2012)Wang, Shi, Chu, Burwell, Cheng, and
+  Ahuja}]{wang2012}
+Wang, D., Shi, L., Chu, W. C.~W., Burwell, R.~G., Cheng, J. C.~Y., Ahuja,
+  A.~T., Jan 2012. Abnormal cerebral cortical thinning pattern in adolescent
+  girls with idiopathic scoliosis. Neuroimage 59~(2), 935--42.
+
+\bibitem[{Ward(1999)}]{ward1999}
+Ward, B.~D., 1999. Intracranial segmentation. Tech. rep., Medical College of
+  Wisconsin, http://afni.nimh.nih.gov/pub/dist/doc/3dIntracranial.pdf.
+
+\bibitem[{Wei et~al.(2011)Wei, Zhang, Jiang, and Luo}]{wei2011}
+Wei, G., Zhang, Y., Jiang, T., Luo, J., 2011. Increased cortical thickness in
+  sports experts: a comparison of diving players with the controls. PLoS One
+  6~(2), e17112.
+
+\bibitem[{Worsley et~al.(2005)Worsley, Chen, Lerch, and Evans}]{worsley2005}
+Worsley, K.~J., Chen, J.-I., Lerch, J., Evans, A.~C., May 2005. Comparing
+  functional connectivity via thresholding correlations and singular value
+  decomposition. Philos Trans R Soc Lond B Biol Sci 360~(1457), 913--20.
+
+\bibitem[{Yezzi and Prince(2003)}]{yezzi2003}
+Yezzi, Jr, A.~J., Prince, J.~L., Oct 2003. An {E}ulerian {PDE} approach for
+  computing tissue thickness. IEEE Trans Med Imaging 22~(10), 1332--9.
+
+\bibitem[{Zeng et~al.(1999)Zeng, Staib, Schultz, and Duncan}]{zeng1999}
+Zeng, X., Staib, L.~H., Schultz, R.~T., Duncan, J.~S., Oct 1999. Segmentation
+  and measurement of the cortex from {3-D} {MR} images using coupled-surfaces
+  propagation. IEEE Trans Med Imaging 18~(10), 927--37.
+
+\bibitem[{Zhang et~al.(2001)Zhang, Brady, and Smith}]{zhang2001}
+Zhang, Y., Brady, M., Smith, S., Jan 2001. Segmentation of brain {MR} images
+  through a hidden {M}arkov random field model and the expectation-maximization
+  algorithm. IEEE Trans Med Imaging 20~(1), 45--57.
+
+\bibitem[{Zubiaurre-Elorza et~al.(2012)Zubiaurre-Elorza, Junque, G{\'o}mez-Gil,
+  Segovia, Carrillo, Rametti, and Guillamon}]{zubiaurre-elorza2012}
+Zubiaurre-Elorza, L., Junque, C., G{\'o}mez-Gil, E., Segovia, S., Carrillo, B.,
+  Rametti, G., Guillamon, A., 2012. Cortical thickness in untreated
+  transsexuals. Cerebral Cortex.
+
+\end{thebibliography}

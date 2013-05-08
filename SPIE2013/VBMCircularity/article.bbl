@@ -1,0 +1,57 @@
+\begin{thebibliography}{10}
+
+\bibitem{vul2009}
+E.~Vul, C.~Harris, P.~Winkielman, and H.~Pashler, ``{Puzzlingly High
+  Correlations in fMRI Studies of Emotion, Personality, and Social
+  Cognition},'' {\em Perspectives on Psychological Science}~{\bf 4},
+  pp.~274--290, May 2009.
+
+\bibitem{simmons2011}
+J.~P. Simmons, L.~D. Nelson, and U.~Simonsohn, ``False-positive psychology:
+  undisclosed flexibility in data collection and analysis allows presenting
+  anything as significant,'' {\em Psychol Sci}~{\bf 22}, pp.~1359--66, Nov
+  2011.
+
+\bibitem{kriegeskorte2009}
+N.~Kriegeskorte, W.~K. Simmons, P.~S.~F. Bellgowan, and C.~I. Baker, ``Circular
+  analysis in systems neuroscience: the dangers of double dipping,'' {\em Nat
+  Neurosci}~{\bf 12}, pp.~535--40, May 2009.
+
+\bibitem{Smith2006}
+S.~M. Smith, M.~Jenkinson, H.~Johansen-Berg, D.~Rueckert, T.~E. Nichols, C.~E.
+  Mackay, K.~E. Watkins, O.~Ciccarelli, M.~Z. Cader, P.~M. Matthews, and
+  T.~E.~J. Behrens, ``Tract-based spatial statistics: voxelwise analysis of
+  multi-subject diffusion data.,'' {\em Neuroimage}~{\bf 31}, pp.~1487--1505,
+  Jul 2006.
+
+\bibitem{tustison2012}
+N.~J. Tustison, B.~B. Avants, P.~A. Cook, J.~Kim, J.~Whyte, J.~C. Gee, and
+  J.~R. Stone, ``Logical circularity in voxel-based analysis: Normalization
+  strategy may induce statistical bias,'' {\em Hum Brain Mapp} , Nov 2012.
+
+\bibitem{Good2001}
+C.~D. Good, I.~S. Johnsrude, J.~Ashburner, R.~N. Henson, K.~J. Friston, and
+  R.~S. Frackowiak, ``A voxel-based morphometric study of ageing in 465 normal
+  adult human brains.,'' {\em Neuroimage}~{\bf 14}, pp.~21--36, Jul 2001.
+
+\bibitem{wright1995}
+I.~C. Wright, P.~K. McGuire, J.~B. Poline, J.~M. Travere, R.~M. Murray, C.~D.
+  Frith, R.~S. Frackowiak, and K.~J. Friston, ``A voxel-based method for the
+  statistical analysis of gray and white matter density applied to
+  schizophrenia,'' {\em Neuroimage}~{\bf 2}, pp.~244--52, Dec 1995.
+
+\bibitem{Ashburner2000}
+J.~Ashburner and K.~J. Friston, ``Voxel-based morphometry--the methods.,'' {\em
+  Neuroimage}~{\bf 11}, pp.~805--821, Jun 2000.
+
+\bibitem{Avants2010}
+B.~B. Avants, P.~Yushkevich, J.~Pluta, D.~Minkoff, M.~Korczykowski, J.~Detre,
+  and J.~C. Gee, ``The optimal template effect in hippocampus studies of
+  diseased populations.,'' {\em Neuroimage}~{\bf 49}, pp.~2457--2466, Feb 2010.
+
+\bibitem{Avants2011a}
+B.~B. Avants, N.~J. Tustison, J.~Wu, P.~A. Cook, and J.~C. Gee, ``An open
+  source multivariate framework for n-tissue segmentation with evaluation on
+  public data.,'' {\em Neuroinformatics} , Mar 2011.
+
+\end{thebibliography}

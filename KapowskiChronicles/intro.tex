@@ -6,7 +6,8 @@
 Historically rooted in the meticulous work of von Economo \citep{economo2008},
 imaging-based structural analysis of the brain plays a fundamental role
 in identifying the relationship between cortical morphology, disease and cognition.
-Quantitative cortical measures are able to identify abnormalities in such conditions as 
+Quantitative cortical measures have been demonstrated in conditional 
+abnormalities such as 
 Huntington's disease \citep{rosas2002,rosas2005,selemon2004}, 
 schizophrenia \citep{nesvag2008}, bipolar disorder \cite{lyoo2006}, Alzheimer's disease and frontotemporal
 dementia \citep{du2007,dickerson2009}, Parkinson's disease \citep{jubault2011}, Williams syndrome \cite{thompson2005},
@@ -65,9 +66,9 @@ are not necessarily Euclidean.  Other volumetric algorithms employ coupled
 level sets \citep{zeng1999}, model-free intelligent search strategies either normal to 
 the gray-white matter interface \citep{scott2009} or using a min-max rule \citep{clement-vachet2011}.
 Most relevant to this work is the DiReCT (Diffeomorphic Registration-based 
-Cortical Thickness) algorithm proposed by \cite{das2009} in which 
-a registration-based approach proposed where the derived diffeomorphic mapping between the 
-white and pial matter surfaces is used to propagate thickness values 
+Cortical Thickness) algorithm proposed in \cite{das2009} where generated
+diffeomorphic mappings between the 
+white and pial matter surfaces are used to propagate thickness values 
 through the cortical gray matter.  A unique benefit of DiReCT is that it
 naturally estimates the boundaries of buried sulci by employing a
 diffeomorphic constraint on the probabilistic estimate of the gray
@@ -75,16 +76,19 @@ matter and cerebrospinal fluid interface.
 
 Despite the variety of techniques for estimating cortical thickness
 from imaging data (of which
-only a fraction are cited), several common pre-processing components
+only a fraction are cited), several common preprocessing components
 may be identified.
 The most fundamental of these include inhomogeneity correction, skull stripping, and $n$-tissue segmentation 
 for differentiating the gray and white matter.  For statistical analysis 
 across large populations, construction of population-specific unbiased templates
-is also beneficial \cite{evans2012}.
-In addition, some of these steps might include a crucial registration component, e.g. 
-propagating template-based tissue priors for improved segmentation.  The requisite
-additional components coupled with the general lack of availability of published
-algorithms \cite{kovacevic2006} inhibits performing studies by external researchers 
+is also potentially beneficial \cite{evans2012}.
+In addition, intermediate steps might include a crucial registration component, e.g. 
+propagating template-based tissue priors for improved segmentation.
+
+  The requisite
+additional components apart from the actual cortical thickness estimation, 
+coupled with the general lack of availability of published
+algorithms \cite{kovacevic2006}, inhibits performing studies by external researchers 
 and makes comparative evaluations difficult.  For example, one recent evaluation 
 study \citep{clarkson2011} compared
 Freesurfer (a surface-based method) with two volumetric methods \citep{jones2000,das2009}.

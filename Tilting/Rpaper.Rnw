@@ -283,6 +283,7 @@ Accuracy is important but other considerations should be included such
 as biological plausibility.  Torsten's CURT algorithm could produce an ``accurate''
 registration but not one which is biologically plausible.
 
+\subsection{Motivate the performance difference}
 
 \section{Conclusion}
 

@@ -1,0 +1,50 @@
+This is BibTeX, Version 0.99d (TeX Live 2012)
+Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
+The top-level auxiliary file: paper.aux
+The style file: elsarticle-harv.bst
+Database file #1: references.bib
+Warning--empty booktitle in avants2010a
+Warning--empty pages in avants2010a
+Warning--empty pages in clement-vachet2011
+You've used 80 entries,
+            2821 wiz_defined-function locations,
+            1075 strings with 22951 characters,
+and the built_in function-call counts, 52438 in all, are:
+= -- 4636
+> -- 4313
+< -- 14
++ -- 1635
+- -- 1528
+* -- 5487
+:= -- 9746
+add.period$ -- 242
+call.type$ -- 80
+change.case$ -- 914
+chr.to.int$ -- 83
+cite$ -- 83
+duplicate$ -- 1451
+empty$ -- 2701
+format.name$ -- 1770
+if$ -- 10050
+int.to.chr$ -- 4
+int.to.str$ -- 1
+missing$ -- 81
+newline$ -- 247
+num.names$ -- 322
+pop$ -- 855
+preamble$ -- 1
+purify$ -- 829
+quote$ -- 0
+skip$ -- 995
+stack$ -- 0
+substring$ -- 2208
+swap$ -- 245
+text.length$ -- 1
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 714
+warning$ -- 3
+while$ -- 316
+width$ -- 0
+write$ -- 883
+(There were 3 warnings)

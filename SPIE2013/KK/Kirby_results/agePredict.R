@@ -27,7 +27,7 @@ gender <- cut( results$SEX, breaks = c( 0.5, 1.5, 2.5 ), label = c( "male", "fem
 
 for( i in 1:32 )
   {
-  th <- results[,i+3];
+  th <- results[,i+4];
 
   gender[which( gender == 1 )] <- 'male';
   gender[which( gender == 2 )] <- 'female';
