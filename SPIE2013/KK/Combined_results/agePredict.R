@@ -1,6 +1,13 @@
 library( ggplot2 )
 
-results <- read.csv( file = paste( "labelresults", ".csv", sep = '' ), header = TRUE );
+resultsX <- list()
+resultsX[[1]] <- read.csv( file = "../IXI_results/labelresults.csv", header = TRUE )
+resultsX[[2]] <- read.csv( file = "../Kirby_results/labelresults.csv", header = TRUE )
+resultsX[[3]] <- read.csv( file = "../NKI_results/labelresults.csv", header = TRUE )
+resultsX[[4]] <- read.csv( file = "../Oasis_results/labelresults.csv", header = TRUE )
+
+
+results <- rbind( resultsX[[1]], resultsX[[2]], resultsX[[3]], resultsX[[4]] )
 
 cortical_labels <- c( "L occipital", "R occipital",
                      "L cingulate", "R cingulate",
@@ -27,7 +34,7 @@ gender <- cut( results$SEX, breaks = c( 0.5, 1.5, 2.5 ), label = c( "male", "fem
 
 for( i in 1:32 )
   {
-  th <- results[,i+3];
+  th <- results[,i+4];
 
   gender[which( gender == 1 )] <- 'male';
   gender[which( gender == 2 )] <- 'female';
@@ -39,9 +46,9 @@ for( i in 1:32 )
 #                stat_smooth( aes( group = Gender, colour = Gender ), formula = y ~ 1 + x, method = "lm", size = 1, n = 1000, level = 0.95, se = TRUE, fullrange = FALSE, fill = 'black', alpha = 0.5 ) +
                stat_smooth( aes( group = Gender, colour = Gender ), formula = y ~ 1 + x + I(x^2), method = "lm", size = 1, n = 1000, level = 0.95, se = TRUE, fullrange = TRUE, fill = 'black', alpha = 0.5 ) +
 #                geom_smooth( aes( group = Gender, colour = Gender ), formula = y ~ 1 + x + I(x^2), method = "lm", size = 1, n = 1000, level = 0.95, se = TRUE, fill = 'black', alpha = 0.5 ) +
-               geom_point( data = plotData, aes( colour = Gender, shape = Gender ), size = 3 ) +
+               geom_point( data = plotData, aes( colour = Gender, shape = Gender ), size = 3, alpha = 0.5 ) +
                scale_x_continuous( "Age (years)", breaks = seq( 20, 90, by = 10 ), labels = seq( 20, 90, by = 10 ), limits = c( 20, 90 ) ) +
-               scale_y_continuous( "Thickness (mm)", breaks = seq( 0, 7, by = 1 ), labels = seq( 0, 7, by = 1 ), limits = c( 0, 7 ) ) +
+               scale_y_continuous( "Thickness (mm)", breaks = seq( 0, 6, by = 1 ), labels = seq( 0, 6, by = 1 ), limits = c( 0, 6 ) ) +
                scale_colour_manual( values = c( "navyblue", "darkred" ), breaks = c( 1, 2 ), labels = c( "Male", "Female" ) ) +
                scale_shape_manual( values = c( 18, 16 ), breaks = c( 1, 2 ), labels = c( "Male", "Female" ) ) +
 #                scale_shape_discrete( breaks = c( 1, 2 ), labels = c( "Male", "Female" ) ) +

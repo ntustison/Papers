@@ -37,7 +37,7 @@
 %% \documentclass[final,5p,times]{elsarticle}
 %% \documentclass[final,5p,times,twocolumn]{elsarticle}
 
-
+\usepackage{epigraph}
 \usepackage{color}
 \usepackage{multirow,booktabs,ctable,array}
 \usepackage{lscape}
@@ -58,32 +58,6 @@
     \definecolor{listlightgray}{gray}{0.955}
     \definecolor{listwhite}{gray}{1.0}
     \definecolor{lightcyan}{rgb}{0.88,1,1}
-
-\newcommand{\lstsetcpplong}
-{
-\lstset{frame = tb,
-        framerule = 0.25pt,
-        float,
-        fontadjust,
-        backgroundcolor={\color{listlightgray}},
-        basicstyle = {\ttfamily\scriptsize},
-        keywordstyle = {\ttfamily\color{listkeyword}\textbf},
-        identifierstyle = {\ttfamily},
-        commentstyle = {\ttfamily\color{listcomment}\textit},
-        stringstyle = {\ttfamily},
-        showstringspaces = false,
-        showtabs = false,
-        numbers = none,
-        numbersep = 6pt,
-        numberstyle={\ttfamily\color{listnumbers}},
-        tabsize = 2,
-        language=,
-        floatplacement=!h,
-        caption={\small \baselineskip 12pt DiReCT long command line menu which is invoked using the `{\ttfamily {-}{-}help}' option.  The short command line menu is obtained by typing `{\ttfamily {-}h}'},
-        captionpos=b,
-        label=listing:long
-        }
-}
 
 \floatstyle{plain}
 \newfloat{command}{thp}{lop}
@@ -179,7 +153,8 @@ recent set of papers pointing to serious methodological and statistical
 bias considerations in neuroimaging research, we point out potential 
 issues associated with a type of measurement bias in comparative algorithmic
 evaluations and propose a set of guidelines for authors and reviewers
-to minimize this confound.
+to minimize this confound.  We also illustrate these guidelines
+through the use of a recent real-world scenario.
 \end{abstract}
 \begin{keyword}
 open science \sep reproducibility 
@@ -216,10 +191,11 @@ open science \sep reproducibility
 
 %% main text
 
+
+
 \section{Introduction}
-The neuroimaging community has benefited from the proliferation
-of imaging software.  Established packages such as SPM from the 
-Wellcome Trust Centre for Neuroimaging \cite{Ashburner2012},
+The neuroscience community has significantly benefited from the proliferation
+of imaging software.  Established packages such as SPM \cite{Ashburner2012},
 the FMRIB Software Library (FSL) \cite{Jenkinson2012}, and
 the AFNI toolkit \cite{cox2012} have aided neuroimaging researchers 
 around the world in performing complex analyses as part of 
@@ -227,15 +203,21 @@ ongoing neuroscience research.  Parallel to this line of
 inquiry is continued algorithmic innovation for improvement
 in analysis tools.  
 
-As fellow scientists who actively participate in this type of 
-research, we have noticed several publications in which a principle
+As fellow scientists who actively participate in this 
+research through our many contributions to the Insight
+Toolkit and our own Advanced Normalization Tools (ANTs),%
+\footnote{
+http://www.picsl.upenn.edu/ANTs
+} 
+we have noticed several publications in which a principle
 component involves the comparison of algorithms.  One of our
 concerns is the lack of detail with which these comparisons are
 presented and the corresponding possibility of {\it instrumentation
 bias} \cite{sackett1979} (considering software  as a type of 
 instrument requiring proper ``calibration'' for accurate measurements).  
-In this editorial we propose an initial set of guidelines for minimal
-reporting of algorithmic usage to minimize such bias understanding that 
+Based on our experience (including mistakes that we have made), 
+we propose an initial set of guidelines for minimal
+reporting of algorithmic usage to minimize such bias, understanding that 
 the discussion will hopefully 
 elicit a much more comprehensive response from the larger community.
 
@@ -243,49 +225,465 @@ Although previous articles have discussed similar concerns, oftentimes
 within a much larger context (e.g. fMRI reporting \cite{poldrack2008}), 
 we are particularly interested in comparative evaluations of software
 and provide additional discussion through experience and actual 
-examples found within the literature.
+examples found within the literature in addition to our own small,
+yet important, real world scenario.
 It is hoped that this commentary serves to raise awareness to both 
 authors and reviewers to such problematic issues (not unlike other
 recent articles detailing additional potential sources of methodological 
 bias \cite{kriegeskorte2009,vul2012,tustison2012}).
 
 
-
-
 \section{Guidelines}
 
-\subsection{Parameters should be included (perhaps the precise command line call)}
-Perhaps the most blatantly egregious sin is omitting 
+\subsection{Include parameters.}
+A best practice exemplar of comparative evaluation studies
+is the work by Klein et al. \cite{Klein2009} in which
+he compared 14 nonlinear registration algorithms using
+four publicly available labeled brain data sets.  
+As part of the study, the authors themselves tuned 
+the parameters for their algorithm to ensure good
+performance.  As
+part of this work, Prof. Klein availed the scripts
+used for the study on his website.%
+\footnote{
+http://mindboggle.info/papers/evaluation\_NeuroImage2009.php
+}
+This practice promotes reproducibility, fairness, and transparency in 
+the evaluation and is perhaps most fundamental in these types
+of studies for establishing conclusions regarding the relative
+performance of algorithms.  
 
-\subsection{Hassle the developers for a set of default parameters}
+In contrast, not specifying parameters 
+leaves one susceptible to criticisms of confirmation and/or 
+instrumentation bias \cite{sackett1979}.  For example, in 
+a recent paper \cite{haegelen2013} (similar issues can 
+be found in \cite{luo2013,wu2013}, the authors compared
+their ANIMAL registration algorithm with SyN \cite{avants2011} and determined
+that ``[r]egistration with ANIMAL was better than with SyN for 
+the left thalamus'' in a cohort of Parkinson's disease patients.
+One of the stated reasons for using ANIMAL was ``because of our
+extensive experience with this technique.''  However, for SyN,
+the authors provide no equivalent assurance---no contact
+was made with the primary developers of ANTs (SyN) nor
+were any parameters listed for independent verification 
+by reviewers or readers of the article.%
+\footnote{
+This is in addition to the authors' apparent neglect in  
+removing the possible confound of using two different linear 
+normalization strategies for the two algorithms.
+}
+Given the authors' relationship with one of the algorithms
+and likely predisposition towards its relative performance,
+particular caution has to be provided against possible confirmation
+bias.  One of the easiest ways is to provide the set of parameters
+used to run both algorithms so that others can ensure that 
+the parameters selected are sufficient to warrant the conclusions
+of the study.  Even better would be to include  the parameter
+files or command line calls used in the study.
 
-\subsection{Scripts used to invoke the algorithms should be posted}
+\subsection{Hassle the developers for a set of default parameters.}
+Dovetailing with the previous item, developers should also facilitate
+comparisons by providing default parameter files, sample scripts, 
+or possible command line calls.  For example, the developers of
+the image registration program Elastix \cite{klein2010} provide an
+assortment of parameter files on the wiki page%
+\footnote{
+  http://elastix.bigr.nl/wiki/index.php/Parameter\_file\_database
+}
+listed in tabular format complete with  short
+description (including applied modality and object of interest) and 
+any publications which used that specific parameter file.  Additionally,
+other packages are associated with discussion forums where users can
+query regarding usage.
 
-\subsection{Comparisons should be performed on publicly available data}
+\subsection{Do not code up your own version of the algorithm particularly 
+if one is available from the original authors.  If you do, be sure to make
+your implementation available.}
 
-\subsection{Corollary to the above:  Resulting images should be publicly posted}
+Collective experience in developing software has taught us the 
+difficulty of translating descriptions found in
+articles into functional code and that much is left unstated
+in presenting core algorithmic ideas.  Ideally, the authors,
+in conjunction with the manuscript, should provide an instantiation
+of the code.  Unfortunately, as observed in \cite{kovacevic2006}
+this is often not the case (even in terms of pseudocode).
+As a result, comparative evaluations are often carried out using 
+code developed not by the original authors but rather the 
+group doing the comparison.  This is not ideal as it questionable
+whether or not the authors have sufficient motivation to ensure that
+their instantiation of the algorithm is working correctly. For
+example, in \cite{clarkson2011}, the authors compared three algorithms
+for estimating cortical thickness.  Two of the algorithms were
+coded by the authors (even though one was publicly available from 
+the original authors) although not made public while the third, 
+Freesurfer \cite{fischl2012}, was used ``off the shelf'' having been extensively 
+tuned and well-documented by the original authors.  
+Thus, a natural question to ask is whether the performance difference
+is due to the algorithm itself or the implementation.
 
-\subsection{Scripts used to create the plots should also be posted}
+\subsection{Provide details as to the source of the algorithm}
+As a corollary to the previous guideline, source of origin
+should be provided for any code or package used during the
+evaluation.  For example, N4 \cite{tustison2010} is a well-known 
+bias correction algorithm first made available as a tech report
+in the Insight Journal \cite{tustison2009a} for subsequent introduction
+into the Insight Toolkit for public dissemination.  However, since
+its inclusion, different instantiations have been made available.  
+Apart from the source code that accompanied the original tech
+report, N4 is also available in ANTs (the only version directly maintained
+by the original authors),
+it is also available as a module in Slicer,%
+\footnote{
+http://www.slicer.org/slicerWiki/index.php/Documentation/4.2/Modules/N4ITKBiasFieldCorrection
+}
+a wrapper of the slicer module in nipype,%
+\footnote{
+http://www.mit.edu/~satra/nipype-nightly/interfaces/generated/nipype.interfaces.slicer.filtering.n4itkbiasfieldcorrection.html
+}
+a module in \verb#c3d#,%
+\footnote{
+http://www.itksnap.org8/pmwiki/pmwiki.php?n=Convert3D.Documentation
+}
+and as a plugin in the BRAINS suite.%
+\footnote{
+http://www.nitrc.org/plugins/mwiki/index.php/brains:N4ITK
+}
+While each version is dependent on the original source
+code, there are subtle variations which can affect performance.
+For example, the parameters governing the spline distance and 
+number of iterations directly affect outcome and should be tuned
+based on application.  However, as a particular case, the \verb#c3d# 
+implementation hard codes
+these values with no access to modify them by the user potentially
+leading to suboptimal performance.
 
-\subsection{When possible, consultation should be made with the original authors}
+\subsection{Provide computational platform details of the evaluation}
+An recent article \cite{gronenschild2012} pointed out significant
+differences in Freesurfer output that varied with Freesurfer release
+version and with operating systems.  While the former is to be
+expected given upgrades and big fixes which occur between releases,
+the latter underscores both the need for consistency in study processing
+as well as the reporting of computational details for reproducibility. 
 
-\subsection{Provide details of where the algorithm was obtained}
+\subsection{Pre- and post-processing steps need to be supplied.}
+In addition to disclosure of all parameters associated with the
+methods to be compared, all processing steps from the raw 
+to the final processed images in the workflow
+need to be specified.    Justification for any deviation
+of steps between algorithms needs to be provided.  Additionally,
+failures during processing should be mentioned and whether
+or not these data were excluded from subsequent analysis.  
 
-\subsection{Provide system details of where the algorithm was run}
+\subsection{Comparisons should be performed on publicly available data.}`
+For reasons of reproducibility and transparency, evaluations should be performed
+using publicly availabile data sets.  Given the rather large number
+of such institutional efforts including 
+IXI,%
+\footnote{
+http://www.brain-development.org
+}
+NKI,%
+\footnote{
+http://fcon\_1000.projects.nitrc.org/indi/pro/nki.html
+}
+OASIS,%
+\footnote{
+http://www.oasis-brains.org
+}
+Kirby,%
+\footnote{
+http://mri.kennedykrieger.org/databases.html
+},
+LONI,%
+\footnote{
+http://www.loni.ucla.edu/Research/Databases/
+}, and
+others, evaluations should include (if not be exhausted by)
+comparisons using such data.  While evaluation on specific abnormal cohorts
+might exclude such possibilities, such specific evaluations should
+be extensively motivated in the introduction and/or discussion.
+For example, if a particular algorithm with general application is 
+found to perform better
+on a private cohort of Parkinson's disease subject data, reasons
+for performance disparity should be offered and supplemented with
+analysis on public data.
 
-\subsection{Avoid confirmation bias:  Don't code up your own version particularly if one
-is already available}
+\subsection{Resulting images should be publicly posted}
 
-\subsection{Co-authors should verify findings}
+The current publishing paradigm limits the quantity of
+results that can be posted.  There are only so many pages
+allowed for a particular publication and displaying every
+slice of every processed image, for example, is not feasible.  
+This results in possible selection bias where results provided
+in the manuscript are selected by the authors for demonstrating 
+the effect postulated at the onset of the study.  Thus, differences
+in performance assessment tend to be exaggerated based strictly
+on visual representations in the paper.  Resources for data
+sharing include MIDAS,%
+\footnote{
+http://www.midasplatform.org
+}
+XNAT,%
+\footnote{
+http://xnat.org
+}
+and slicedrop.%
+\footnote{
+http://slicedrop.com
+}
 
-\subsection{Properly contextualize comparisons}
-Accuracy is important but other considerations should be included such
-as biological plausibility.  Torsten's CURT algorithm could produce an ``accurate''
-registration but not one which is biologically plausible.
+\subsection{Properly contextualize comparisons and motivate performance differences.}
+In addition to algorithmic and study specifics, it is important to 
+discuss potential limitations concerning qualitative and/or quantitative 
+assessment metrics.  In \cite{rohlfing2012}, Rohlfing pointed out 
+deficiencies in using standard overlap measures and image similarity
+metrics in quantifying performance.  Other issues, such as biological
+plausibility of the resulting transforms, need to also be considered.
 
-\subsection{Motivate the performance difference}
+Also important for inclusion is discussion on the possible reasons for performance
+disparity.  If one algorithm outperforms another, reporting of those findings 
+would be much more significant if the authors discussed possible reasons
+for relative  performance levels.  This simply constitutes evidence for
+the claims of the paper.
+
+
+\subsection{Co-authors should verify findings.}
+
+Although different journals have varying guidelines for determining 
+co-authorship, there is at least an implied sense of responsibility for
+an article's contents assumed by each of the co-authors.  Strategies 
+taken by journal editorial boards are being used to reduce undeserving
+authorship attribution such as requiring the listing of the specific 
+contributions of each co-author.  Additional proposals have included
+signed statements of responsibility for the contents of the article 
+\cite{nature2007}.  We suggest that at least one co-author
+independently verify a subset of the results by running the processing
+on their own computer. 
+
+\section{Evaluation Example:  ANTS vs. antsRegistration}
+
+\subsection{Introduction}
+As part of the recent Medical Image Computing and Computer-Aided Intervention 
+(MICCAI) 2012 international meeting, several groups participated in the 
+Multi-Atlas Labeling challenge%
+\footnote{
+https://masi.vuse.vanderbilt.edu/workshop2012
+}
+where participants proposed algorithmic workflows to propagate
+labels from expertly annotated brains to testing data.  One of 
+the overall conclusions drawn from the meeting was the significance 
+of spatial normalization and so the organizers (Profs. Bennet Landman and Simon
+Warfield) suggested rerunning the competition using a set
+of transforms derived from a single registration algorithm.
+Since three of the top four performing algorithms all used
+the \verb#ANTS# registration tool \cite{avants2011} (available
+in the Advanced Normalization Tools open source 
+toolkit%
+\footnote{
+http://picsl.upenn.edu/ANTS
+}) the organizers approached one of the principle authors of
+the ANTs package (B.A.) to provide the ``canonical'' 
+\verb#ANTS#-derived transforms.  
+However, as part of the recent ITKv4 effort, an improved
+version for image registration, known as \verb#antsRegistration#
+had been created and also released within ANTs \cite{avants2012}.
+Motivated by this request and also to provide an example of the 
+guidelines previously presented, we performed a comparison of 
+ \verb#ANTS# and \verb#antsRegistration#.  The principle hypothesis
+ to be explored with relevance to the challenge is:  {\it Does
+ \verb#antsRegistration# outperform \verb#ANTS# in propagating
+ labels for the MICCAI challenge training data?}  Important 
+ corrollary hypotheses involve similar assessments of both the
+ affine and deformable (i.e. SyN) components of the respective
+ algorithms.  
+ 
+
+\subsection{Materials and Methods}
+
+\subsubsection{Images}
+15 (10 females, 5 males) defaced T1-weighted MRI subjects 
+were sampled from the 
+publicly available 
+Open Access Series of Imaging Studies (OASIS) 
+project%
+\footnote{
+  http://www.oasis-brains.org
+} 
+which formed the ``training set'' for the challenge.  
+Ages ranged between 19 and 34 (23 $\pm$ 4.3) years.
+The complete
+list of sampled subjects can be found in the challenge proceedings.
+The corresponding labels
+were provided by Neuromorphometrics, Inc.%
+\footnote{
+http://neuromorphemetrics.com/
+} under academic subscription (released under the Creative Commons 
+Atribution-Non Commercial license).
+
+\subsubsection{Registration Protocols}
+ANTs%
+\footnote{
+https://github.com/stnava/ANTs
+}
+is distributed using the github web-hosting service
+facilitating developer collaboration.  The version
+of the ANTs toolkit that was used for this study 
+was updated on Friday May 3, 2013.%
+\footnote{
+git tag: 2e907d081e21514d2edc736f8894d991f79cbab7 
+}   
+The computational platform for evaluation for both 
+\verb#ANTS# and \verb#antsRegistration# is the Linux 
+cluster managed by the University of Virginia for 
+Computational Science and Engineering%
+\footnote{
+http://www.uvacse.virginia.edu
+}
+running the Portable Batch System (PBS)%
+\footnote{
+http://www.pbsworks.com
+}
+for queue management.  Each ``job'' consisted of a single
+pairwise registration.  Since we performed pairwise registrations
+for all possible pairings, this consisted of $15\times14=210$
+registrations for each of the algorithms.  To send all 420 
+jobs to the cluster
+a perl script was created, \verb#runTiltingRegistrations.pl#,%
+\footnote{
+Note that a special github repository has been created for this
+manuscript which includes all scripts for the evaluation.
+}
+which created a shell script for each pairwise registration.
+Given a fixed and moving image pair denoted, respectively, as
+\verb#$fixed# and \verb#$moving# and the ANTs path (\verb#$ANTsPATH#), 
+the core command line calls
+for each algorithm is given in Listing \ref{listing:ANTS} 
+(\verb#ANTS#) and Listing \ref{listing:antsRegistration}
+(\verb#antsRegistration#).  Note that the parameters were
+constructed by two of the principle authors of ANTs 
+(B.A. and N.T.) to maximize performance for both algorithms.
+
+\lstset{frame = tb,
+        framerule = 0.25pt,
+        float,
+        fontadjust,
+        backgroundcolor={\color{listlightgray}},
+        basicstyle = {\ttfamily\scriptsize},
+        keywordstyle = {\ttfamily\color{listkeyword}\textbf},
+        identifierstyle = {\ttfamily},
+        commentstyle = {\ttfamily\color{listcomment}\textit},
+        stringstyle = {\ttfamily},
+        showstringspaces = false,
+        showtabs = false,
+        numbers = none,
+        numbersep = 6pt,
+        numberstyle={\ttfamily\color{listnumbers}},
+        tabsize = 2,
+        language=,
+        floatplacement=!h,
+        caption={\small \baselineskip 12pt ANTS command line call used for the evaluation}.,
+        captionpos=b,
+        label=listing:ANTS
+        }
+\begin{lstlisting}
+${ANTsPATH}/ImageMath 3 $fixedTruncated \
+  TruncateImageIntensity $fixed 0.01 0.99
+${ANTsPATH}/ImageMath 3 $movingTruncated \
+  TruncateImageIntensity $moving 0.01 0.99
+  
+${ANTsPATH}/ANTS 3 -o ${outputPrefix} \
+  -m CC[${fixedTruncated},${movingTruncated},1,4] \
+  -t SyN[0.1] -r Gauss[3,0] -i 100x100x70x20 \
+  --use-Histogram-Matching
+\end{lstlisting}
+
+\lstset{frame = tb,
+        framerule = 0.25pt,
+        float,
+        fontadjust,
+        backgroundcolor={\color{listlightgray}},
+        basicstyle = {\ttfamily\scriptsize},
+        keywordstyle = {\ttfamily\color{listkeyword}\textbf},
+        identifierstyle = {\ttfamily},
+        commentstyle = {\ttfamily\color{listcomment}\textit},
+        stringstyle = {\ttfamily},
+        showstringspaces = false,
+        showtabs = false,
+        numbers = none,
+        numbersep = 6pt,
+        numberstyle={\ttfamily\color{listnumbers}},
+        tabsize = 2,
+        language=,
+        floatplacement=!h,
+        caption={\small \baselineskip 12pt antsRegistration command line call used for the evaluation}.,
+        captionpos=b,
+        label=listing:antsRegistration
+        }
+\begin{lstlisting}  
+${ANTsPATH}/antsRegistration -d 3 -o ${outputPrefix} \
+  -u 1 -w [0.01,0.99], -r [${fixed},${moving},1] \
+  -t Rigid[0.1] -c [1000x500x250x100,1e-8,10] \
+  -s 4x2x1x0 -f 8x4x2x1 \
+  -m MI[${fixed},${moving},1,32,Regular,0.25] \
+  -t Affine[0.1] -c [1000x500x250x100,1e-8,10] \
+  -s 4x2x1x0 -f 8x4x2x1 \
+  -m MI[${fixed},${moving},1,32,Regular,0.25] \
+  -t SyN[0.1,3,0] -c [100x100x70x20,1e-9,15] \
+  -s 3x2x1x0 -f 6x4x2x1 \
+  -m CC[${fixed},${moving},1,4]
+\end{lstlisting}
+
+Following registration, the output was used
+to warp the corresponding labels of the moving
+image to the fixed image using \verb#antsApplyTransforms#:
+
+\lstset{frame = tb,
+        framerule = 0.25pt,
+        float,
+        fontadjust,
+        backgroundcolor={\color{listlightgray}},
+        basicstyle = {\ttfamily\scriptsize},
+        keywordstyle = {\ttfamily\color{listkeyword}\textbf},
+        identifierstyle = {\ttfamily},
+        commentstyle = {\ttfamily\color{listcomment}\textit},
+        stringstyle = {\ttfamily},
+        showstringspaces = false,
+        showtabs = false,
+        numbers = none,
+        numbersep = 6pt,
+        numberstyle={\ttfamily\color{listnumbers}},
+        tabsize = 2,
+        language=,
+        floatplacement=!h,
+        caption={\small \baselineskip 12pt antsApplyTransforms command line call used to warp
+        the moving label images to the fixed image for subsequent label overlap assessment}.,
+        captionpos=b,
+        label=listing:antsApplyTransforms
+        }
+\begin{lstlisting}  
+${ANTsPATH}/antsApplyTransforms -d 3 \
+  -i $movingLabels -r $fixed \
+  -n NearestNeighbor \
+  -o ${outputPrefix}LabelsWarped.nii.gz \
+  -t $outputWarp -t $outputAffine
+\end{lstlisting}
+Label overlap assessment for each registration was quantified
+using the \verb#LabelOverlapMeasures# available through ANTs and 
+implemented in ITK\cite{tustison2009}.
+It should noted that only the affine transform files are used
+to assess affine algorithmic performance. In order to evaluate
+the SyN component in isolation from the affine portion, the 
+affine transforms from the better-performing algorithm (strictly
+in terms of affine performance) were used as input for the other
+algorithm which was then rerun for all data sets. 
+
+\subsection{Results}
+
+\subsection{Discussion}
+
 
 \section{Conclusion}
+\epigraph{By honest I don't mean that you only tell what's true. But you make clear the entire situation. You make clear all the information that is required for somebody else who is intelligent to make up their mind.}{Professor Richard Feynman}
 
 
 \section{Acknowledgments}
@@ -296,122 +694,123 @@ registration but not one which is biologically plausible.
 
 
 
-\section{Notes/Thoughts}
-\begin{itemize}
-  \item Several kinds of bias have cropped up in the neuroimaging
-  community recently:
-  \begin{itemize}
-    \item{methodological bias}:  Kreikesgorte
-    \item{statistical bias}:  Vul2009, Tustison2012
-    \item  What about the dead salmon fmri study---multiple comparisons correction?
-    \item The single subject VBM study (assuming the single subject is representative of the population).
-    \item{overview}:  9 circles of scientific hell ---neuroskeptic %http://blogs.discovermagazine.com/neuroskeptic/?p=1205#.UYZxyJWO7Tx
-    \item Types of measurement bias: \cite{sackett1979}
-    \begin{itemize}
-      \item Instrument bias (code as a type of instrument which needs to be calibrated correctly).
-      \item Expectation bias (i.e. confirmation bias)
-    \end{itemize}  
-  \end{itemize}
-  We are concerned with the latter two.
-  \item How does one avoid confirmation bias?  If I'm comparing my
-  algorithm to somebody else's algorithm, I'm going to be naturally
-  predisposed to confirmatory evidence that my algorithm is better
-  while neglecting (most likely not with intent of doing so) evidence
-  that disconfirms my original belief (that my algorithm is better).
-  Richard Feynman quote (Cargo Cult Science):  
-  \begin{quote} 
-  The first principle [of science] is that you must not fool yourself—--and you are the easiest person to fool. So you have to be very careful about that. After you've not fooled yourself, it's easy not to fool other scientists. You just have to be honest in a conventional way after that.
-  \end{quote}
-  \item One particular aspect of the previous item is that it needs 
-  to be highlighted if somebody codes up the algorithm
-  to be compared themselves.  Writing bug-free code is difficult.  Look
-  at how many bug fixes are provided by the ITK community on a daily
-  basis.  
-  \item Also, is simply saying that one algorithm is better than 
-  another sufficient?  Should there be some theoretical explanation
-  for it.  For example, when I wrote my DMFFD image registration paper,
-  the comparison wasn't IRTK vs. DMFFD but rather FFD vs. DMFFD and
-  there were theoretical reasons why performance should be better
-  with the latter.  Also, I insisted to the reviewer on not using IRTK 
-  for comparison since there are also so many other performance-related
-  issues (type of interpolation, gradient step, metric, metric implementation, etc.) which would confound
-  comparisons.  Also, it probably helped that the theme had a more specific,
-  more verifiable focus, i.e. DMFFD produces a more efficient energy minimizer
-  since it acts as a preconditioner in the standard gradient descent
-  optimization.
-  \item Comparisons are best made with publicly available data and
-  results of the comparisons should be made available.
-  \item Operating system needs to be defined.  Freesurfer results
-  varied with MacOSx.
-  \item Ideally, the authors of the new algorithm would work
-  with the authors of the compared algorithm.  Given human
-  nature, this type of cooperation is not guaranteed.  However,
-  a minimum set of information is needed.
-  \item Arno Klein as an example of somebody who did it right.  Takes a
-  lot of work.
-  \item 
-  \item The source of the package software needs to be defined.  For 
-  example, N4 has been
-  instantiated in Slicer, ANTs, and c3d (also might be implemented
-  in one of Styner's NITRC projects).  However, each might use
-  different default parameters and have other tweaks which effects
-  performance.  In Vladimir Fonov's github repository containing 
-  various processing scripts for MINC, one can see from the history
-  how N4 was used but then the users switched back to N3MNI (due to 
-  performance issues?).  However, they used N4 out of the c3d package
-  which the original authors (N.T./B.A.) haven't touched in three years
-  so the parameters aren't optimal (shrink factors = 4, spline distance
-  = 100 with 3 levels: $100\times50\times50$).  Changing these parameters 
-  (which are crucial to performance) isn't
-  accessible to the user from c3d.  
-
- \item Collaborators should help verify findings by repeating a
-(representative subset of a) study independently, from scratch,
-preferably on another computer perhaps even with a different operating
-system.  A scientist can do this him/herself as well.  Personal
-experience suggests that this procedure will often uncover coding
-errors sometimes simply by forcing one to reread code or scripts again
-or clarify documentation.
- 
-  \item
-    \textcolor{blue}%{\href{http://en.wikipedia.org/wiki/Accuracy_and_precision}{Accuracy and precision (link)}} 
-        wiki link--- most studies ignore precision.  it
-    is critical in longitudinal studies.   precision is impacted by
-    parameter choices as well as computational architecture
-    (Freesurfer paper)
-
-   \item parameters impact accuracy - e.g. clarkson's paper vs our
-     recent tuning of DiReCT parameters w.r.t. expected thickness values.
-
-  \item  Biological plausibility is important---a more accurate method
-    may produce less biologically plausible results.
-    Cross-referencing with other fields is critical e.g. patterns of
-    MRI atrophy should match pathology distribution.  There is an art
-    to this, of course.
-
-  \item Prediction---an algorithm that yields a ``more significant''
-    result is not always better.  might mean ``finds more effected
-    areas'' or smaller p-values.  Testing prediction complements
-    studies of significance and cumulative distribution functions.
-
-  \item Verification is supported by open science technology for
-    sharing data and code.
-
-   \item Great resources for data-sharing:
-  	\begin{itemize}
-	   \item figshare
-           \item MIDAS 
-           \item slicedrop
-           \item R 
-        \end{itemize}
-
-  \item Great resources for code-sharing
-  	\begin{itemize}
-		  \item github
-		  \item NITRC
-		  \item ITK
-		\end{itemize}
-\end{itemize}
+%\section{Notes/Thoughts}
+%\begin{itemize}
+%  \item Several kinds of bias have cropped up in the neuroimaging
+%  community recently:
+%  \begin{itemize}
+%    \item{methodological bias}:  Kreikesgorte
+%    \item{statistical bias}:  Vul2009, Tustison2012
+%    \item  What about the dead salmon fmri study---multiple comparisons correction?
+%    \item The single subject VBM study (assuming the single subject is representative of the population).
+%    \item{overview}:  9 circles of scientific hell ---neuroskeptic %http://blogs.discovermagazine.com/neuroskeptic/?p=1205#.UYZxyJWO7Tx
+%    \item Types of measurement bias: \cite{sackett1979}
+%    \begin{itemize}
+%      \item Instrument bias (code as a type of instrument which needs to be calibrated correctly).
+%      \item Expectation bias (i.e. confirmation bias)
+%    \end{itemize}  
+%  \end{itemize}
+%  We are concerned with the latter two.
+%  \item How does one avoid confirmation bias?  If I'm comparing my
+%  algorithm to somebody else's algorithm, I'm going to be naturally
+%  predisposed to confirmatory evidence that my algorithm is better
+%  while neglecting (most likely not with intent of doing so) evidence
+%  that disconfirms my original belief (that my algorithm is better).
+%  Richard Feynman quote (Cargo Cult Science):  
+%  \begin{quote} 
+%  The first principle [of science] is that you must not fool yourself—--and you are the easiest person to fool. So you have to be very careful about that. After you've not fooled yourself, it's easy not to fool other scientists. You just have to be honest in a conventional way after that.
+%  \end{quote}
+%  \item In ‘The Meaning of It All’ Feynman said, ``By honest I don’t mean that you only tell what’s true. But you make clear the entire situation. You make clear all the information that is required for somebody else who is intelligent to make up their mind.''
+%  \item One particular aspect of the previous item is that it needs 
+%  to be highlighted if somebody codes up the algorithm
+%  to be compared themselves.  Writing bug-free code is difficult.  Look
+%  at how many bug fixes are provided by the ITK community on a daily
+%  basis.  
+%  \item Also, is simply saying that one algorithm is better than 
+%  another sufficient?  Should there be some theoretical explanation
+%  for it.  For example, when I wrote my DMFFD image registration paper,
+%  the comparison wasn't IRTK vs. DMFFD but rather FFD vs. DMFFD and
+%  there were theoretical reasons why performance should be better
+%  with the latter.  Also, I insisted to the reviewer on not using IRTK 
+%  for comparison since there are also so many other performance-related
+%  issues (type of interpolation, gradient step, metric, metric implementation, etc.) which would confound
+%  comparisons.  Also, it probably helped that the theme had a more specific,
+%  more verifiable focus, i.e. DMFFD produces a more efficient energy minimizer
+%  since it acts as a preconditioner in the standard gradient descent
+%  optimization.
+%  \item Comparisons are best made with publicly available data and
+%  results of the comparisons should be made available.
+%  \item Operating system needs to be defined.  Freesurfer results
+%  varied with MacOSx.
+%  \item Ideally, the authors of the new algorithm would work
+%  with the authors of the compared algorithm.  Given human
+%  nature, this type of cooperation is not guaranteed.  However,
+%  a minimum set of information is needed.
+%  \item Arno Klein as an example of somebody who did it right.  Takes a
+%  lot of work.
+%  \item 
+%  \item The source of the package software needs to be defined.  For 
+%  example, N4 has been
+%  instantiated in Slicer, ANTs, and c3d (also might be implemented
+%  in one of Styner's NITRC projects).  However, each might use
+%  different default parameters and have other tweaks which effects
+%  performance.  In Vladimir Fonov's github repository containing 
+%  various processing scripts for MINC, one can see from the history
+%  how N4 was used but then the users switched back to N3MNI (due to 
+%  performance issues?).  However, they used N4 out of the c3d package
+%  which the original authors (N.T./B.A.) haven't touched in three years
+%  so the parameters aren't optimal (shrink factors = 4, spline distance
+%  = 100 with 3 levels: $100\times50\times50$).  Changing these parameters 
+%  (which are crucial to performance) isn't
+%  accessible to the user from c3d.  
+%
+% \item Collaborators should help verify findings by repeating a
+%(representative subset of a) study independently, from scratch,
+%preferably on another computer perhaps even with a different operating
+%system.  A scientist can do this him/herself as well.  Personal
+%experience suggests that this procedure will often uncover coding
+%errors sometimes simply by forcing one to reread code or scripts again
+%or clarify documentation.
+% 
+%  \item
+%    \textcolor{blue}%{\href{http://en.wikipedia.org/wiki/Accuracy_and_precision}{Accuracy and precision (link)}} 
+%        wiki link--- most studies ignore precision.  it
+%    is critical in longitudinal studies.   precision is impacted by
+%    parameter choices as well as computational architecture
+%    (Freesurfer paper)
+%
+%   \item parameters impact accuracy - e.g. clarkson's paper vs our
+%     recent tuning of DiReCT parameters w.r.t. expected thickness values.
+%
+%  \item  Biological plausibility is important---a more accurate method
+%    may produce less biologically plausible results.
+%    Cross-referencing with other fields is critical e.g. patterns of
+%    MRI atrophy should match pathology distribution.  There is an art
+%    to this, of course.
+%
+%  \item Prediction---an algorithm that yields a ``more significant''
+%    result is not always better.  might mean ``finds more effected
+%    areas'' or smaller p-values.  Testing prediction complements
+%    studies of significance and cumulative distribution functions.
+%
+%  \item Verification is supported by open science technology for
+%    sharing data and code.
+%
+%   \item Great resources for data-sharing:
+%  	\begin{itemize}
+%	   \item figshare
+%           \item MIDAS 
+%           \item slicedrop
+%           \item R 
+%        \end{itemize}
+%
+%  \item Great resources for code-sharing
+%  	\begin{itemize}
+%		  \item github
+%		  \item NITRC
+%		  \item ITK
+%		\end{itemize}
+%\end{itemize}
 
 \section*{References}
 
