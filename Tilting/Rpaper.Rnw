@@ -194,7 +194,7 @@ open science \sep reproducibility
 
 
 \section{Introduction}
-The neuroscience community has significantly benefited from the proliferation
+The neuroscience community has significantly benefitted from the proliferation
 of imaging software.  Established packages such as SPM \cite{Ashburner2012},
 the FMRIB Software Library (FSL) \cite{Jenkinson2012}, and
 the AFNI toolkit \cite{cox2012} have aided neuroimaging researchers 
@@ -307,7 +307,9 @@ contributions of each co-author.  Additional proposals have included
 signed statements of responsibility for the contents of the article 
 \cite{nature2007}.  We suggest that at least one co-author
 independently verify a subset of the results by running the processing
-on their own computer. 
+on their own computer.   The point of this excercise is to verify not only
+reproducibility but also that the process can be explained in
+sufficient detail.
 
 \subsubsection{Comparisons should be performed on publicly available data.}
 For reasons of reproducibility and transparency, evaluations should be performed
@@ -432,7 +434,7 @@ leading to suboptimal performance.
 An recent article \cite{gronenschild2012} pointed out significant
 differences in Freesurfer output that varied with Freesurfer release
 version and with operating systems.  While the former is to be
-expected given upgrades and big fixes which occur between releases,
+expected given upgrades and bug fixes which occur between releases,
 the latter underscores both the need for consistency in study processing
 as well as the reporting of computational details for reproducibility. 
 
