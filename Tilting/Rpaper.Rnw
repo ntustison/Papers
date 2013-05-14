@@ -234,8 +234,118 @@ bias \cite{kriegeskorte2009,vul2012,tustison2012}).
 
 
 \section{Guidelines}
+A solid evaluation is essential to a paper's longevity and
+impact.  This requires effort in both planning the evaluation (before any
+experiment is performed) and in publishing the evaluation.
+We suggest general guidelines for both of these steps most of which
+derive from basic scientific principles of clarity and reproducibility.
 
-\subsection{Include parameters.}
+\subsection{Designing the Evaluation Study}
+
+
+\subsubsection{Define the Algorithm's Context}
+The only algorithm that is capable of outperforming all others on all
+problems is exhaustive search.  Therefore, many algorithms employ
+prior knowledge such as regularization or other heuristics that
+restrict the search space.  The very idea that one, for instance,
+registration algorithm should be better than all other algorithms on
+all types of data is fundamentally flawed.  Indeed, the No Free Lunch
+Theorems provide bounds on solution quality that show otherwise
+i.e. specifically that ``improvement of performance in problem-solving hinges on using prior information to match procedures to problems.''  One should keep this in
+mind when following the next guideline.  
+
+
+\subsubsection{Hassle the developers for a set of default parameters.}
+Dovetailing with the previous item, developers should also facilitate
+comparisons by providing default parameter files, sample scripts, 
+or possible command line calls.  For example, the developers of
+the image registration program Elastix \cite{klein2010} provide an
+assortment of parameter files on the wiki page%
+\footnote{
+  http://elastix.bigr.nl/wiki/index.php/Parameter\_file\_database
+}
+listed in tabular format complete with  short
+description (including applied modality and object of interest) and 
+any publications which used that specific parameter file.  Additionally,
+other packages are associated with discussion forums where users can
+query regarding usage.
+
+\subsubsection{Do not code up your own version of the algorithm particularly 
+if one is available from the original authors.  If you do, be sure to make
+your implementation available.}
+
+Collective experience in developing software has taught us the 
+difficulty of translating descriptions found in
+articles into functional code and that much is left unstated
+in presenting core algorithmic ideas.  Ideally, the authors,
+in conjunction with the manuscript, should provide an instantiation
+of the code.  Unfortunately, as observed in \cite{kovacevic2006}
+this is often not the case (even in terms of pseudocode).
+As a result, comparative evaluations are often carried out using 
+code developed not by the original authors but rather the 
+group doing the comparison.  This is not ideal as it questionable
+whether or not the authors have sufficient motivation to ensure that
+their instantiation of the algorithm is working correctly. For
+example, in \cite{clarkson2011}, the authors compared three algorithms
+for estimating cortical thickness.  Two of the algorithms were
+coded by the authors (even though one was publicly available from 
+the original authors) although not made public while the third, 
+Freesurfer \cite{fischl2012}, was used ``off the shelf'' having been extensively 
+tuned and well-documented by the original authors.  
+Thus, a natural question to ask is whether the performance difference
+is due to the algorithm itself or the implementation.
+
+
+\subsubsection{Co-authors should verify findings.}
+
+Although different journals have varying guidelines for determining 
+co-authorship, there is at least an implied sense of responsibility for
+an article's contents assumed by each of the co-authors.  Strategies 
+taken by journal editorial boards are being used to reduce undeserving
+authorship attribution such as requiring the listing of the specific 
+contributions of each co-author.  Additional proposals have included
+signed statements of responsibility for the contents of the article 
+\cite{nature2007}.  We suggest that at least one co-author
+independently verify a subset of the results by running the processing
+on their own computer. 
+
+\subsubsection{Comparisons should be performed on publicly available data.}
+For reasons of reproducibility and transparency, evaluations should be performed
+using publicly availabile data sets.  Given the rather large number
+of such institutional efforts including 
+IXI,%
+\footnote{
+http://www.brain-development.org
+}
+NKI,%
+\footnote{
+http://fcon\_1000.projects.nitrc.org/indi/pro/nki.html
+}
+OASIS,%
+\footnote{
+http://www.oasis-brains.org
+}
+Kirby,%
+\footnote{
+http://mri.kennedykrieger.org/databases.html
+},
+LONI,%
+\footnote{
+http://www.loni.ucla.edu/Research/Databases/
+}, and
+others, evaluations should include (if not be exhausted by)
+comparisons using such data.  While evaluation on specific abnormal cohorts
+might exclude such possibilities, such specific evaluations should
+be extensively motivated in the introduction and/or discussion.
+For example, if a particular algorithm with general application is 
+found to perform better
+on a private cohort of Parkinson's disease subject data, reasons
+for performance disparity should be offered and supplemented with
+analysis on public data.
+
+\subsection{Publishing the Evaluation}
+
+\subsubsection{Include parameters.}
 A best practice exemplar of comparative evaluation studies
 is the work by Klein et al. \cite{Klein2009} in which
 he compared 14 nonlinear registration algorithms using
@@ -281,47 +391,8 @@ the parameters selected are sufficient to warrant the conclusions
 of the study.  Even better would be to include  the parameter
 files or command line calls used in the study.
 
-\subsection{Hassle the developers for a set of default parameters.}
-Dovetailing with the previous item, developers should also facilitate
-comparisons by providing default parameter files, sample scripts, 
-or possible command line calls.  For example, the developers of
-the image registration program Elastix \cite{klein2010} provide an
-assortment of parameter files on the wiki page%
-\footnote{
-  http://elastix.bigr.nl/wiki/index.php/Parameter\_file\_database
-}
-listed in tabular format complete with  short
-description (including applied modality and object of interest) and 
-any publications which used that specific parameter file.  Additionally,
-other packages are associated with discussion forums where users can
-query regarding usage.
 
-\subsection{Do not code up your own version of the algorithm particularly 
-if one is available from the original authors.  If you do, be sure to make
-your implementation available.}
-
-Collective experience in developing software has taught us the 
-difficulty of translating descriptions found in
-articles into functional code and that much is left unstated
-in presenting core algorithmic ideas.  Ideally, the authors,
-in conjunction with the manuscript, should provide an instantiation
-of the code.  Unfortunately, as observed in \cite{kovacevic2006}
-this is often not the case (even in terms of pseudocode).
-As a result, comparative evaluations are often carried out using 
-code developed not by the original authors but rather the 
-group doing the comparison.  This is not ideal as it questionable
-whether or not the authors have sufficient motivation to ensure that
-their instantiation of the algorithm is working correctly. For
-example, in \cite{clarkson2011}, the authors compared three algorithms
-for estimating cortical thickness.  Two of the algorithms were
-coded by the authors (even though one was publicly available from 
-the original authors) although not made public while the third, 
-Freesurfer \cite{fischl2012}, was used ``off the shelf'' having been extensively 
-tuned and well-documented by the original authors.  
-Thus, a natural question to ask is whether the performance difference
-is due to the algorithm itself or the implementation.
-
-\subsection{Provide details as to the source of the algorithm}
+\subsubsection{Provide details as to the source of the algorithm}
 As a corollary to the previous guideline, source of origin
 should be provided for any code or package used during the
 evaluation.  For example, N4 \cite{tustison2010} is a well-known 
@@ -357,7 +428,7 @@ implementation hard codes
 these values with no access to modify them by the user potentially
 leading to suboptimal performance.
 
-\subsection{Provide computational platform details of the evaluation}
+\subsubsection{Provide computational platform details of the evaluation}
 An recent article \cite{gronenschild2012} pointed out significant
 differences in Freesurfer output that varied with Freesurfer release
 version and with operating systems.  While the former is to be
@@ -365,7 +436,7 @@ expected given upgrades and big fixes which occur between releases,
 the latter underscores both the need for consistency in study processing
 as well as the reporting of computational details for reproducibility. 
 
-\subsection{Pre- and post-processing steps need to be supplied.}
+\subsubsection{Pre- and post-processing steps need to be supplied.}
 In addition to disclosure of all parameters associated with the
 methods to be compared, all processing steps from the raw 
 to the final processed images in the workflow
@@ -374,41 +445,8 @@ of steps between algorithms needs to be provided.  Additionally,
 failures during processing should be mentioned and whether
 or not these data were excluded from subsequent analysis.  
 
-\subsection{Comparisons should be performed on publicly available data.}
-For reasons of reproducibility and transparency, evaluations should be performed
-using publicly availabile data sets.  Given the rather large number
-of such institutional efforts including 
-IXI,%
-\footnote{
-http://www.brain-development.org
-}
-NKI,%
-\footnote{
-http://fcon\_1000.projects.nitrc.org/indi/pro/nki.html
-}
-OASIS,%
-\footnote{
-http://www.oasis-brains.org
-}
-Kirby,%
-\footnote{
-http://mri.kennedykrieger.org/databases.html
-},
-LONI,%
-\footnote{
-http://www.loni.ucla.edu/Research/Databases/
-}, and
-others, evaluations should include (if not be exhausted by)
-comparisons using such data.  While evaluation on specific abnormal cohorts
-might exclude such possibilities, such specific evaluations should
-be extensively motivated in the introduction and/or discussion.
-For example, if a particular algorithm with general application is 
-found to perform better
-on a private cohort of Parkinson's disease subject data, reasons
-for performance disparity should be offered and supplemented with
-analysis on public data.
 
-\subsection{Resulting images should be publicly posted}
+\subsubsection{Resulting images should be publicly posted}
 
 The current publishing paradigm limits the quantity of
 results that can be posted.  There are only so many pages
@@ -432,7 +470,9 @@ and slicedrop.%
 http://slicedrop.com
 }
 
-\subsection{Properly contextualize comparisons and motivate performance differences.}
+figshare
+
+\subsubsection{Properly contextualize comparisons and motivate performance differences.}
 In addition to algorithmic and study specifics, it is important to 
 discuss potential limitations concerning qualitative and/or quantitative 
 assessment metrics.  In \cite{rohlfing2012}, Rohlfing pointed out 
@@ -447,21 +487,9 @@ for relative  performance levels.  This simply constitutes evidence for
 the claims of the paper.
 
 
-\subsection{Co-authors should verify findings.}
-
-Although different journals have varying guidelines for determining 
-co-authorship, there is at least an implied sense of responsibility for
-an article's contents assumed by each of the co-authors.  Strategies 
-taken by journal editorial boards are being used to reduce undeserving
-authorship attribution such as requiring the listing of the specific 
-contributions of each co-author.  Additional proposals have included
-signed statements of responsibility for the contents of the article 
-\cite{nature2007}.  We suggest that at least one co-author
-independently verify a subset of the results by running the processing
-on their own computer. 
 
 
-\subsection{Publications Age}
+\subsection{Post-Publication: Publications Age}
 
 quoting satra ``a published evaluation is old the day the evaluation was done, as most software keeps changing. for example, arno's results were fine at that time with those versions and parameterization of the software, but might be a different story currently.''
 
