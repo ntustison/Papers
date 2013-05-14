@@ -130,7 +130,7 @@
   \fnref{label0}}
   \fntext[label0]{\scriptsize Corresponding author:  PO Box 801339, Charlottesville, VA 22908; T:  434-924-7730; email address:  ntustison@virginia.edu.
   }
-\author[label2]{Brian B.~Avants (combined first author, second author or senior author?)}
+\author[label2]{Brian B.~Avants}
 \address[label1]{Department of Radiology and Medical Imaging, University of Virginia, Charlottesville, VA}
 \address[label2]{Penn Image Computing and Science Laboratory, University of Pennsylvania,
                 Philadelphia, PA}
@@ -212,7 +212,7 @@ http://www.picsl.upenn.edu/ANTs
 we have noticed several publications in which a principle
 component involves the comparison of algorithms.  One of our
 concerns is the lack of detail with which these comparisons are
-presented and the corresponding possibility of {\it instrumentation
+often presented and the corresponding possibility of {\it instrumentation
 bias} \cite{sackett1979} (considering software  as a type of 
 instrument requiring proper ``calibration'' for accurate measurements).  
 Based on our experience (including mistakes that we have made), 
@@ -374,7 +374,7 @@ of steps between algorithms needs to be provided.  Additionally,
 failures during processing should be mentioned and whether
 or not these data were excluded from subsequent analysis.  
 
-\subsection{Comparisons should be performed on publicly available data.}`
+\subsection{Comparisons should be performed on publicly available data.}
 For reasons of reproducibility and transparency, evaluations should be performed
 using publicly availabile data sets.  Given the rather large number
 of such institutional efforts including 
@@ -462,7 +462,7 @@ on their own computer.
 
 \section{Evaluation Example:  ANTS vs. antsRegistration}
 
-\subsection{Introduction}
+\subsection{ANTS vs. antsRegistration:  Introduction}
 As part of the recent Medical Image Computing and Computer-Aided Intervention 
 (MICCAI) 2012 international meeting, several groups participated in the 
 Multi-Atlas Labeling challenge%
@@ -484,9 +484,12 @@ http://picsl.upenn.edu/ANTS
 }) the organizers approached one of the principle authors of
 the ANTs package (B.A.) to provide the ``canonical'' 
 \verb#ANTS#-derived transforms.  
-However, as part of the recent ITKv4 effort, an improved
-version for image registration, known as \verb#antsRegistration#
-had been created and also released within ANTs \cite{avants2012}.
+However, as part of the recent ITKv4 effort, a new
+program for image registration, known as \verb#antsRegistration#
+has been created and also released within ANTs \cite{avants2012}
+where it continues to be refined (in contrast to \verb#ANTS# which
+has been more or less stable for quite some time).
+
 Motivated by this request and also to provide an example of the 
 guidelines previously presented, we performed a comparison of 
  \verb#ANTS# and \verb#antsRegistration#.  The principle hypothesis
@@ -495,10 +498,9 @@ guidelines previously presented, we performed a comparison of
  labels for the MICCAI challenge training data?}  Important 
  corrollary hypotheses involve similar assessments of both the
  affine and deformable (i.e. SyN) components of the respective
- algorithms.  
+ programs.
  
-
-\subsection{Materials and Methods}
+\subsection{ANTS vs. antsRegistration:  Materials and Methods}
 
 \subsubsection{Images}
 15 (10 females, 5 males) defaced T1-weighted MRI subjects 
@@ -581,7 +583,7 @@ constructed by two of the principle authors of ANTs
         tabsize = 2,
         language=,
         floatplacement=!h,
-        caption={\small \baselineskip 12pt ANTS command line call used for the evaluation}.,
+        caption={\small \baselineskip 12pt ANTS command line call used for the evaluation. The help menu can be invoked by the command `ANTS --help'.},
         captionpos=b,
         label=listing:ANTS
         }
@@ -594,6 +596,7 @@ ${ANTsPATH}/ImageMath 3 $movingTruncated \
 ${ANTsPATH}/ANTS 3 -o ${outputPrefix} \
   -m CC[${fixedTruncated},${movingTruncated},1,4] \
   -t SyN[0.1] -r Gauss[3,0] -i 100x100x70x20 \
+  --number-of-affine-iterations 0 \
   --use-Histogram-Matching
 \end{lstlisting}
 
@@ -615,7 +618,7 @@ ${ANTsPATH}/ANTS 3 -o ${outputPrefix} \
         tabsize = 2,
         language=,
         floatplacement=!h,
-        caption={\small \baselineskip 12pt antsRegistration command line call used for the evaluation}.,
+        caption={\small \baselineskip 12pt antsRegistration command line call used for the evaluation.  The help menu can be invoked by the command `antsRegistration --help'.},
         captionpos=b,
         label=listing:antsRegistration
         }
@@ -669,7 +672,7 @@ ${ANTsPATH}/antsApplyTransforms -d 3 \
 \end{lstlisting}
 Label overlap assessment for each registration was quantified
 using the \verb#LabelOverlapMeasures# available through ANTs and 
-implemented in ITK\cite{tustison2009}.
+implemented in ITK \cite{tustison2009}.
 It should noted that only the affine transform files are used
 to assess affine algorithmic performance. In order to evaluate
 the SyN component in isolation from the affine portion, the 
@@ -677,16 +680,94 @@ affine transforms from the better-performing algorithm (strictly
 in terms of affine performance) were used as input for the other
 algorithm which was then rerun for all data sets. 
 
-\subsection{Results}
+\subsection{ANTS vs. antsRegistration:  Results}
 
-\subsection{Discussion}
+Upon completion of all pairwise registrations, the labels for the
+moving image were warped to the fixed image using \verb#antsApplyTransforms#
+as described in Listing \ref{listing:antsApplyTransforms} using 
+nearest neighbor interpolation.  This was performed 
+for both affine and affine + deformable scenarios.  The
+corresponding box plots are given in Figure \ref{fig:results}. 
 
+\begin{center}
+\begin{figure}
+  \includegraphics[width=85mm]{tilting.pdf}
+  \caption{Combined Dice values for all labels of the evaluation between the two ANTs-based registration programs including affine-only transformations. \textcolor{red}{Perhaps we should also plot Dice but with the white matter and cerebellum labels removed since they're so large (could they be masking more noticeable differences?).}
+  }
+  \label{fig:results}
+\end{figure}
+\end{center}
+
+Pairwise Students t-tests were performed for each of the three
+comparisons with Bonferroni correction.
+For the affine-only Dice value comparison, \verb#antsRegistration# 
+only slightly output performed \verb#ANTS# ($q = 0.053$, mean of the 
+differences = 0.004).  For the comprehensive affine + SyN comparison
+\verb#antsRegistration# yielded higher Dice values ($q = 0.053$, 
+mean of the differences = 0.009).
+Due to the difference in affine-only outcome, the \verb#ANTS# 
+SyN deformable component was run again with initialization from
+the affine output of the \verb#antsRegistration# runs.  This
+latter set is denoted in Figure \ref{fig:results} as ``ANTS with
+other affine.''  This scenario also showed \verb#antsRegistration# SyN 
+producing slightly higher values than its ANTs counterpart 
+($q = 0.053$, mean of the differences = 0.006).
+
+
+%\begin{table}
+%\begin{tabular*}{0.45\textwidth}{@{\extracolsep{\fill}}lr}
+%  Comparison & q-value \\
+%  \toprule
+%  ANTS vs. antsRegistration (affine only) & 0.053 \\
+%  ANTS vs. antsRegistration (affine + SyN) & 2.7e-14 \\
+%  ANTS vs. antsRegistration (affine' + SyN) & 3.4e-13 \\
+%  \bottomrule
+%\end{tabular*}
+%\end{table}
+
+\subsection{ANTS vs. antsRegistration:  Discussion}
+Strictly in terms of the Dice overlap metric, \verb#antsRegistration# yields
+improved results over \verb#ANTS#.  Although the SyN components are theoretically
+the same, implementation with the newer program was constrained to conform
+with the rigorous ITK coding standards and the plug-in architecture of
+the generic registration framework resulting in additional possible
+configurations not in \verb#ANTS#. Additionally, the newer program benefitted
+from ITK's crowdsourcing of the contributed code (a great example of Linus's Law
+in action---"with enough eyeballs, all bugs are shallow").  In contrast to the
+SyN component, the affine components between the two programs differ substantially.
+The parameters governing the affine registration in \verb#ANTS# were specifically 
+tailored for brain registration and much of it is hard-coded internally within the
+code.  In contrast, with \verb#antsRegistration# we took a much more general approach
+by permitting the user to build up any number of linear ``registration stages'' 
+to produce a final generic affine transform.
+
+Other differences to be considered include the use of real types between the
+two programs and the use of multi-threading.  As regards the former, due to 
+the constraints of certain  internals of ITK,  \verb#antsRegistration#
+is currently implemented using \verb#double# instead of \verb#float#.  This
+results in a larger memory footprint in addition to timing between the two
+programs (single-threaded on a single core on the UVA cluster \verb#antsRegistration#
+can run 3-4 times as long as \verb#ANTS#).  However, multi-threading capabilities
+are much better developed in \verb#antsRegistration#.
 
 \section{Conclusion}
-\epigraph{By honest I don't mean that you only tell what's true. But you make clear the entire situation. You make clear all the information that is required for somebody else who is intelligent to make up their mind.}{Professor Richard Feynman}
+\epigraph{By honest I don't mean that you only tell what's true. But you make clear the 
+entire situation. You make clear all the information that is required for somebody else 
+who is intelligent to make up their mind.}{Professor Richard Feynman}
 
+Considering the permeation of the computational sciences in doing 
+nueroimaging research, certain safeguards should be in place to prevent
+(or at least minimize) potential biases and errors that can
+unknowingly effect study outcomes.  There is no vetting agency for
+ensuring that analysis programs used for research are reasonably error-free.
+In addition, these software packages are simply ``black
+boxes'' to many researchers who are not formally trained to debug
+code.  And even to those of us who are, debugging other people's code
+is oftentimes very difficult.  To this end, algorithmic comparisons are 
+a very good way of evaluating general performance.  It is hoped that the
+proposed set of guidelines set forth in this editorial aid the community
+for future comparative assessments.
 
-\section{Acknowledgments}
 
 %% References with bibTeX database:
 
