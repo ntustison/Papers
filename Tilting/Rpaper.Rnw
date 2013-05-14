@@ -460,6 +460,11 @@ signed statements of responsibility for the contents of the article
 independently verify a subset of the results by running the processing
 on their own computer. 
 
+
+\subsection{Publications Age}
+
+quoting satra ``a published evaluation is old the day the evaluation was done, as most software keeps changing. for example, arno's results were fine at that time with those versions and parameterization of the software, but might be a different story currently.''
+
 \section{Evaluation Example:  ANTS vs. antsRegistration}
 
 \subsection{ANTS vs. antsRegistration:  Introduction}
