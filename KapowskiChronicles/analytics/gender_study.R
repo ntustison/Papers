@@ -1,12 +1,28 @@
 library(boot)
 library(ANTsR)
-sigma<-2
+library(igraph)
+sigma<-4
 ageth<-5000*sigma # sigma*sigma
 ages<-as.numeric(10:80)
 sigval<-0.01
-for ( controlvol in c( TRUE, FALSE ) )
+for ( controlvol in c( TRUE ) )
 {
 
+makegraph <- function( myrsfnetworkcorrs  ) {
+    ewt<-c(0)
+    neig<-nrow( myrsfnetworkcorrs )
+    corthresh<-0.000001
+    for ( x in c( 1:neig ) )
+      for ( y in c( ( x : neig ) ) )
+        if ( myrsfnetworkcorrs[ x, y] > corthresh & myrsfnetworkcorrs[ x, y] < 1 )
+          ewt<-c(ewt,myrsfnetworkcorrs[x,y])
+    ewt<-ewt[2:length(ewt)]
+    adjmat<-as.matrix( ( myrsfnetworkcorrs > corthresh & myrsfnetworkcorrs < 1 ) , nrow=neig,ncol=neig)
+    g1<-graph.adjacency( adjmat,mode=c("undirected"))
+    g1 <- set.edge.attribute(g1 , "weights", value=1/ewt)
+    gmetric<-closeness(g1,mode=c("all"),normalized=F) # betweenness( g1 )
+    return( sum( gmetric )  )
+    }
 corw2 <- function( mat, weights , nuis )
   {
   if ( missing( mat ) | missing( weights ) )
@@ -46,6 +62,8 @@ ncols<-length(thcols)
 pgenmat<-matrix(rep(NA,ncols*length(ages)),ncol=length(ages))
 genmat<-matrix(rep(NA,ncols*length(ages)),ncol=length(ages))
 thkmat<-matrix(rep(NA,ncols*length(ages)),ncol=length(ages))
+ntw1<-rep(NA, length(ages) )
+ntw2<-rep(NA, length(ages) )
 for ( age in ages )
   {
   dage<- (allth$AGE - age)
@@ -58,6 +76,30 @@ for ( age in ages )
   wage<-sum( ddage$AGE * cweights )
   wt_ages[ct]<-wage
   corthk<-corw2( thk , weights = cweights  )
+  ############################################
+  pct<-0
+  for ( perm in 0:200 ) {
+  n<-256
+  myth<-residuals( lm( as.matrix(thk) ~ ddage$SITE ) )
+  testvals<-( ddage$SEX )
+  if ( perm > 0 ) testvals<-sample( ddage$SEX )
+  w1<-testvals == 1
+  w2<-testvals == 2
+  temp<-corw2( myth[ w1 , ] ,  cweights[ w1 ] )
+  subnet0 <- reduceNetwork( temp, N=n )
+  ntw1[ct]<-makegraph( subnet0$network ) # mean(subnet0$network[ subnet0$network >0 ])
+  temp<-corw2( myth[ w2, ] ,  cweights[  w2 ] )
+  subnet0 <- reduceNetwork( temp, N=n )
+  g0<-makegraph( subnet0$network ) 
+  ntw2[ct]<-makegraph( subnet0$network ) # mean(subnet0$network[ subnet0$network >0 ])
+  dif<- ntw1[ct] -  ntw2[ct]
+  if ( perm == 0 ) odif<-dif else if ( dif > odif ) pct<-pct+1
+  }
+  print( pct / permct )
+  plot( ages, ntw1 , type = 'l' )
+  points( ages, ntw2, type='l', col='red')
+  ############################################
+  
   for ( corlab in 1:32 ) {
     #
     myth<-thk[ ,corlab] 
