@@ -1,9 +1,11 @@
 library(boot)
 library(ANTsR)
 library(igraph)
-sigma<-4
+n<-256 # for graph
+mymaxperm<-5
+sigma<-3
 ageth<-5000*sigma # sigma*sigma
-ages<-as.numeric(10:80)
+ages<-seq(10,80,by=2)# as.numeric(10:80)
 sigval<-0.01
 for ( controlvol in c( TRUE ) )
 {
@@ -11,6 +13,7 @@ for ( controlvol in c( TRUE ) )
 makegraph <- function( myrsfnetworkcorrs  ) {
     ewt<-c(0)
     neig<-nrow( myrsfnetworkcorrs )
+    if ( neig == 0 ) return( 0 )
     corthresh<-0.000001
     for ( x in c( 1:neig ) )
       for ( y in c( ( x : neig ) ) )
@@ -19,9 +22,12 @@ makegraph <- function( myrsfnetworkcorrs  ) {
     ewt<-ewt[2:length(ewt)]
     adjmat<-as.matrix( ( myrsfnetworkcorrs > corthresh & myrsfnetworkcorrs < 1 ) , nrow=neig,ncol=neig)
     g1<-graph.adjacency( adjmat,mode=c("undirected"))
-    g1 <- set.edge.attribute(g1 , "weights", value=1/ewt)
-    gmetric<-closeness(g1,mode=c("all"),normalized=F) # betweenness( g1 )
-    return( sum( gmetric )  )
+#    gmetric<-betweenness(g1,normalized=T,weights=1/ewt) # betweenness( g1 )
+#    gmetric<-closeness(g1,normalized=T,weights=1/ewt) # betweenness( g1 )
+#    gmetric<-page.rank( g1 ,weights=1/ewt)$vector
+    gmetric<-transitivity( g1 ,type="local",isolates=c("zero"))
+#    gmetric<-degree( g1 ) 
+    return (  gmetric )
     }
 corw2 <- function( mat, weights , nuis )
   {
@@ -62,8 +68,8 @@ ncols<-length(thcols)
 pgenmat<-matrix(rep(NA,ncols*length(ages)),ncol=length(ages))
 genmat<-matrix(rep(NA,ncols*length(ages)),ncol=length(ages))
 thkmat<-matrix(rep(NA,ncols*length(ages)),ncol=length(ages))
-ntw1<-rep(NA, length(ages) )
-ntw2<-rep(NA, length(ages) )
+ntw1<-thkmat
+ntw2<-thkmat
 for ( age in ages )
   {
   dage<- (allth$AGE - age)
@@ -77,27 +83,30 @@ for ( age in ages )
   wt_ages[ct]<-wage
   corthk<-corw2( thk , weights = cweights  )
   ############################################
-  pct<-0
-  for ( perm in 0:200 ) {
-  n<-256
+  pct<-rep(0,ncol(thk))
+  maxperm<-mymaxperm
+  for ( perm in 0:maxperm ) {
   myth<-residuals( lm( as.matrix(thk) ~ ddage$SITE ) )
   testvals<-( ddage$SEX )
-  if ( perm > 0 ) testvals<-sample( ddage$SEX )
+  if ( perm > 0 & perm < maxperm ) testvals<-sample( ddage$SEX )
   w1<-testvals == 1
   w2<-testvals == 2
+  
   temp<-corw2( myth[ w1 , ] ,  cweights[ w1 ] )
   subnet0 <- reduceNetwork( temp, N=n )
-  ntw1[ct]<-makegraph( subnet0$network ) # mean(subnet0$network[ subnet0$network >0 ])
+  g0<-makegraph( subnet0$network ) # mean(subnet0$network[ subnet0$network >0 ])
+  ntw1[,ct]<-g0
+
   temp<-corw2( myth[ w2, ] ,  cweights[  w2 ] )
   subnet0 <- reduceNetwork( temp, N=n )
   g0<-makegraph( subnet0$network ) 
-  ntw2[ct]<-makegraph( subnet0$network ) # mean(subnet0$network[ subnet0$network >0 ])
-  dif<- ntw1[ct] -  ntw2[ct]
-  if ( perm == 0 ) odif<-dif else if ( dif > odif ) pct<-pct+1
+  ntw2[,ct]<-g0
+  
+  dif<-abs( ntw1[,ct] -  ntw2[,ct] )
+  if ( perm == 0 | perm == maxperm ) odif<-dif else  pct<-pct+as.numeric( dif >= odif )
   }
-  print( pct / permct )
-  plot( ages, ntw1 , type = 'l' )
-  points( ages, ntw2, type='l', col='red')
+  print( age )
+  print( pct / maxperm )
   ############################################
   
   for ( corlab in 1:32 ) {
@@ -166,7 +175,7 @@ row.names(genmat)<-names(thk)
 colnames(genmat)<-ages
 pdf(paste('sex_v_age',controlvol,'.pdf',sep=''),width=10,height=7)
 rr<-max(abs(genmat))
-mybreaks<-c(0:100)/100*rr-rr*0.5
+mybreaks<-c(0:100)/100*rr*2-rr
 mybreaks[1]<-( -1.0 * rr )
 mybreaks[101]<-(  rr )
 pheatmap( genmat ,breaks=mybreaks, cluster_rows = F , cluster_cols = F , display_numbers = F)
@@ -175,4 +184,20 @@ pheatmap( qgenmat , cluster_rows = F , cluster_cols = F , show_rownames = T, sho
 pdf(paste('sex_v_age',controlvol,'_p.pdf',sep=''),width=10,height=7)
 pheatmap( qgenmat , cluster_rows = F , cluster_cols = F  )
 dev.off()
+}
+
+
+rr<-max(abs(rbind(ntw1,ntw2)))
+mybreaks<-c(0:100)/100*rr*2-rr
+mybreaks[1]<-( -1.0 * rr )
+mybreaks[101]<-(  rr )
+ct<-1
+for ( ntdif in list( ntw1 , ntw2 ) )
+{
+row.names(ntdif)<-names(thk)
+colnames(ntdif)<-ages
+pdf(paste('network_sex_v_age_',ct,'.pdf',sep=''),width=10,height=7)
+pheatmap( ntdif ,breaks=mybreaks, cluster_rows = F , cluster_cols = F , display_numbers = F)
+dev.off()
+ct<-ct+1
 }
