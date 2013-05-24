@@ -26,7 +26,7 @@ makegraph <- function( myrsfnetworkcorrs  ) {
 #    gmetric<-closeness(g1,normalized=T,weights=1/ewt) # betweenness( g1 )
 #    gmetric<-page.rank( g1 ,weights=1/ewt)$vector
     gmetric<-transitivity( g1 ,type="local",isolates=c("zero"))
-#    gmetric<-degree( g1 ) 
+#    gmetric<-degree( g1 )
     return (  gmetric )
     }
 corw2 <- function( mat, weights , nuis )
@@ -41,7 +41,7 @@ corw2 <- function( mat, weights , nuis )
     {
   for ( y in 1:ncol(mat) )
     {
-      cormat[x,y]<-corr( cbind(mat[,x], mat[,y]), w = weights/max(weights) ) 
+      cormat[x,y]<-corr( cbind(mat[,x], mat[,y]), w = weights/max(weights) )
 #    cormat[x,y]<-sqrt( summary( lm( mat[,x] ~ mat[,y] + nuis ), weights = weights/sum(weights)  )$r.squared )
     }
     }
@@ -50,12 +50,11 @@ corw2 <- function( mat, weights , nuis )
 dati<-read.csv('labelresultsI.csv')
 datk<-read.csv('labelresultsK.csv')
 datn<-read.csv('labelresultsN.csv')
-datn<-data.frame( datn, SITE=rep("N",nrow(datn)))
 dato<-read.csv('labelresultsO.csv')
 allth<-rbind( dati, datk )
 allth<-rbind( allth, datn )
 allth<-rbind( allth, dato )
-allth$SITE<-as.factor( allth$SITE ) 
+allth$SITE<-as.factor( allth$SITE )
 #
 # for permutation!
 # print("PERMUTING!") ; allth$AGE<-allth$AGE[ sample( 1:nrow(allth) ) ]
@@ -91,7 +90,7 @@ for ( age in ages )
   if ( perm > 0 & perm < maxperm ) testvals<-sample( ddage$SEX )
   w1<-testvals == 1
   w2<-testvals == 2
-  
+
   temp<-corw2( myth[ w1 , ] ,  cweights[ w1 ] )
   subnet0 <- reduceNetwork( temp, N=n )
   g0<-makegraph( subnet0$network ) # mean(subnet0$network[ subnet0$network >0 ])
@@ -99,19 +98,19 @@ for ( age in ages )
 
   temp<-corw2( myth[ w2, ] ,  cweights[  w2 ] )
   subnet0 <- reduceNetwork( temp, N=n )
-  g0<-makegraph( subnet0$network ) 
+  g0<-makegraph( subnet0$network )
   ntw2[,ct]<-g0
-  
+
   dif<-abs( ntw1[,ct] -  ntw2[,ct] )
   if ( perm == 0 | perm == maxperm ) odif<-dif else  pct<-pct+as.numeric( dif >= odif )
   }
   print( age )
   print( pct / maxperm )
   ############################################
-  
+
   for ( corlab in 1:32 ) {
     #
-    myth<-thk[ ,corlab] 
+    myth<-thk[ ,corlab]
     myth<-residuals( lm( thk[ ,corlab] ~ ddage$SITE ) )
     meandiff<-sum( myth[ ddage$SEX == 2 ] * cweights[  ddage$SEX == 2 ] )
     meandiff<-meandiff - sum( myth[ ddage$SEX == 1 ] * cweights[  ddage$SEX == 1 ] )
@@ -133,7 +132,7 @@ for ( age in ages )
   corrs[ct]<-mean(subnet0$network[ subnet0$network >0 ])
 #  corrs[ct]<-sum( cor( thk )[ cor(thk) > 0.85 ]  )
   meanthk <- mean( apply( thk, FUN=mean, MARGIN=2 ) )
-#  print(paste('nsub:',nrow(thk),'age:',age,'w-age:',wage,'mean-corr:',corrs[ct], 'mean-thickness:',meanthk  ) ) 
+#  print(paste('nsub:',nrow(thk),'age:',age,'w-age:',wage,'mean-corr:',corrs[ct], 'mean-thickness:',meanthk  ) )
   ct<-ct+1
   }
 mdl<-lm(  corrs ~  wt_ages + I((wt_ages)^2)  + I((wt_ages)^3)   + I((wt_ages)^4)   )
