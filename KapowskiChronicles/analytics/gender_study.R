@@ -161,16 +161,34 @@ trueage<-allth$AGE[ !mycond >= th ]
 # plot( predage, trueage )
 print( mean( abs( predage - trueage ) ) )
 
+cortical_labels <- c( "L occipital", "R occipital",
+                     "L cingulate", "R cingulate",
+                     "L insula",    "R insula",
+                     "L temporal pole",   "R temporal pole",
+                     "L superior temporal", "R superior temporal",
+                     "L infero temporal", "R infero temporal",
+                     "L parahippocampal", "R parahippocampal",
+                     "L frontal pole",    "R frontal pole",
+                     "L superior frontal","R superior frontal",
+                     "L middle frontal",  "R middle frontal",
+                     "L inferior",        "R inferior",
+                     "L orbital frontal", "R orbital frontal",
+                     "L precentral",      "R precentral",
+                     "L superior parietal", "R superior parietal",
+                     "L inferior parietal", "R inferior parietal",
+                     "L postcentral",       "R postcentral" );
 
 library(pheatmap)
 qmat<-p.adjust( pgenmat, method="bonf" )
 qmat<-matrix(as.numeric( qmat < sigval ) , nrow=nrow(genmat) )
 qmat[ ( qmat == 1 ) & ( genmat < 0 ) ]<-( -1 )
 qgenmat<-data.frame( qmat )
-row.names(qgenmat)<-names(thk)
+row.names( qgenmat ) <- cortical_labels;
+# row.names(qgenmat)<-names(thk)
 colnames(qgenmat)<-ages
 genmat<-data.frame(genmat)
-row.names(genmat)<-names(thk)
+row.names( genmat ) <- cortical_labels;
+# row.names(genmat)<-names(thk)
 colnames(genmat)<-ages
 pdf(paste('sex_v_age',controlvol,'.pdf',sep=''),width=10,height=7)
 rr<-max(abs(genmat))
@@ -193,7 +211,8 @@ mybreaks[101]<-(  rr )
 ct<-1
 for ( ntdif in list( ntw1 , ntw2 ) )
 {
-row.names(ntdif)<-names(thk)
+# row.names(ntdif)<-names(thk)
+row.names( ntdif ) <- cortical_labels;
 colnames(ntdif)<-ages
 pdf(paste('network_sex_v_age_',ct,'.pdf',sep=''),width=10,height=7)
 pheatmap( ntdif ,breaks=mybreaks, cluster_rows = F , cluster_cols = F , display_numbers = F)
