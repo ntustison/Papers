@@ -211,8 +211,6 @@ for( age in ages )
 #
 ##################################
 
-jet.colors <- colorRampPalette( c( "#00007F", "blue", "#007FFF", "cyan", "#7FFF7F", "yellow", "#FF7F00", "red", "#7F0000" ) )
-
 # (weighted) age vs. average thickness network plot
 
 corrsPlotData <- data.frame( weightedAges = weightedAges, correlationValues = corrs )
@@ -236,7 +234,7 @@ qvalueData$CorticalLabels <- factor( corticalLabels, levels = rev( corticalLabel
 
 qvaluePlot <- ggplot( melt( qvalueData ), aes( x = variable, y = CorticalLabels, fill = value ) ) +
               geom_tile( colour = "darkred" ) +
-              scale_fill_gradientn( name = "q-value", colours = jet.colors( 7 ) ) +
+              scale_fill_gradientn( name = "q-value", colours = heat.colors( 7 ) ) +
               scale_x_discrete( 'Age' ) +
               scale_y_discrete( 'Cortical Labels' )
 ggsave( filename = "qvalueHeatMap.pdf", plot = qvaluePlot, width = 10, height = 6, units = 'in' )
@@ -248,7 +246,7 @@ tstatisticData$CorticalLabels <- factor( corticalLabels, levels = rev( corticalL
 
 tstatisticPlot <- ggplot( melt( tstatisticData ), aes( x = variable, y = CorticalLabels, fill = value ) ) +
               geom_tile( colour = "darkred" ) +
-              scale_fill_gradientn( name = "t-statistic", colours = jet.colors( 7 ) ) +
+              scale_fill_gradientn( name = "t-statistic", colours = heat.colors( 7 ) ) +
               scale_x_discrete( 'Age' ) +
               scale_y_discrete( 'Cortical Labels' )
 ggsave( filename = "tstatisticHeatMap.pdf", plot = tstatisticPlot, width = 10, height = 6, units = 'in' )
@@ -260,7 +258,7 @@ networkMaleData$CorticalLabels <- factor( corticalLabels, levels = rev( cortical
 
 networkMalePlot <- ggplot( melt( networkMaleData ), aes( x = variable, y = CorticalLabels, fill = value ) ) +
                geom_tile( colour = "darkred" ) +
-               scale_fill_gradientn( name = "correlation\nvalues", colours = jet.colors( 7 ) ) +
+               scale_fill_gradientn( name = "correlation\nvalues", colours = heat.colors( 7 ) ) +
                scale_x_discrete( 'Age' ) +
                scale_y_discrete( 'Cortical Labels' ) +
                ggtitle( "Male network" )
@@ -273,7 +271,7 @@ networkFemaleData$CorticalLabels <- factor( corticalLabels, levels = rev( cortic
 
 networkFemalePlot <- ggplot( melt( networkFemaleData ), aes( x = variable, y = CorticalLabels, fill = value ) ) +
                geom_tile( colour = "darkred" ) +
-               scale_fill_gradientn( name = "correlation\nvalues", colours = jet.colors( 7 ) ) +
+               scale_fill_gradientn( name = "correlation\nvalues", colours = heat.colors( 7 ) ) +
                scale_x_discrete( 'Age' ) +
                scale_y_discrete( 'Cortical Labels' ) +
                ggtitle( "Female network" )
