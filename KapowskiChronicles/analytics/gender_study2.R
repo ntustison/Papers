@@ -115,12 +115,10 @@ thicknessColumns <- 6:ncol( resultsCombined )
 weightedAges <- rep( NA, length( ages ) )
 corrs <- rep( NA, numberOfAges )
 
-thicknessDifferenceMatrix <- matrix( rep( NA, numberOfLabels * numberOfAges ), ncol = numberOfAges )
 tstatisticMatrix <- matrix( rep( NA, numberOfLabels * numberOfAges ), ncol = numberOfAges )
 pvalueMatrix <- matrix( rep( NA, numberOfLabels * numberOfAges ), ncol = numberOfAges )
-
-networkMales <- thicknessDifferenceMatrix
-networkFemales <- thicknessDifferenceMatrix
+networkMales <- matrix( rep( NA, numberOfLabels * numberOfAges ), ncol = numberOfAges )
+networkFemales <- matrix( rep( NA, numberOfLabels * numberOfAges ), ncol = numberOfAges )
 
 count <- 1
 for( age in ages )
@@ -190,12 +188,6 @@ for( age in ages )
 
   for( corticalLabel in 1:length( corticalLabels ) )
     {
-    myth <- residuals( lm( thicknessValues[,corticalLabel] ~ resultsSubsetBasedOnAgeDifference$SITE ) )
-
-    thicknessDifferenceMatrix[corticalLabel,count] <-
-      sum( myth[ resultsSubsetBasedOnAgeDifference$SEX == 2] * cweights[resultsSubsetBasedOnAgeDifference$SEX == 2] )
-      - sum( myth[ resultsSubsetBasedOnAgeDifference$SEX == 1] * cweights[resultsSubsetBasedOnAgeDifference$SEX == 1] )
-
     genderTest <- summary( lm( thicknessValues[,corticalLabel] ~ SEX + SITE + VOLUME, weights = cweights, data = resultsSubsetBasedOnAgeDifference ) )
 
     # get t-statistic and p-value on SEX significance (respectively)
