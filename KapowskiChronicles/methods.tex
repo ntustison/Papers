@@ -118,9 +118,11 @@ described in this work.
 
 \begin{figure*}
   \centering
-  \includegraphics[width=170mm]{Figures/Kapowski_pipeline2.pdf}
+  \includegraphics[width=180mm]{Figures/Kapowski_pipeline2.pdf}
   \caption{Illustration of the main components of the ANTs processing 
   workflow containing all elements for determining cortical thickness. 
+  We also included the domain of operations for select scripts also available
+  in ANTs.
   Not shown is the optional subject to template registration.}
   \label{fig:pipeline}
 \end{figure*}
@@ -302,12 +304,7 @@ available on the website associated with this submission.
 with a radius of 2.  Atropos is used to generate an initial 3-tissue segmentation estimate within the mask
 region.  Each of the three tissue masks undergo specific morphological operations which are then
 combined to create a brain extraction mask for use in the rest of the
-cortical thickness workflow.  \textcolor{blue}{does there need to be a
-  bit more technical detail here?  while you can refer to the script,
-  why perform these operations?  there are numerous references, most
-  germane probably some recent stuff from J Prince ( i think ) and the
-  freesurfer watershed approach which came from ... i forget ... maybe
-  one of the french groups.}
+cortical thickness workflow.  
 
 A comparison using open access brain data with publicly available
 brain extraction algorithms including AFNI's \verb#3dIntracranial#
@@ -316,7 +313,6 @@ brain extraction algorithms including AFNI's \verb#3dIntracranial#
 \citep{dogdas2005} demonstrated that our combined
 registration/segmentation approach \citep{avants2010a} performs at the
 top level alongside BrainSuite (tuned) and FreeSurfer.
-\textcolor{blue}{ok you have the segonne ref here ... }
 
 
 \subsubsection{DiReCT (aka KellySlater/KellyKapowski) Cortical Thickness Estimation}
@@ -423,12 +419,17 @@ distributed with the ANTs toolkit.  .
 \end{table}
 
 \subsubsection{Data for Pipeline Evaluation}
+                         
+In total, we processed 1202 T1-weighted images from four different
+public data sets to obtain the corresponding cortical thickness maps.                           
+The four data sets are described below: 
                                           
-\paragraph{IXI} The IXI data%
+\paragraph{IXI}
+The IXI data%
 \footnote{
 http://biomedic.doc.ic.ac.uk/brain-development/
 }
-used for the evaluation consists of 577 healthy subjects imaged at three sites 
+ used for the evaluation consists of 577 healthy subjects imaged at three sites 
 using several modalities (T1-weighted, T2-weighted, proton density, magnetic 
 resonance angiography, and diffusion tensor imaging).  The 
 database also consists of  demographic information such as age, weight,
@@ -436,6 +437,41 @@ height, ethnicity, occupation category, educational level, and marital status.
 The number of subjects spanning a range of demographic characteristics makes
 this a rich data set for validating and exploring correlations with cortical 
 thickness measured using the ANTs pipeline.
+
+\paragraph{Oasis}
+The Open Access Series of Imaging Studies (OASIS)%
+\footnote{
+http://www.oasis-brains.org/
+}
+ project consists of 416
+(160 males and 256 females) T1-weighted images spanning 
+the ages between 18 and 96 with 100 of these subjects having been 
+diagnosed with very mild to moderate Alzheimer's disease.  
+All subjects are right-handed.  Additional processing is included
+with the distribution including bias corrected and segmented images
+(gray, white and CSF matters).
+
+\paragraph{NKI}
+In support of open science, the 1,000 Functional Connectomes Project%
+\footnote{ 
+http://fcon\_1000.projects.nitrc.org
+}
+was initiated on December 11, 2009 by various members of the MRI community
+seeking to form collaborative partnerships with imaging institutions for 
+sharing well-documented multimodal image sets accompanied by phenotypic data.
+This has resulted in the The Nathan Klein Institute (NKI)/Rockland sample
+consisting of (at the time of download, September 22, 2012), 186 T1-weighted
+images (87 females and 99 males).
+
+\paragraph{Kirby}
+The Multi-Modal MRI Reproducibility Resource%
+\footnote{
+http://www.nitrc.org/projects/multimodal/
+}, 
+or more informally the Kirby
+data set, was originally described in \cite{landman2011} consisting of 
+21 subjects (10 female and 11 male) and featuring a rich multiple modality and 
+repeated acquisition schedule.
 
 \begin{figure}
   \centering
@@ -449,5 +485,4 @@ thickness measured using the ANTs pipeline.
   \label{fig:template}
 \end{figure}
 
-\paragraph{Oasis}
 
