@@ -219,7 +219,8 @@ corrsPlot <- ggplot( corrsPlotData, aes( x = weightedAges, y = correlationValues
              stat_smooth( colour = "navyblue", formula = y ~ 1 + x + I(x^2) + I(x^3) + I(x^4), method = "lm",
                           size = 1, n = 1000, level = 0.95, se = TRUE, fullrange = TRUE, fill = 'black', alpha = 0.25 ) +
              scale_x_continuous( "Age", breaks = seq( 10, 80, by = 10 ), labels = seq( 10, 80, by = 10 ), limits = c( 10, 80 ) ) +
-             scale_y_continuous( "Average thickness network correlation", breaks = seq( 0.7, 1, by = 0.05 ), labels = seq( 0.7, 1, by = 0.05 ), limits = c( 0.7, 1 ) )
+             scale_y_continuous( "Correlation", breaks = seq( 0.7, 1, by = 0.05 ), labels = seq( 0.7, 1, by = 0.05 ), limits = c( 0.685, 1 ) ) +
+             ggtitle( "Average thickness network correlation vs. age" )
 ggsave( filename = paste( "averageThicknessNetworkWithAge.pdf", sep = "" ), plot = corrsPlot, width = 8, height = 6, units = 'in' )
 
 # (weighted) age vs. average thickness network plot
@@ -244,8 +245,8 @@ tstatisticData <- data.frame( tstatisticMatrix )
 colnames( tstatisticData ) <- ages
 tstatisticData$CorticalLabels <- factor( corticalLabels, levels = rev( corticalLabels ) )
 
-tstatisticPlot <- ggplot( melt( tstatisticData ), aes( x = variable, y = CorticalLabels, fill = value ) ) +
-              geom_tile( colour = "darkred" ) +
+tstatisticPlot <- ggplot( melt( tstatisticData ) ) +
+              geom_tile( aes( x = variable, y = CorticalLabels, fill = value ), colour = "gray50", size = 0 ) +
               scale_fill_gradientn( name = "t-statistic", colours = heat.colors( 7 ) ) +
               scale_x_discrete( 'Age' ) +
               scale_y_discrete( 'Cortical Labels' )
@@ -256,8 +257,8 @@ networkMaleData <- data.frame( networkMales )
 colnames( networkMaleData ) <- ages
 networkMaleData$CorticalLabels <- factor( corticalLabels, levels = rev( corticalLabels ) )
 
-networkMalePlot <- ggplot( melt( networkMaleData ), aes( x = variable, y = CorticalLabels, fill = value ) ) +
-               geom_tile( colour = "darkred" ) +
+networkMalePlot <- ggplot( melt( networkMaleData ) ) +
+               geom_tile( aes( x = variable, y = CorticalLabels, fill = value ), colour = "gray50", size = 0 ) +
                scale_fill_gradientn( name = "correlation\nvalues", colours = heat.colors( 7 ) ) +
                scale_x_discrete( 'Age' ) +
                scale_y_discrete( 'Cortical Labels' ) +
@@ -269,8 +270,8 @@ networkFemaleData <- data.frame( networkFemales )
 colnames( networkFemaleData ) <- ages
 networkFemaleData$CorticalLabels <- factor( corticalLabels, levels = rev( corticalLabels ) )
 
-networkFemalePlot <- ggplot( melt( networkFemaleData ), aes( x = variable, y = CorticalLabels, fill = value ) ) +
-               geom_tile( colour = "darkred" ) +
+networkFemalePlot <- ggplot( melt( networkFemaleData ) ) +
+               geom_tile( aes( x = variable, y = CorticalLabels, fill = value ), colour = "gray50", size = 0 ) +
                scale_fill_gradientn( name = "correlation\nvalues", colours = heat.colors( 7 ) ) +
                scale_x_discrete( 'Age' ) +
                scale_y_discrete( 'Cortical Labels' ) +
