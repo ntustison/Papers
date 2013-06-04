@@ -375,10 +375,11 @@ data with 32 cortical labels (cf. Table \ref{table:nirep_labels}) manually drawn
 published protocol.
 
 Cortical label propagation to each individual subject for all data sets
-described below is performed using the PICSL multi-atlas joint label fusion
+described below was performed using the PICSL multi-atlas joint label fusion
 algorithm described in \cite{wang2013} which recently topped the competition
 at the MICCAI 2012 Grand Challenge on Multi-Atlas Labeling and is also 
-distributed with the ANTs toolkit.  .
+distributed with the ANTs toolkit.  Cortical thickness values are averaged
+within each label using only the non-zero voxels from the cortical thickness map.
 
 %Given the gray matter labels, the white matter and CSF were identified 
 %for each of the 16 subjects using Atropos.  Similar to the LPBA40
@@ -420,23 +421,24 @@ distributed with the ANTs toolkit.  .
 
 \subsubsection{Data for Pipeline Evaluation}
                          
-In total, we processed 1202 T1-weighted images from four different
+In total, we processed 1205 T1-weighted images from four different
 public data sets to obtain the corresponding cortical thickness maps.                           
-The four data sets are described below: 
+The four data sets are: 
                                           
 \paragraph{IXI}
 The IXI data%
 \footnote{
 http://biomedic.doc.ic.ac.uk/brain-development/
 }
- used for the evaluation consists of 577 healthy subjects imaged at three sites 
-using several modalities (T1-weighted, T2-weighted, proton density, magnetic 
+consists of 561 healthy subjects (312 females, 249 males) imaged at three sites 
+with several modalities acquired (T1-weighted, T2-weighted, proton density, magnetic 
 resonance angiography, and diffusion tensor imaging).  The 
-database also consists of  demographic information such as age, weight,
+database also consists of  demographic information such as date of birth, date
+of scan, weight,
 height, ethnicity, occupation category, educational level, and marital status.
-The number of subjects spanning a range of demographic characteristics makes
-this a rich data set for validating and exploring correlations with cortical 
-thickness measured using the ANTs pipeline.
+Several subjects were removed during the analysis since certain
+demographic information was missing preventing an accurate estimate of 
+the age at the time of image acquisition.
 
 \paragraph{Oasis}
 The Open Access Series of Imaging Studies (OASIS)%
@@ -444,7 +446,7 @@ The Open Access Series of Imaging Studies (OASIS)%
 http://www.oasis-brains.org/
 }
  project consists of 416
-(160 males and 256 females) T1-weighted images spanning 
+(160 males, 256 females) T1-weighted images spanning 
 the ages between 18 and 96 with 100 of these subjects having been 
 diagnosed with very mild to moderate Alzheimer's disease.  
 All subjects are right-handed.  Additional processing is included
@@ -459,9 +461,9 @@ http://fcon\_1000.projects.nitrc.org
 was initiated on December 11, 2009 by various members of the MRI community
 seeking to form collaborative partnerships with imaging institutions for 
 sharing well-documented multimodal image sets accompanied by phenotypic data.
-This has resulted in the The Nathan Klein Institute (NKI)/Rockland sample
+This resulted in the Nathan Klein Institute (NKI)/Rockland sample
 consisting of (at the time of download, September 22, 2012), 186 T1-weighted
-images (87 females and 99 males).
+images (87 females, 99 males).
 
 \paragraph{Kirby}
 The Multi-Modal MRI Reproducibility Resource%
@@ -470,7 +472,7 @@ http://www.nitrc.org/projects/multimodal/
 }, 
 or more informally the Kirby
 data set, was originally described in \cite{landman2011} consisting of 
-21 subjects (10 female and 11 male) and featuring a rich multiple modality and 
+21 subjects (10 females, 11 males) and featuring a rich multiple modality and 
 repeated acquisition schedule.
 
 \begin{figure}

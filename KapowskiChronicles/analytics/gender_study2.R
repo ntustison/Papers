@@ -170,7 +170,7 @@ for( age in ages )
     networkFemales[,count] <- makeGraph( subnet0$network )
 
     networkDifference <- abs( networkMales[,count] -  networkFemales[,count] )
-    if ( permutation == 0 | permutation == maximumNumberOfPermutations )
+    if( permutation == 0 | permutation == maximumNumberOfPermutations )
       {
       initialNetworkDifference <- networkDifference
       } else {
