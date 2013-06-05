@@ -1,5 +1,30 @@
 \section{Evaluation}
 
+All images underwent the pipeline processing illustrated in Figure 
+\ref{fig:pipeline} using the computational cluster at the University 
+of Virginia.%
+\footnote{
+http://www.uvacse.virginia.edu/itc-clusters/
+}  
+Processing times varied approximately between 10--20 hours per subject
+for the entire cortical thickness estimation procedure.  The propagation of the
+NIREP labels to each subject using label fusion as described earlier
+was performed in parallel and took approximately 60--90 hours per 
+subject.  The scripts used to instantiate the processing jobs have all been made 
+publicly available on the github account for this manuscript.%
+\footnote{
+http://www.github.com/ntustison
+}
+
+Average thickness values were tabulated within each subject for each of the
+32 NIREP labels.  Cerebral volumes for each subject derived from the brain 
+extraction step were also calculated.  All these data were written to separate csv
+files corresponding to data set (also included with the scripts) for subsequent 
+analysis.
+
+\subsection{Transitivity}
+Structural networks \cite{he2007,chen2008}
+
 
 \begin{figure*}
   \centering
@@ -26,9 +51,6 @@
 
 
 
-%The resulting thickness values for each subject were averaged within each
-%of the 32 labels subsequent to normalization of thickness values by the
-%ratio of the template volume to the individual subject volume.
 %Normalized cortical thickness plots (age vs. thickness) are given in Figs.
 %\ref{fig:nirep1}--\ref{fig:nirep3}.  The {\tt smooth.spline} function in the
 %R statistical project%
