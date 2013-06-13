@@ -9,8 +9,8 @@ library( randomForest )
 library( reshape )
 library( e1071 )
 
-sigma <- 3
-ages <- seq( 10, 80, by = 2 )
+sigma <- 5
+ages <- seq( 10, 80, by = 1 )
 
 #################################################################
 ##
@@ -119,7 +119,9 @@ tstatisticMatrix <- matrix( rep( NA, numberOfLabels * numberOfAges ), ncol = num
 pvalueMatrix <- matrix( rep( NA, numberOfLabels * numberOfAges ), ncol = numberOfAges )
 networkMales <- matrix( rep( NA, numberOfLabels * numberOfAges ), ncol = numberOfAges )
 networkFemales <- matrix( rep( NA, numberOfLabels * numberOfAges ), ncol = numberOfAges )
-
+networkAll <- matrix( rep( NA, numberOfLabels * numberOfAges ), ncol = numberOfAges )
+rownames(networkAll)<-corticalLabels
+colnames(networkAll)<-ages
 count <- 1
 for( age in ages )
   {
@@ -145,7 +147,7 @@ for( age in ages )
   #
   ############################################
 
-  maximumNumberOfPermutations <- 5
+  maximumNumberOfPermutations <- 1
 
   initialNetworkDifference <- c();
 
@@ -159,6 +161,10 @@ for( age in ages )
       samplesSex <- sample( resultsSubsetBasedOnAgeDifference$SEX )
       }
 
+    temp <- calculateCorrelationMatrix( myth, cweights)
+    subnet0 <- reduceNetwork( temp, N = 200 )
+    networkAll[,count] <- makeGraph( subnet0$network )
+    
     males <- samplesSex == 1
     temp <- calculateCorrelationMatrix( myth[males,], cweights[males] )
     subnet0 <- reduceNetwork( temp, N = 200 )
@@ -170,6 +176,7 @@ for( age in ages )
     networkFemales[,count] <- makeGraph( subnet0$network )
 
     networkDifference <- abs( networkMales[,count] -  networkFemales[,count] )
+    
     if( permutation == 0 | permutation == maximumNumberOfPermutations )
       {
       initialNetworkDifference <- networkDifference
@@ -277,3 +284,15 @@ networkFemalePlot <- ggplot( melt( networkFemaleData ) ) +
                scale_y_discrete( 'Cortical Labels' ) +
                ggtitle( "Female network" )
 ggsave( filename = "femaleNetwork.pdf", plot = networkFemalePlot, width = 10, height = 6, units = 'in' )
+
+
+pvals<-rep(NA,nrow(networkAll))
+for ( n in 1:32 )
+  {
+  dd<-summary( lm( networkFemales[n,] ~ I(ages) + I(ages)^2 ) )
+  dd<-summary( lm( networkMales[n,] ~  I(ages) + I(ages)^2 ) )
+  dd<-summary( lm( networkAll[n,] ~  I(ages) + I(ages^2) ) )
+  pvals[n]<-coefficients(dd)[3,4]
+  }
+print( "transitivity with age" ) 
+print( p.adjust(pvals,method='BH') )
