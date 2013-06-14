@@ -120,8 +120,10 @@ pvalueMatrix <- matrix( rep( NA, numberOfLabels * numberOfAges ), ncol = numberO
 networkMales <- matrix( rep( NA, numberOfLabels * numberOfAges ), ncol = numberOfAges )
 networkFemales <- matrix( rep( NA, numberOfLabels * numberOfAges ), ncol = numberOfAges )
 networkAll <- matrix( rep( NA, numberOfLabels * numberOfAges ), ncol = numberOfAges )
-rownames(networkAll)<-corticalLabels
-colnames(networkAll)<-ages
+
+rownames( networkAll ) <- corticalLabels
+colnames( networkAll ) <- ages
+
 count <- 1
 for( age in ages )
   {
@@ -164,7 +166,7 @@ for( age in ages )
     temp <- calculateCorrelationMatrix( myth, cweights)
     subnet0 <- reduceNetwork( temp, N = 200 )
     networkAll[,count] <- makeGraph( subnet0$network )
-    
+
     males <- samplesSex == 1
     temp <- calculateCorrelationMatrix( myth[males,], cweights[males] )
     subnet0 <- reduceNetwork( temp, N = 200 )
@@ -176,7 +178,7 @@ for( age in ages )
     networkFemales[,count] <- makeGraph( subnet0$network )
 
     networkDifference <- abs( networkMales[,count] -  networkFemales[,count] )
-    
+
     if( permutation == 0 | permutation == maximumNumberOfPermutations )
       {
       initialNetworkDifference <- networkDifference
@@ -243,7 +245,7 @@ qvalueData$CorticalLabels <- factor( corticalLabels, levels = rev( corticalLabel
 qvaluePlot <- ggplot( melt( qvalueData ), aes( x = variable, y = CorticalLabels, fill = value ) ) +
               geom_tile( colour = "darkred" ) +
               scale_fill_gradientn( name = "q-value", colours = heat.colors( 7 ) ) +
-              scale_x_discrete( 'Age' ) +
+              scale_x_discrete( 'Age', labels = seq( from = ages[1], to = ages[length( ages )], by = 5 ), breaks = seq( from = ages[1], to = ages[length( ages )], by = 5 ) ) +
               scale_y_discrete( 'Cortical Labels' )
 ggsave( filename = "qvalueHeatMap.pdf", plot = qvaluePlot, width = 10, height = 6, units = 'in' )
 
@@ -255,7 +257,7 @@ tstatisticData$CorticalLabels <- factor( corticalLabels, levels = rev( corticalL
 tstatisticPlot <- ggplot( melt( tstatisticData ) ) +
               geom_tile( aes( x = variable, y = CorticalLabels, fill = value ), colour = "gray50", size = 0 ) +
               scale_fill_gradientn( name = "t-statistic", colours = heat.colors( 7 ) ) +
-              scale_x_discrete( 'Age' ) +
+              scale_x_discrete( 'Age', labels = seq( from = ages[1], to = ages[length( ages )], by = 5 ), breaks = seq( from = ages[1], to = ages[length( ages )], by = 5 ) ) +
               scale_y_discrete( 'Cortical Labels' )
 ggsave( filename = "tstatisticHeatMap.pdf", plot = tstatisticPlot, width = 10, height = 6, units = 'in' )
 
@@ -267,7 +269,7 @@ networkMaleData$CorticalLabels <- factor( corticalLabels, levels = rev( cortical
 networkMalePlot <- ggplot( melt( networkMaleData ) ) +
                geom_tile( aes( x = variable, y = CorticalLabels, fill = value ), colour = "gray50", size = 0 ) +
                scale_fill_gradientn( name = "correlation\nvalues", colours = heat.colors( 7 ) ) +
-               scale_x_discrete( 'Age' ) +
+               scale_x_discrete( 'Age', labels = seq( from = ages[1], to = ages[length( ages )], by = 5 ), breaks = seq( from = ages[1], to = ages[length( ages )], by = 5 ) ) +
                scale_y_discrete( 'Cortical Labels' ) +
                ggtitle( "Male network" )
 ggsave( filename = "maleNetwork.pdf", plot = networkMalePlot, width = 10, height = 6, units = 'in' )
@@ -280,13 +282,25 @@ networkFemaleData$CorticalLabels <- factor( corticalLabels, levels = rev( cortic
 networkFemalePlot <- ggplot( melt( networkFemaleData ) ) +
                geom_tile( aes( x = variable, y = CorticalLabels, fill = value ), colour = "gray50", size = 0 ) +
                scale_fill_gradientn( name = "correlation\nvalues", colours = heat.colors( 7 ) ) +
-               scale_x_discrete( 'Age' ) +
+               scale_x_discrete( 'Age', labels = seq( from = ages[1], to = ages[length( ages )], by = 5 ), breaks = seq( from = ages[1], to = ages[length( ages )], by = 5 ) ) +
                scale_y_discrete( 'Cortical Labels' ) +
                ggtitle( "Female network" )
 ggsave( filename = "femaleNetwork.pdf", plot = networkFemalePlot, width = 10, height = 6, units = 'in' )
 
+networkAllData <- data.frame( networkAll )
+colnames( networkAllData ) <- ages
+networkAllData$CorticalLabels <- factor( corticalLabels, levels = rev( corticalLabels ) )
 
-pvals<-rep(NA,nrow(networkAll))
+networkAllPlot <- ggplot( melt( networkAllData ) ) +
+               geom_tile( aes( x = variable, y = CorticalLabels, fill = value ), colour = "gray50", size = 0 ) +
+               scale_fill_gradientn( name = "correlation\nvalues", colours = heat.colors( 7 ) ) +
+               scale_x_discrete( 'Age', labels = seq( from = ages[1], to = ages[length( ages )], by = 5 ), breaks = seq( from = ages[1], to = ages[length( ages )], by = 5 ) ) +
+               scale_y_discrete( 'Cortical Labels' ) +
+               ggtitle( "Both genders network" )
+ggsave( filename = "allNetwork.pdf", plot = networkAllPlot, width = 10, height = 6, units = 'in' )
+
+
+pvals <- rep( NA, nrow( networkAll ) )
 for ( n in 1:32 )
   {
   dd<-summary( lm( networkFemales[n,] ~ I(ages) + I(ages)^2 ) )
@@ -294,5 +308,6 @@ for ( n in 1:32 )
   dd<-summary( lm( networkAll[n,] ~  I(ages) + I(ages^2) ) )
   pvals[n]<-coefficients(dd)[3,4]
   }
-print( "transitivity with age" ) 
-print( p.adjust(pvals,method='BH') )
+print( "transitivity with age" )
+print( p.adjust( pvals, method = 'BH' ) )
+
