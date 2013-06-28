@@ -8,55 +8,35 @@ library( pheatmap )
 library( randomForest )
 library( reshape )
 library( e1071 )
+rgl.bg( color="white")
+labels <- antsImageRead('nirep.nii.gz',3)
+centroids <- LabelImageCentroids( labels, physical=TRUE )
+template <- antsImageRead('glasshead.nii.gz', 3)
+brain <- antsImageRead('glassbrain.nii.gz', 3)
+leftright <- antsImageRead('leftright.nii.gz', 3)
+# template <- maskImage(template, leftright, 1)
+# brain <- maskImage(brain, leftright, 1)
+id<-rotationMatrix( 0, 0, 1, 0) 
+lateralLeft <- rotationMatrix(pi/2, 0, -1, 0) %*% rotationMatrix(pi/2, -1, 0, 0)
+frontal <- rotationMatrix(pi*3/2, 1,  0, 0)  # %*% rotationMatrix( pi/2, -1, 0, 0)
+lateralRigt <- rotationMatrix(pi/2, 0,  1, 0) %*% rotationMatrix( pi/2, -1, 0, 0)
+par3d(userMatrix=id, windowRect=c(0,0,512,512), zoom=0.7)
+mysurf <- renderSurfaceFunction(list(template,brain), alphasurf=c(0.3,0.3), surfval=0.5, smoothsval=1.5,  alphafunc=1, mycol="cadetblue1")
+par3d(userMatrix=lateralLeft, windowRect=c(0,0,512,512), zoom=0.7)
+par3d(userMatrix=id, windowRect=c(0,0,512,512), zoom=0.7)
+par3d(userMatrix=lateralRigt, windowRect=c(0,0,512,512), zoom=0.7)
 
+maximumNumberOfPermutations <- 500
 sigma <- 5
-ages <- seq( 10, 80, by = 1 )
-
+ages <- seq( 10, 80, by = 5 )
 #################################################################
 ##
 ##   function definitions
-##     * makeGraph - returns a vector of scores or weights for
-##                   each vertex in the network based on
+##
 ##     * calculateCorrelationMatrix -
 ##
 #################################################################
 
-makeGraph <- function( myrsfnetworkcorrs )
-  {
-  correlationThreshold <- 0.000001
-
-  numberOfNeighbors <- nrow( myrsfnetworkcorrs )
-  if( numberOfNeighbors == 0 )
-    {
-    return( 0 )
-    }
-
-  edgeWeights <- c( 0 )
-  for( x in c( 1:numberOfNeighbors ) )
-    {
-    for( y in c( x:numberOfNeighbors ) )
-      {
-      if( myrsfnetworkcorrs[x,y] > correlationThreshold & myrsfnetworkcorrs[x,y] < 1 )
-        {
-        edgeWeights <- c( edgeWeights, myrsfnetworkcorrs[x,y] )
-        }
-      }
-    }
-
-  edgeWeights <- edgeWeights[2:length( edgeWeights )]
-  adjacencyMatrix <- as.matrix(
-    ( myrsfnetworkcorrs > correlationThreshold & myrsfnetworkcorrs < 1 ),
-    nrow = numberOfNeighbors, ncol = nnumberOfNeighbors )
-  g1 <- graph.adjacency( adjacencyMatrix, mode = c( "undirected" ) )
-
-#   gmetric <- betweenness( g1, normalized = T, weights = 1/edgeWeights )
-#   gmetric <- closeness( g1, normalized = T, weights = 1/edgeWeights )
-#   gmetric <- page.rank( g1, weights = 1/edgeWeights )$vector
-#   gmetric <- degree( g1 )
-
-  gmetric <- transitivity( g1, type = "local", isolates = c( "zero" ) )
-  return( gmetric )
-  }
 
 calculateCorrelationMatrix <- function( mat, weights, nuis )
   {
@@ -142,6 +122,7 @@ for( age in ages )
 
   weightedAges[count] <- sum( resultsSubsetBasedOnAgeDifference$AGE * cweights )
   correlationThicknessMatrix <- calculateCorrelationMatrix( thicknessValues , weights = cweights  )
+  myth <- residuals( lm( as.matrix( thicknessValues ) ~ resultsSubsetBasedOnAgeDifference$SITE ) )
 
   ############################################
   #
@@ -149,42 +130,84 @@ for( age in ages )
   #
   ############################################
 
-  maximumNumberOfPermutations <- 1
-
   initialNetworkDifference <- c();
 
+  pb <- txtProgressBar( min = 0, max = maximumNumberOfPermutations, style = 3 )
   permutationCount <- rep( 0, numberOfLabels )
   for( permutation in 0:maximumNumberOfPermutations )
     {
-    myth <- residuals( lm( as.matrix( thicknessValues ) ~ resultsSubsetBasedOnAgeDifference$SITE ) )
     samplesSex <- resultsSubsetBasedOnAgeDifference$SEX
     if( permutation > 0 & permutation < maximumNumberOfPermutations )
       {
       samplesSex <- sample( resultsSubsetBasedOnAgeDifference$SEX )
       }
 
+    gdensity <- 0.25
     temp <- calculateCorrelationMatrix( myth, cweights)
-    subnet0 <- reduceNetwork( temp, N = 200 )
-    networkAll[,count] <- makeGraph( subnet0$network )
+    networkAll[,count] <- makeGraph( temp , gdensity )$localtransitivity # walktrapcomm$modularity
 
     males <- samplesSex == 1
     temp <- calculateCorrelationMatrix( myth[males,], cweights[males] )
-    subnet0 <- reduceNetwork( temp, N = 200 )
-    networkMales[,count] <- makeGraph( subnet0$network )
+    networkMales[,count] <- makeGraph( temp , gdensity )$localtransitivity # walktrapcomm$modularity
 
     females <- samplesSex == 2
     temp <- calculateCorrelationMatrix( myth[females,], cweights[females] )
-    subnet0 <- reduceNetwork( temp, N = 200 )
-    networkFemales[,count] <- makeGraph( subnet0$network )
+    networkFemales[,count] <- makeGraph(  temp , gdensity )$localtransitivity # walktrapcomm$modularity
 
-    networkDifference <- abs( networkMales[,count] -  networkFemales[,count] )
+    networkDifference <- ( networkFemales[,count] -  networkMales[,count] )
 
-    if( permutation == 0 | permutation == maximumNumberOfPermutations )
+    if( permutation == 0 ) # | permutation == maximumNumberOfPermutations )
       {
+      locations<-list( vertices=centroids$vertices )
+      ########## first males ############
+      gender <- samplesSex == 1
+      temp <- calculateCorrelationMatrix( myth[gender,], cweights[gender] )
+      myg<- makeGraph(  temp , gdensity )
+      renderNetwork( myg$adjacencyMatrix , locations )
+      fn<-paste('figs/temp_male_community_',age,'.pdf',sep='')
+      pdf(fn)
+      plot( myg$walktrapcomm, myg$mygraph )
+      dev.off()
+      fn<-paste('figs/temp_male_network_F_',age,'.png',sep='')
+      par3d(userMatrix=id, windowRect=c(0,0,512,512), zoom=0.7)
+      par3d(userMatrix=frontal, windowRect=c(0,0,512,512), zoom=0.7)
+      rgl.snapshot(fn)
+      fn<-paste('figs/temp_male_network_L_',age,'.png',sep='')
+      par3d(userMatrix=id, windowRect=c(0,0,512,512), zoom=0.7)
+      par3d(userMatrix=lateralLeft, windowRect=c(0,0,512,512), zoom=0.7)
+      rgl.snapshot(fn)
+      fn<-paste('figs/temp_male_network_R_',age,'.png',sep='')
+      par3d(userMatrix=id, windowRect=c(0,0,512,512), zoom=0.7)
+      par3d(userMatrix=lateralRigt, windowRect=c(0,0,512,512), zoom=0.7)
+      rgl.snapshot(fn)
+      rgl.pop()
+      ######## now females ###########
+      gender <- samplesSex == 2
+      temp <- calculateCorrelationMatrix( myth[gender,], cweights[gender] )
+      myg<- makeGraph(  temp , gdensity )
+      renderNetwork( myg$adjacencyMatrix , locations )
+      fn<-paste('figs/temp_female_community_',age,'.pdf',sep='')
+      pdf(fn)
+      plot( myg$walktrapcomm, myg$mygraph )
+      dev.off()
+      fn<-paste('figs/temp_female_network_F_',age,'.png',sep='')
+      par3d(userMatrix=id, windowRect=c(0,0,512,512), zoom=0.7)
+      par3d(userMatrix=frontal, windowRect=c(0,0,512,512), zoom=0.7)
+      rgl.snapshot(fn)
+      fn<-paste('figs/temp_female_network_L_',age,'.png',sep='')
+      par3d(userMatrix=id, windowRect=c(0,0,512,512), zoom=0.7)
+      par3d(userMatrix=lateralLeft, windowRect=c(0,0,512,512), zoom=0.7)
+      rgl.snapshot(fn)
+      fn<-paste('figs/temp_female_network_R_',age,'.png',sep='')
+      par3d(userMatrix=id, windowRect=c(0,0,512,512), zoom=0.7)
+      par3d(userMatrix=lateralRigt, windowRect=c(0,0,512,512), zoom=0.7)
+      rgl.snapshot(fn)
+      rgl.pop()
       initialNetworkDifference <- networkDifference
       } else {
       permutationCount <- permutationCount + as.numeric( networkDifference >= initialNetworkDifference )
       }
+    setTxtProgressBar(pb, permutation )
     }
   cat( "Age: ", age, "\n", sep = '' );
   cat( "  p-value (permutation testing) =", permutationCount / maximumNumberOfPermutations, "\n", sep = ' ' )
@@ -300,14 +323,15 @@ networkAllPlot <- ggplot( melt( networkAllData ) ) +
 ggsave( filename = "allNetwork.pdf", plot = networkAllPlot, width = 10, height = 6, units = 'in' )
 
 
-pvals <- rep( NA, nrow( networkAll ) )
-for ( n in 1:32 )
-  {
-  dd<-summary( lm( networkFemales[n,] ~ I(ages) + I(ages)^2 ) )
-  dd<-summary( lm( networkMales[n,] ~  I(ages) + I(ages)^2 ) )
-  dd<-summary( lm( networkAll[n,] ~  I(ages) + I(ages^2) ) )
-  pvals[n]<-coefficients(dd)[3,4]
-  }
-print( "transitivity with age" )
-print( p.adjust( pvals, method = 'BH' ) )
-
+#
+# pvals <- rep( NA, nrow( networkAll ) )
+# for ( n in 1:32 )
+#   {
+#   dd<-summary( lm( networkFemales[n,] ~ I(ages) + I(ages)^2 ) )
+#   dd<-summary( lm( networkMales[n,] ~  I(ages) + I(ages)^2 ) )
+#   dd<-summary( lm( networkAll[n,] ~  I(ages) + I(ages^2) ) )
+#   pvals[n]<-coefficients(dd)[3,4]
+#   }
+# print( "transitivity with age" )
+# print( p.adjust( pvals, method = 'BH' ) )
+#
