@@ -52,11 +52,21 @@ repeatabilityDataFrame$ScanOrder <- as.factor( scanOrder )
 #                   thickness.RepeatScan,
 #                   paired = TRUE )
 
+qvalues <- c()
+meanDifferences <- c()
 for( i in 6:37 )
   {
   myTest <- t.test( repeatabilityDataFrame[which( repeatabilityDataFrame$ScanOrder == "First"),i],
                     repeatabilityDataFrame[which( repeatabilityDataFrame$ScanOrder == "Repeat"),i],
                     paired = TRUE, conf.int = TRUE )
-  cat( corticalLabels[i-5], ": mean of the differences = ", myTest$estimate,
-       " (p-value = ", myTest$p.value, ")\n", sep = '' )
+  qvalues[i-5] <- myTest$p.value
+  meanDifferences[i-5] <- myTest$estimate
   }
+qvalues <- p.adjust( qvalues, method = "fdr" )
+
+for( i in 1:32 )
+  {
+  cat( corticalLabels[i], ": mean of the differences = ", meanDifferences[i],
+       " (q-value = ", qvalues[i], ")\n", sep = '' )
+  }
+
