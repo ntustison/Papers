@@ -26,10 +26,6 @@ corticalLabels <- c( "L occipital", "R occipital",
 #    subject 2, scan 1, ...
 #    subject 2, scan 2, ...
 #
-# We reorganize to list all the first scans in the first
-# half of the data frame followed by all the repeat scans
-# and remove the 'ID' column
-#
 
 subjectID <- paste0( "S", c( 1:( 0.5 * ( nrow( kirby ) + nrow( oasis ) ) ) ) )
 subjectID <- rbind( subjectID, subjectID )
@@ -40,17 +36,6 @@ scanOrder <- rep( c( "First", "Repeat" ), 0.5 * ( nrow( kirby ) + nrow( oasis ) 
 repeatabilityDataFrame <- data.frame( rbind( kirby, oasis ) )
 repeatabilityDataFrame$ID <- as.factor( subjectID )
 repeatabilityDataFrame$ScanOrder <- as.factor( scanOrder )
-
-# thickness.FirstScan <- c()
-# thickness.RepeatScan <- c()
-# for( i in 6:37 )
-#   {
-#   thickness.FirstScan <- c( thickness.FirstScan, repeatabilityDataFrame[which( repeatabilityDataFrame$ScanOrder == "First" ), i] )
-#   thickness.RepeatScan <- c( thickness.RepeatScan, repeatabilityDataFrame[which( repeatabilityDataFrame$ScanOrder == "Repeat" ), i] )
-#   }
-# myTest <- t.test( thickness.FirstScan,
-#                   thickness.RepeatScan,
-#                   paired = TRUE )
 
 qvalues <- c()
 meanDifferences <- c()
