@@ -26,7 +26,7 @@ par3d(userMatrix=lateralLeft, windowRect=c(0,0,512,512), zoom=0.7)
 par3d(userMatrix=id, windowRect=c(0,0,512,512), zoom=0.7)
 par3d(userMatrix=lateralRigt, windowRect=c(0,0,512,512), zoom=0.7)
 
-maximumNumberOfPermutations <- 500
+maximumNumberOfPermutations <- 1000
 sigma <- 5
 ages <- seq( 10, 80, by = 5 )
 #################################################################
@@ -97,12 +97,15 @@ corrs <- rep( NA, numberOfAges )
 
 tstatisticMatrix <- matrix( rep( NA, numberOfLabels * numberOfAges ), ncol = numberOfAges )
 pvalueMatrix <- matrix( rep( NA, numberOfLabels * numberOfAges ), ncol = numberOfAges )
+pvalueMatrixNet <- matrix( rep( NA, numberOfLabels * numberOfAges ), ncol = numberOfAges )
+netdiffMatrixNet <- matrix( rep( NA, numberOfLabels * numberOfAges ), ncol = numberOfAges )
 networkMales <- matrix( rep( NA, numberOfLabels * numberOfAges ), ncol = numberOfAges )
 networkFemales <- matrix( rep( NA, numberOfLabels * numberOfAges ), ncol = numberOfAges )
 networkAll <- matrix( rep( NA, numberOfLabels * numberOfAges ), ncol = numberOfAges )
 
 rownames( networkAll ) <- corticalLabels
 colnames( networkAll ) <- ages
+
 
 count <- 1
 for( age in ages )
@@ -112,6 +115,41 @@ for( age in ages )
   # weights closer to the current age are weighted more
   # heavily
 
+  ageDifference <- ( resultsCombined$AGE - age )
+  resultsSubsetBasedOnAgeDifference <- subset( resultsCombined, abs( ageDifference ) < 5000*sigma )
+  thicknessValues <- resultsSubsetBasedOnAgeDifference[,thicknessColumns]
+
+  ageDifference <- ( resultsSubsetBasedOnAgeDifference$AGE - age )
+  cweights <- exp( -1.0 * ageDifference^2 / sigma^2 )
+  cweights <- cweights / sum( cweights )
+
+  weightedAges[count] <- sum( resultsSubsetBasedOnAgeDifference$AGE * cweights )
+  correlationThicknessMatrix <- calculateCorrelationMatrix( thicknessValues , weights = cweights  )
+  myth <- residuals( lm( as.matrix( thicknessValues ) ~ resultsSubsetBasedOnAgeDifference$SITE ) )
+
+  ############################################
+  #
+  #  Perform t-statistic on age vs. thickness label
+  #
+  ############################################
+
+  for( corticalLabel in 1:length( corticalLabels ) )
+    {
+    genderTest <- summary( lm( thicknessValues[,corticalLabel] ~ SEX + SITE + VOLUME + I(AGE) + I(AGE^2), weights = cweights, data = resultsSubsetBasedOnAgeDifference ) )
+
+    # get t-statistic and p-value on SEX significance (respectively)
+    tstatisticMatrix[corticalLabel,count] <- coef( genderTest )[2,3]
+    pvalueMatrix[corticalLabel,count] <- coef( genderTest )[2,4]
+    }
+
+  count <- count+1
+  }
+
+qvalueMatrix<-matrix(  p.adjust(  pvalueMatrix , method='bonf' ), ncol = numberOfAges )
+
+count <- 1
+for( age in ages ) # age permutation loop
+  {
   ageDifference <- ( resultsCombined$AGE - age )
   resultsSubsetBasedOnAgeDifference <- subset( resultsCombined, abs( ageDifference ) < 5000*sigma )
   thicknessValues <- resultsSubsetBasedOnAgeDifference[,thicknessColumns]
@@ -141,7 +179,7 @@ for( age in ages )
       {
       samplesSex <- sample( resultsSubsetBasedOnAgeDifference$SEX )
       }
-
+    # localtransitivity betweeness pagerank 
     gdensity <- 0.25
     temp <- calculateCorrelationMatrix( myth, cweights)
     networkAll[,count] <- makeGraph( temp , gdensity )$localtransitivity # walktrapcomm$modularity
@@ -154,9 +192,9 @@ for( age in ages )
     temp <- calculateCorrelationMatrix( myth[females,], cweights[females] )
     networkFemales[,count] <- makeGraph(  temp , gdensity )$localtransitivity # walktrapcomm$modularity
 
-    networkDifference <- ( networkFemales[,count] -  networkMales[,count] )
+    networkDifference <- ( ( networkFemales[,count] ) -  ( networkMales[,count] ) )
 
-    if( permutation == 0 ) # | permutation == maximumNumberOfPermutations )
+    if( permutation == 0 & FALSE )
       {
       locations<-list( vertices=centroids$vertices )
       ########## first males ############
@@ -203,39 +241,33 @@ for( age in ages )
       par3d(userMatrix=lateralRigt, windowRect=c(0,0,512,512), zoom=0.7)
       rgl.snapshot(fn)
       rgl.pop()
+      }
+    
+    if( permutation == 0 )
+      {
       initialNetworkDifference <- networkDifference
+      mysign<-as.numeric( initialNetworkDifference > 0 )
+      mysign[ mysign == 0 ] <- -1 
       } else {
-      permutationCount <- permutationCount + as.numeric( networkDifference >= initialNetworkDifference )
+      permutationCount <- permutationCount + as.numeric( (networkDifference*mysign) > initialNetworkDifference )
       }
     setTxtProgressBar(pb, permutation )
-    }
+  }
+
+  pvalueMatrixNet[ , count ] <-  permutationCount / maximumNumberOfPermutations
+  netdiffMatrixNet[ , count ] <-  initialNetworkDifference
   cat( "Age: ", age, "\n", sep = '' );
-  cat( "  p-value (permutation testing) =", permutationCount / maximumNumberOfPermutations, "\n", sep = ' ' )
+  for ( ff in 1:length(mysign) ) if (  pvalueMatrixNet[ff, count ] < 0.05 ) print(paste(corticalLabels[ff],initialNetworkDifference[ff],pvalueMatrixNet[ff, count ]))#  cat( "  p-value (permutation testing) =", permutationCount / maximumNumberOfPermutations, "\n", sep = ' ' )
 
-  ############################################
-  #
-  #  Perform t-statistic on age vs. thickness label
-  #
-  ############################################
-
-  for( corticalLabel in 1:length( corticalLabels ) )
-    {
-    genderTest <- summary( lm( thicknessValues[,corticalLabel] ~ SEX + SITE + VOLUME, weights = cweights, data = resultsSubsetBasedOnAgeDifference ) )
-
-    # get t-statistic and p-value on SEX significance (respectively)
-    tstatisticMatrix[corticalLabel,count] <- coef( genderTest )[2,3]
-    pvalueMatrix[corticalLabel,count] <- coef( genderTest )[2,4]
-    }
-
+  
   corrs[count] <- mean( cor( thicknessValues ) )
-
-  subnet0 <- reduceNetwork( correlationThicknessMatrix, N = 200 )
-  corrs[count] <- mean( subnet0$network[subnet0$network > 0] )
 
   meanthicknessValues <- mean( apply( thicknessValues, FUN = mean, MARGIN = 2 ) )
 
   count <- count+1
-  }
+} # end age network permutation loop
+
+
 
 ##################################
 #
