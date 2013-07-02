@@ -7,22 +7,23 @@ testingData <- read.csv( "testingBrainSegmentationPosteriors2Projections.csv" )
 # testingData <- read.csv( "testingCorticalThicknessProjections.csv" )
 
 # Remove ID, gender, and site
-
-drops <- c( "ID", "SEX", "SITE" )
-drops <- c( "ID"  )
-
-trainingData <- trainingData[, !( names( trainingData ) %in% drops )]
-testingData <- testingData[, !( names( trainingData ) %in% drops )]
+#  drops <- c( "ID", "SEX", "SITE" )
+#  trainingData <- trainingData[, !( names( trainingData ) %in% drops )]
+#  testingData <- testingData[, !( names( trainingData ) %in% drops )]
+trainingData<-trainingData[,3:ncol(testingData)]
+testingData<-testingData[,3:ncol(testingData)]
 
 brainAgeVM <- rvm( AGE ~ ., data = trainingData, type = "regression",
                     kernel = "laplacedot", 
                     verbosity = 1, tol = .Machine$double.eps,
                     minmaxdiff = 1e-3, cross = 0, fit = TRUE,
-                    na.action = na.omit , iterations = 500 )
+                    na.action = na.omit , iterations = 200 )
+
 predictedAge <- predict( brainAgeVM, testingData )
 
 correlation <- cor( testingData$AGE, predictedAge )
-cat( "Correlation (true vs. predicted age): ", correlation, "\n", sep = '' )
+meanerr<-(  mean( abs(  testingData$AGE - predictedAge ) ) )
+cat( "Correlation (true vs. predicted age): ", correlation, " mean err " , meanerr , "\n", sep = '' )
 
 
 plotData <- data.frame( TrueAge = testingData$AGE, PredictedAge = predictedAge )
@@ -61,5 +62,23 @@ ggsave( filename = paste( "brainAge.pdf", sep = "" ), plot = brainAgePlot, width
 #                 scale_y_continuous( "True - predicted age", breaks = seq( -20, 20, by = 5 ), labels = seq( -20, 20, by = 5 ), limits = c( -20, 20 ) ) +
 #                 ggtitle( "True vs. Predicted Age" )
 # ggsave( filename = paste( "brainAge.pdf", sep = "" ), plot = brainAgePlot, width = 8, height = 6, units = 'in' )
+#
 
-print(  mean( abs(  testingData$AGE - predictedAge ) ) )
+if ( FALSE )
+  {
+    img<-as.matrix( trainingData[ ,c(1,3:ncol(trainingData) ) ] )
+    testimg<-as.matrix( testingData[ ,c(1,3:ncol(trainingData) ) ] )
+    myregression <- sparseRegression( img , data.frame( AGE=trainingData$AGE , SEX=trainingData$SEX ), "AGE",  sparseness=-0.1, nvecs=10, its=10, cthresh=0)
+    ff<-data.frame(AGE=trainingData$AGE, myregression$umatrix )
+    tt<-glm( AGE ~ ., data = ff )
+    cor.test( predict( tt ) , ff$AGE )
+    
+    newu<-  testimg %*% ( as.matrix( myregression$eigenanatomyimages ) )
+    colnames( newu ) <- colnames( myregression$umatrix  )
+    names( newu ) <- names( myregression$umatrix  )
+    ff<-data.frame(  newu )
+    predictedAge2 <- predict( tt, newdata=ff )
+    correlation <- cor( testingData$AGE, predictedAge2 )
+    meanerr<-(  mean( abs(  testingData$AGE - predictedAge2 ) ) )
+    cat( "Correlation (true vs. predicted age): ", correlation, " mean err " , meanerr , "\n", sep = '' )
+  }
