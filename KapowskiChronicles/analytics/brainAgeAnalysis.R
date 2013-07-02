@@ -9,15 +9,16 @@ testingData <- read.csv( "testingBrainSegmentationPosteriors2Projections.csv" )
 # Remove ID, gender, and site
 
 drops <- c( "ID", "SEX", "SITE" )
+drops <- c( "ID"  )
 
 trainingData <- trainingData[, !( names( trainingData ) %in% drops )]
 testingData <- testingData[, !( names( trainingData ) %in% drops )]
 
 brainAgeVM <- rvm( AGE ~ ., data = trainingData, type = "regression",
-                    kernel = "polydot", kpar = list( degree = 1 ),
+                    kernel = "laplacedot", 
                     verbosity = 1, tol = .Machine$double.eps,
                     minmaxdiff = 1e-3, cross = 0, fit = TRUE,
-                    na.action = na.omit )
+                    na.action = na.omit , iterations = 500 )
 predictedAge <- predict( brainAgeVM, testingData )
 
 correlation <- cor( testingData$AGE, predictedAge )
@@ -60,3 +61,5 @@ ggsave( filename = paste( "brainAge.pdf", sep = "" ), plot = brainAgePlot, width
 #                 scale_y_continuous( "True - predicted age", breaks = seq( -20, 20, by = 5 ), labels = seq( -20, 20, by = 5 ), limits = c( -20, 20 ) ) +
 #                 ggtitle( "True vs. Predicted Age" )
 # ggsave( filename = paste( "brainAge.pdf", sep = "" ), plot = brainAgePlot, width = 8, height = 6, units = 'in' )
+
+print(  mean( abs(  testingData$AGE - predictedAge ) ) )
