@@ -1,20 +1,21 @@
 library( kernlab )
 library( ggplot2 )
 
-trainingData <- read.csv( "trainingBrainSegmentationPosteriors2Projections.csv" )
-testingData <- read.csv( "testingBrainSegmentationPosteriors2Projections.csv" )
-# trainingData <- read.csv( "trainingCorticalThicknessProjections.csv" )
-# testingData <- read.csv( "testingCorticalThicknessProjections.csv" )
+trainingData <- read.csv( "PCAVariation0.99/trainingBrainSegmentationPosteriors2Projections.csv" )
+testingData <- read.csv( "PCAVariation0.99/testingBrainSegmentationPosteriors2Projections.csv" )
+# trainingData <- read.csv( "PCAVariation0.99/trainingCorticalThicknessProjections.csv" )
+# testingData <- read.csv( "PCAVariation0.99/testingCorticalThicknessProjections.csv" )
 
 # Remove ID, gender, and site
 #  drops <- c( "ID", "SEX", "SITE" )
 #  trainingData <- trainingData[, !( names( trainingData ) %in% drops )]
 #  testingData <- testingData[, !( names( trainingData ) %in% drops )]
+
 trainingData<-trainingData[,3:ncol(testingData)]
 testingData<-testingData[,3:ncol(testingData)]
 
 brainAgeVM <- rvm( AGE ~ ., data = trainingData, type = "regression",
-                    kernel = "laplacedot", 
+                    kernel = "laplacedot",
                     verbosity = 1, tol = .Machine$double.eps,
                     minmaxdiff = 1e-3, cross = 0, fit = TRUE,
                     na.action = na.omit , iterations = 200 )
@@ -72,7 +73,7 @@ if ( FALSE )
     ff<-data.frame(AGE=trainingData$AGE, myregression$umatrix )
     tt<-glm( AGE ~ ., data = ff )
     cor.test( predict( tt ) , ff$AGE )
-    
+
     newu<-  testimg %*% ( as.matrix( myregression$eigenanatomyimages ) )
     colnames( newu ) <- colnames( myregression$umatrix  )
     names( newu ) <- names( myregression$umatrix  )
