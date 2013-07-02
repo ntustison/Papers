@@ -31,9 +31,9 @@ brainAgeRegression <- lm( testingData$AGE ~ 1 + predictedAge )
 
 
 brainAgePlot <- ggplot( plotData, aes( x = TrueAge, y = PredictedAge ) ) +
-                geom_point( colour = "darkred", size = 4, alpha = 0.75 ) +
                 stat_smooth( colour = "navyblue", formula = y ~ 1 + x, method = "lm",
                   size = 1, n = 1000, level = 0.95, se = TRUE, fullrange = TRUE, fill = 'black', alpha = 0.25 ) +
+                geom_point( colour = "darkred", size = 4, alpha = 0.75 ) +
                 scale_x_continuous( "True age", breaks = seq( 10, 80, by = 10 ), labels = seq( 10, 80, by = 10 ), limits = c( 10, 80 ) ) +
                 scale_y_continuous( "Predicted age", breaks = seq( 10, 80, by = 10 ), labels = seq( 10, 80, by = 10 ), limits = c( 10, 80 ) ) +
                 ggtitle( "True vs. Predicted Age" )
