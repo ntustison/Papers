@@ -1,3 +1,4 @@
+library( ANTsR )
 
 #####################################################################################
 mysurf <- renderSurfaceFunction(list(template,brain), alphasurf=c(0.3,0.3), surfval=0.5, smoothsval=1.5,  alphafunc=1, mycol="cadetblue1")
@@ -25,7 +26,7 @@ for( permutation in 0:maximumNumberOfPermutations )
     {
       samplesAge <- sample( resultsCombined$AGE )
     }
-    # localtransitivity betweeness pagerank 
+    # localtransitivity betweeness pagerank
   gdensity <- 0.25
   ageDifference1 <- abs( samplesAge - testages[1] )
   resultsSubsetBasedOnAgeDifference1 <- subset( resultsCombined, ageDifference1 <= 10 )
@@ -74,11 +75,11 @@ for( permutation in 0:maximumNumberOfPermutations )
       dev.off()
       }
   setTxtProgressBar(pb, permutation )
-} # end permutation 
+} # end permutation
 pvals <-  permutationCount / maximumNumberOfPermutations
 pvageMat[,ntests]<-pvals
 cat( "Ages: ", testages, "\n", sep = ' ' );
-for ( ff in 1:length(mysign) ) if (  pvals[ff ] < 0.05 ) print(paste(corticalLabels[ff],initialNetworkDifference[ff],pvals[ff]))#  
+for ( ff in 1:length(mysign) ) if (  pvals[ff ] < 0.05 ) print(paste(corticalLabels[ff],initialNetworkDifference[ff],pvals[ff]))#
 }
 
 qq<-pvageMat

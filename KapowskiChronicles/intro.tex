@@ -27,8 +27,8 @@ tendency toward criminality \citep{raine2011}, and Tetris-playing
 ability in female adolescents \citep{haier2009}.  Additionally,
 recent studies demonstrate possible functional 
 connectivity relationships using cortical thickness measures
-\cite{worsley2005,lerch2006,he2007}.
-Although these findings
+\citep{worsley2005,lerch2006,he2007,chen2008}.
+Although all these findings
 are subject to debate and interpretation \citep{gernsbacher2007}, 
 the availability of quantitative
 computational methods for extracting such information
@@ -110,10 +110,9 @@ brain extraction \cite{avants2010a}, $n$-tissue segmentation \cite{avants2011a},
 template construction \cite{avants2010}, and image normalization \cite{avants2011}.
 We also describe improvements made to the original DiReCT algorithm \cite{das2009}.
 Equally as important, we provide explicit coordination between
-these pipeline components complete with a set of useful parameters
-which are employed to analyze the publicly available IXI data set. The
-full pipeline and parameter set is 
-encapsulated in a well-documented shell script which is also available in ANTs. 
+these pipeline components within a set of well-documented shell scripts which 
+is also available in the ANTs repository where parameters have been tuned
+by the original authors and provide good performance across a number of data sets.
 Furthermore, we provide all the derived image data and other processing scripts on 
 the NITRC repository specifically meant for this publication.  The
 availability of both the code and data permits
@@ -121,12 +120,6 @@ the set of results described in this work to be fully reproducible.  This
 permits other researchers to contrast their own results against
 this baseline processing and to adapt the given volumetric pipeline for measuring
 cortical thickness with their own datasets.
-
-
-
-
-
-
 
 
 %This might explain why there have been few evaluation studies.  For example, in

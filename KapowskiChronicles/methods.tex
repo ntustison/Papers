@@ -7,26 +7,25 @@ in Figure \ref{fig:pipeline}.  The steps are as follows:
 \begin{enumerate}
   \item initial N4 bias correction on input anatomical MRI,
   \item brain extraction using a hybrid segmentation/template-based strategy,
-  \item alternation between prior-based segmentation and white matter posterior
-        probability weighted bias correction,
+  \item alternation between prior-based segmentation and ``pure tissue'' 
+        posterior probability weighted bias correction,
   \item DiReCT-based cortical thickness estimation, and
   \item optional normalization to specified template.
 \end{enumerate}
 Each component, including both software and data, is briefly detailed 
 below with the relevant references for additional information. 
 
-
 %We also note that each component is publicly available with all ANTs 
 %algorithms available as open source.%
 %\footnote{
 %http://www.picsl.upenn.edu/ANTS
 %}
-Additionally, the coordination of all the algorithmic components is
+The coordination of all the algorithmic components is
 encapsulated in the shell scripts \verb#antsCorticalThickness.sh# with
 subcomponents delegated to \verb#antsBrainExtraction.sh# 
 and \verb#antsAtroposN4.sh#.  This includes
 optimal parameters for each of the algorithmic components which has worked
-well for our processing and which are used to acquire the results 
+well for our processing and are used to acquire the results 
 described in this work.
 
 %\lstset{frame = tb,
@@ -118,11 +117,10 @@ described in this work.
 
 \begin{figure*}
   \centering
-  \includegraphics[width=180mm]{Figures/Kapowski_pipeline2.pdf}
+  \includegraphics[width=140mm]{Figures/Kapowski_pipeline2.pdf}
   \caption{Illustration of the main components of the ANTs processing 
   workflow containing all elements for determining cortical thickness. 
-  We also included the domain of operations for select scripts also available
-  in ANTs.
+  We also included the domain of operations for the selected scripts.
   Not shown is the optional subject to template registration.}
   \label{fig:pipeline}
 \end{figure*}
@@ -161,7 +159,7 @@ templates \citep{avants2010}.
 
 
 The ANTs implementation of this technique is currently available as a shell script, 
-\verb#buildtemplateparallel.sh# (a multivariate version is also available as
+\verb#buildtemplateparallel.sh# (a generalized, multivariate version is also available as
 \verb#antsMultivariateTemplateConstruction.sh#).  Both scripts are distributed as part of
  the ANTs repository.
 The latter script permits the construction of multimodal templates (e.g. 
@@ -268,14 +266,14 @@ which includes both parametric and non-parametric models for both scalar and ten
 images, and alternative posterior formulations for different segmentation tasks.
 
 Due to the important interplay between segmentation and bias correction,
-we perform multiple N4 $\Leftrightarrow$ Atropos iterations.
+we perform multiple N4 $\rightleftharpoons$ Atropos iterations.
 In order to better integrate Atropos and N4, we use  
 a pure tissue probability weight mask generated from the 
-posterior probabilities generated from the segmentation 
+posterior probabilities derived from the segmentation 
 process.  Given $N$ labels and the corresponding $N$
 posterior probability maps $\{ P_1, \ldots, P_N\}$ produced
 during the segmentation process, the N4 weight mask is 
-created at each N4 $\Leftrightarrow$ Atropos iteration from
+created at each N4 $\rightleftharpoons$ Atropos iteration from
 \begin{align}
   P_{pure\,\,tissue}(\mathbf{x}) = \sum_{i=1}^N P_i(\mathbf{x}) \prod_{j=1, j \neq i}^N \left( 1 - P_j(\mathbf{x}) \right).
 \end{align}
@@ -318,7 +316,7 @@ top level alongside BrainSuite (tuned) and FreeSurfer.
 \subsubsection{DiReCT (aka KellySlater/KellyKapowski) Cortical Thickness Estimation}
 
 DiReCT was introduced 
-in \cite{das2009} and made available in ANTs with the program \verb#KellySlater#.
+in \cite{das2009} and made available in ANTs as the program \verb#KellySlater#.
 Since then several improvements have been made and incorporated into the program
 \verb#KellyKapowski#.%
 \footnote{
@@ -395,7 +393,7 @@ within each label using only the non-zero voxels from the cortical thickness map
 
 \begin{table}
 \centering
-\begin{tabular*}{0.475\textwidth}{@{\extracolsep{\fill}} l l}
+\begin{tabular*}{0.9\textwidth}{@{\extracolsep{\fill}} l l}
 \toprule
   1) L occipital lobe & 2) R occipital lobe \\
   3) L cingulate gyrus & 4) R cingulate gyrus \\
@@ -436,7 +434,9 @@ resonance angiography, and diffusion tensor imaging).  The
 database also consists of  demographic information such as date of birth, date
 of scan, weight,
 height, ethnicity, occupation category, educational level, and marital status.
-Several subjects were removed during the analysis since certain
+Several subjects were removed after cortical thickness map calculation during 
+the post-analysis 
+since certain
 demographic information was missing preventing an accurate estimate of 
 the age at the time of image acquisition.
 
@@ -451,7 +451,8 @@ the ages between 18 and 96 with 100 of these subjects having been
 diagnosed with very mild to moderate Alzheimer's disease.  
 All subjects are right-handed.  Additional processing is included
 with the distribution including bias corrected and segmented images
-(gray, white and CSF matters).
+(gray, white and CSF matters).  20 subjects had repeat scans which
+were used for evaluation of reproducibility.
 
 \paragraph{NKI}
 In support of open science, the 1,000 Functional Connectomes Project%

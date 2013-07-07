@@ -22,8 +22,8 @@
 %% $URL: http://lenova.river-valley.com/svn/elsbst/trunk/elsarticle-template-1-num.tex $
 %%
 
-%\documentclass[preprint,authoryear,review,12pt]{elsarticle}
-\documentclass[final,5p,times,twocolumn]{elsarticle}
+\documentclass[preprint,authoryear,review,12pt]{elsarticle}
+% \documentclass[final,5p,times,twocolumn]{elsarticle}
 
 %% Use the option review to obtain double line spacing
 %% \documentclass[preprint,review,12pt]{elsarticle}
@@ -198,9 +198,11 @@ Advanced Normalization Tools (ANTs) cortical thickness automated pipeline
 comprising well-vetted components such as SyGN (multivariate template construction),
 SyN (image registration), N4 (bias correction), Atropos ($n$-tissue segmentation), 
 and DiReCT (cortical thickness) all developed as part of the ANTs open science effort.  
-Complementing the open source aspect of ANTs we investigate several hypotheses
-explored previously in the literature using four different publicly 
-available data sets totaling approximately 1200 subjects.  
+Four open data sets (IXI, Kirby, NKI, and Oasis), comprising approximately 
+1200 subjects, were processed using the proposed pipeline.  Reproducibility scores
+from a subset of these data, along with a complementary age prediction
+evaluation, demonstrate robust performance.  Additionally, we present novel
+gender differences in predicting structural connectivity across the lifespan.
 To further promote open science and use of the proposed tools,
 all scripts and templates used to produce the results
 are hosted on the Neuroimaging Informatics Tools and Resources Clearinghouse (NITRC) website.
@@ -241,29 +243,6 @@ advanced normalization tools \sep cortical thickness \sep open science
 %%   \citet{key}         ==>>  Author [#]
 
 %% main text
-
-\section{Comments from Brian}
-\begin{itemize}
-  \item contributions
-  \begin{itemize}
-    \item establish population variability internationally ... reference thickness values .... i.e. look up table for thickness results ....
-    \item 7 sites 
-    \item report novel gender diff over age 
-    \item play up large - scale reliability  multisite 
-    \item largest N on public multisite data?  reference peele ...
-    \item quantify site effect .... is it low?
-    \item allows us to quantify gender differences over a large age range ....
-  \end{itemize}
-  \item misc.
-    \begin{itemize}
-      \item figures  
-      \item ask peele for feedback?
-      \item questions - can we get by on large N and multisite alone 
-      \item do we need to establish that we are more reliable than FSurf or FSL or SPM?
-      \item we set the bar high by doing X number of images
-      \item \sout{in discussion, say that future work will quantify SPM ....  not nec. by us.} 
-    \end{itemize}
-\end{itemize}    
 
 \input{intro}
 
