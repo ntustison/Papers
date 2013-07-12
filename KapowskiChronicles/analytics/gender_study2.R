@@ -1,42 +1,19 @@
 # load required libraries
 library( boot )
-library( ANTsR )
 library( ggplot2 )
 library( scales )
 library( igraph )
-library( pheatmap )
-library( randomForest )
 library( reshape )
-library( e1071 )
-rgl.bg( color="white")
-labels <- antsImageRead('nirep.nii.gz',3)
-centroids <- LabelImageCentroids( labels, physical=TRUE )
-template <- antsImageRead('glasshead.nii.gz', 3)
-brain <- antsImageRead('glassbrain.nii.gz', 3)
-leftright <- antsImageRead('leftright.nii.gz', 3)
-# template <- maskImage(template, leftright, 1)
-# brain <- maskImage(brain, leftright, 1)
-id<-rotationMatrix( 0, 0, 1, 0) 
-lateralLeft <- rotationMatrix(pi/2, 0, -1, 0) %*% rotationMatrix(pi/2, -1, 0, 0)
-frontal <- rotationMatrix(pi*3/2, 1,  0, 0)  # %*% rotationMatrix( pi/2, -1, 0, 0)
-lateralRigt <- rotationMatrix(pi/2, 0,  1, 0) %*% rotationMatrix( pi/2, -1, 0, 0)
-par3d(userMatrix=id, windowRect=c(0,0,512,512), zoom=0.7)
-mysurf <- renderSurfaceFunction(list(template,brain), alphasurf=c(0.3,0.3), surfval=0.5, smoothsval=1.5,  alphafunc=1, mycol="cadetblue1")
-par3d(userMatrix=lateralLeft, windowRect=c(0,0,512,512), zoom=0.7)
-par3d(userMatrix=id, windowRect=c(0,0,512,512), zoom=0.7)
-par3d(userMatrix=lateralRigt, windowRect=c(0,0,512,512), zoom=0.7)
+library( ANTsR )
+library( ape )
 
-maximumNumberOfPermutations <- 1000
-sigma <- 5
-ages <- seq( 10, 80, by = 5 )
 #################################################################
 ##
 ##   function definitions
 ##
-##     * calculateCorrelationMatrix -
+##     * calculateCorrelationMatrix
 ##
 #################################################################
-
 
 calculateCorrelationMatrix <- function( mat, weights, nuis )
   {
@@ -61,6 +38,10 @@ calculateCorrelationMatrix <- function( mat, weights, nuis )
 ##   main routine
 ##
 #################################################################
+
+maximumNumberOfPermutations <- 1
+sigma <- 5
+ages <- seq( 10, 80, by = 5 )
 
 resultsIXI <- read.csv( 'labelresultsI.csv' )
 resultsKirby <- read.csv( 'labelresultsK.csv' )
@@ -87,36 +68,64 @@ corticalLabels <- c( "L occipital", "R occipital",
                      "L inferior parietal", "R inferior parietal",
                      "L postcentral",       "R postcentral" )
 
-
 numberOfAges <- length( ages )
 numberOfLabels <- length( corticalLabels )
 thicknessColumns <- 6:ncol( resultsCombined )
 
-weightedAges <- rep( NA, length( ages ) )
-corrs <- rep( NA, numberOfAges )
-
 tstatisticMatrix <- matrix( rep( NA, numberOfLabels * numberOfAges ), ncol = numberOfAges )
 pvalueMatrix <- matrix( rep( NA, numberOfLabels * numberOfAges ), ncol = numberOfAges )
-pvalueMatrixNet <- matrix( rep( NA, numberOfLabels * numberOfAges ), ncol = numberOfAges )
-netdiffMatrixNet <- matrix( rep( NA, numberOfLabels * numberOfAges ), ncol = numberOfAges )
+networkDifferenceMatrix <- matrix( rep( NA, numberOfLabels * numberOfAges ), ncol = numberOfAges )
 networkMales <- matrix( rep( NA, numberOfLabels * numberOfAges ), ncol = numberOfAges )
 networkFemales <- matrix( rep( NA, numberOfLabels * numberOfAges ), ncol = numberOfAges )
 networkAll <- matrix( rep( NA, numberOfLabels * numberOfAges ), ncol = numberOfAges )
 
+corrs <- rep( NA, numberOfAges )
+weightedAges <- rep( NA, numberOfAges )
+
 rownames( networkAll ) <- corticalLabels
 colnames( networkAll ) <- ages
 
+################################################################
+#
+#  for rendering
+#
+################################################################
+
+rgl.bg( color = "white" )
+
+template <- antsImageRead( 'glasshead_male.nii.gz', 3 )
+brain <- antsImageRead( 'glassbrain_male.nii.gz', 3 )
+leftright <- antsImageRead( 'leftright_male.nii.gz', 3 )
+nirepLabels <- antsImageRead( 'nirep_male.nii.gz', 3 )
+centroids <- LabelImageCentroids( nirepLabels, physical = TRUE )
+
+# template <- maskImage( template, leftright, 2 )
+# brain <- maskImage( brain, leftright, 2 )
+
+id <- rotationMatrix( 0, 0, 1, 0)
+lateralLeft <- rotationMatrix( pi/2, 0, -1, 0 ) %*% rotationMatrix( pi/2, -1, 0, 0 )
+frontal <- rotationMatrix( pi*3/2, 1,  0, 0 )  # %*% rotationMatrix( pi/2, -1, 0, 0 )
+lateralRight <- rotationMatrix( pi/2, 0, 1, 0 ) %*% rotationMatrix( pi/2, -1, 0, 0 )
+par3d( userMatrix = id, windowRect = c( 0, 0, 512, 512 ), zoom = 0.7 )
+mysurf <- renderSurfaceFunction( list( template,brain ), alphasurf = c( 0.3, 0.3 ),
+  surfval = 0.5, smoothsval = 1.5, alphafunc = 1, mycol = "cadetblue1" )
+
+par3d( userMatrix = lateralLeft, windowRect = c( 0, 0, 512, 512 ), zoom = 0.7 )
+par3d( userMatrix = id, windowRect = c( 0, 0, 512, 512 ), zoom = 0.7 )
+par3d( userMatrix = lateralRight, windowRect = c( 0, 0, 512, 512 ), zoom = 0.7 )
+
+
+############################################
+#
+# permutation testing on sex differences across age
+#
+############################################
 
 count <- 1
 for( age in ages )
   {
-  # calculate the age differences of the entire cohort
-  # with the current age.  Used to calculate weights (i.e.
-  # weights closer to the current age are weighted more
-  # heavily
-
   ageDifference <- ( resultsCombined$AGE - age )
-  resultsSubsetBasedOnAgeDifference <- subset( resultsCombined, abs( ageDifference ) < 5000*sigma )
+  resultsSubsetBasedOnAgeDifference <- subset( resultsCombined, abs( ageDifference ) < 5000 * sigma )
   thicknessValues <- resultsSubsetBasedOnAgeDifference[,thicknessColumns]
 
   ageDifference <- ( resultsSubsetBasedOnAgeDifference$AGE - age )
@@ -124,150 +133,151 @@ for( age in ages )
   cweights <- cweights / sum( cweights )
 
   weightedAges[count] <- sum( resultsSubsetBasedOnAgeDifference$AGE * cweights )
-  correlationThicknessMatrix <- calculateCorrelationMatrix( thicknessValues , weights = cweights  )
-  myth <- residuals( lm( as.matrix( thicknessValues ) ~ resultsSubsetBasedOnAgeDifference$SITE ) )
 
-  ############################################
-  #
-  #  Perform t-statistic on age vs. thickness label
-  #
-  ############################################
+#   thicknessResiduals <- residuals( lm( as.matrix( thicknessValues ) ~ resultsSubsetBasedOnAgeDifference$SITE ) )
+  thicknessResiduals <- residuals( lm( as.matrix( thicknessValues ) ~ SITE + VOLUME, data = resultsSubsetBasedOnAgeDifference ) )
 
-  for( corticalLabel in 1:length( corticalLabels ) )
-    {
-    genderTest <- summary( lm( thicknessValues[,corticalLabel] ~ SEX + SITE + VOLUME + I(AGE) + I(AGE^2), weights = cweights, data = resultsSubsetBasedOnAgeDifference ) )
 
-    # get t-statistic and p-value on SEX significance (respectively)
-    tstatisticMatrix[corticalLabel,count] <- coef( genderTest )[2,3]
-    pvalueMatrix[corticalLabel,count] <- coef( genderTest )[2,4]
-    }
-
-  count <- count+1
-  }
-
-qvalueMatrix<-matrix(  p.adjust(  pvalueMatrix , method='bonf' ), ncol = numberOfAges )
-
-count <- 1
-for( age in ages ) # age permutation loop
-  {
-  ageDifference <- ( resultsCombined$AGE - age )
-  resultsSubsetBasedOnAgeDifference <- subset( resultsCombined, abs( ageDifference ) < 5000*sigma )
-  thicknessValues <- resultsSubsetBasedOnAgeDifference[,thicknessColumns]
-
-  ageDifference <- ( resultsSubsetBasedOnAgeDifference$AGE - age )
-  cweights <- exp( -1.0 * ageDifference^2 / sigma^2 )
-  cweights <- cweights / sum( cweights )
-
-  weightedAges[count] <- sum( resultsSubsetBasedOnAgeDifference$AGE * cweights )
-  correlationThicknessMatrix <- calculateCorrelationMatrix( thicknessValues , weights = cweights  )
-  myth <- residuals( lm( as.matrix( thicknessValues ) ~ resultsSubsetBasedOnAgeDifference$SITE ) )
-
-  ############################################
-  #
-  # permutation testing on sex differences
-  #
-  ############################################
-
-  initialNetworkDifference <- c();
+  initialNetworkDifference <- c()
 
   pb <- txtProgressBar( min = 0, max = maximumNumberOfPermutations, style = 3 )
   permutationCount <- rep( 0, numberOfLabels )
-  for( permutation in 0:maximumNumberOfPermutations )
+  for( permutation in 0:( maximumNumberOfPermutations - 1 ) )
     {
     samplesSex <- resultsSubsetBasedOnAgeDifference$SEX
     if( permutation > 0 & permutation < maximumNumberOfPermutations )
       {
       samplesSex <- sample( resultsSubsetBasedOnAgeDifference$SEX )
       }
-    # localtransitivity betweeness pagerank 
+
     gdensity <- 0.25
-    temp <- calculateCorrelationMatrix( myth, cweights)
-    networkAll[,count] <- makeGraph( temp , gdensity )$localtransitivity # walktrapcomm$modularity
+    temp <- calculateCorrelationMatrix( thicknessResiduals, cweights )
+    networkAll[,count] <- makeGraph( temp, gdensity )$localtransitivity
+
+    if( permutation == 0 )
+      {
+      subnet0 <- reduceNetwork( temp, N = 200 )
+      corrs[count] <- mean( subnet0$network[subnet0$network > 0] )
+      }
 
     males <- samplesSex == 1
-    temp <- calculateCorrelationMatrix( myth[males,], cweights[males] )
-    networkMales[,count] <- makeGraph( temp , gdensity )$localtransitivity # walktrapcomm$modularity
+    temp <- calculateCorrelationMatrix( thicknessResiduals[males,], cweights[males] )
+    networkMales[,count] <- makeGraph( temp, gdensity )$localtransitivity
 
     females <- samplesSex == 2
-    temp <- calculateCorrelationMatrix( myth[females,], cweights[females] )
-    networkFemales[,count] <- makeGraph(  temp , gdensity )$localtransitivity # walktrapcomm$modularity
+    temp <- calculateCorrelationMatrix( thicknessResiduals[females,], cweights[females] )
+    networkFemales[,count] <- makeGraph( temp, gdensity )$localtransitivity
 
-    networkDifference <- ( ( networkFemales[,count] ) -  ( networkMales[,count] ) )
+    networkDifference <- ( ( networkFemales[,count] ) - ( networkMales[,count] ) )
 
-    if( permutation == 0 & FALSE )
+    if( permutation == 0 & TRUE )
       {
-      locations<-list( vertices=centroids$vertices )
+      locations <- list( vertices = centroids$vertices )
+
       ########## first males ############
+
       gender <- samplesSex == 1
-      temp <- calculateCorrelationMatrix( myth[gender,], cweights[gender] )
-      myg<- makeGraph(  temp , gdensity )
-      renderNetwork( myg$adjacencyMatrix , locations )
-      fn<-paste('figs/temp_male_community_',age,'.pdf',sep='')
-      pdf(fn)
-      plot( myg$walktrapcomm, myg$mygraph )
+      temp <- calculateCorrelationMatrix( thicknessResiduals[gender,], cweights[gender] )
+      maleGraph <- makeGraph( temp, gdensity )
+
+      renderNetwork( maleGraph$adjacencyMatrix, locations )
+
+      filename <- paste0( 'figs/temp_male_community_' , age, '.pdf' )
+      pdf( filename )
+      plot( maleGraph$walktrapcomm, maleGraph$mygraph, layout = layout.fruchterman.reingold,
+            vertex.size = 15,
+            vertex.label = corticalLabels, vertex.label.cex = 0.75, vertex.label.font = 2 )
       dev.off()
-      fn<-paste('figs/temp_male_network_F_',age,'.png',sep='')
-      par3d(userMatrix=id, windowRect=c(0,0,512,512), zoom=0.7)
-      par3d(userMatrix=frontal, windowRect=c(0,0,512,512), zoom=0.7)
-      rgl.snapshot(fn)
-      fn<-paste('figs/temp_male_network_L_',age,'.png',sep='')
-      par3d(userMatrix=id, windowRect=c(0,0,512,512), zoom=0.7)
-      par3d(userMatrix=lateralLeft, windowRect=c(0,0,512,512), zoom=0.7)
-      rgl.snapshot(fn)
-      fn<-paste('figs/temp_male_network_R_',age,'.png',sep='')
-      par3d(userMatrix=id, windowRect=c(0,0,512,512), zoom=0.7)
-      par3d(userMatrix=lateralRigt, windowRect=c(0,0,512,512), zoom=0.7)
-      rgl.snapshot(fn)
+
+      filename <- paste0( 'figs/temp_male_community_X_' , age, '.pdf' )
+      pdf( filename )
+      V( maleGraph$mygraph )$name <- corticalLabels
+      dendPlot( walktrap.community( maleGraph$mygraph ), mode = "phylo", type = "fan", edge.width = 2,
+        show.tip.label = TRUE, x.lim = c( -30, 30 ), no.margin = TRUE, font = 2, label.offset = 1
+         )
+#       axisPhylo()
+      dev.off()
+
+      filename <- paste0( 'figs/temp_male_network_F_', age, '.png' )
+      par3d( userMatrix = id, windowRect = c( 0, 0, 512, 512 ), zoom = 0.7 )
+      par3d( userMatrix = frontal, windowRect = c( 0, 0, 512, 512 ), zoom = 0.7 )
+      rgl.snapshot( filename )
+
+      filename <- paste0( 'figs/temp_male_network_L_', age, '.png' )
+      par3d( userMatrix = id, windowRect = c( 0, 0, 512, 512 ), zoom = 0.7 )
+      par3d( userMatrix = lateralLeft, windowRect = c( 0, 0, 512, 512 ), zoom = 0.7 )
+      rgl.snapshot( filename )
+      filename <- paste0( 'figs/temp_male_network_R_', age, '.png' )
+
+      par3d( userMatrix = id, windowRect = c( 0, 0, 512, 512 ), zoom = 0.7 )
+      par3d( userMatrix = lateralRight, windowRect = c( 0, 0, 512, 512 ), zoom = 0.7 )
+      rgl.snapshot( filename )
       rgl.pop()
+
       ######## now females ###########
-      gender <- samplesSex == 2
-      temp <- calculateCorrelationMatrix( myth[gender,], cweights[gender] )
-      myg<- makeGraph(  temp , gdensity )
-      renderNetwork( myg$adjacencyMatrix , locations )
-      fn<-paste('figs/temp_female_community_',age,'.pdf',sep='')
-      pdf(fn)
-      plot( myg$walktrapcomm, myg$mygraph )
-      dev.off()
-      fn<-paste('figs/temp_female_network_F_',age,'.png',sep='')
-      par3d(userMatrix=id, windowRect=c(0,0,512,512), zoom=0.7)
-      par3d(userMatrix=frontal, windowRect=c(0,0,512,512), zoom=0.7)
-      rgl.snapshot(fn)
-      fn<-paste('figs/temp_female_network_L_',age,'.png',sep='')
-      par3d(userMatrix=id, windowRect=c(0,0,512,512), zoom=0.7)
-      par3d(userMatrix=lateralLeft, windowRect=c(0,0,512,512), zoom=0.7)
-      rgl.snapshot(fn)
-      fn<-paste('figs/temp_female_network_R_',age,'.png',sep='')
-      par3d(userMatrix=id, windowRect=c(0,0,512,512), zoom=0.7)
-      par3d(userMatrix=lateralRigt, windowRect=c(0,0,512,512), zoom=0.7)
-      rgl.snapshot(fn)
-      rgl.pop()
+
+#       gender <- samplesSex == 2
+#       temp <- calculateCorrelationMatrix( thicknessResiduals[gender,], cweights[gender] )
+#       femaleGraph <- makeGraph( temp, gdensity )
+#
+#       renderNetwork( femaleGraph$adjacencyMatrix, locations )
+#
+#       filename <- paste0( 'figs/temp_female_community_' , age, '.pdf' )
+#       pdf( filename )
+#       plot( femaleGraph$walktrapcomm, femaleGraph$mygraph, layout = layout.fruchterman.reingold,
+#             vertex.size = 15,
+#             vertex.label = corticalLabels, vertex.label.cex = 0.75, vertex.label.font = 2 )
+#       dev.off()
+#
+#       filename <- paste0( 'figs/temp_female_community_X_' , age, '.pdf' )
+#       pdf( filename )
+#       V( femaleGraph$mygraph )$name <- corticalLabels
+#       dendPlot( walktrap.community( femaleGraph$mygraph ), mode = "phylo", type = "fan", edge.width = 2,
+#         show.tip.label = TRUE, x.lim = c( -30, 30 ), no.margin = TRUE, font = 2, label.offset = 1
+#          )
+# #       axisPhylo()
+#       dev.off()
+#
+#       filename <- paste0( 'figs/temp_female_network_F_', age, '.png' )
+#       par3d( userMatrix = id, windowRect = c( 0, 0, 512, 512 ), zoom = 0.7 )
+#       par3d( userMatrix = frontal, windowRect = c( 0, 0, 512, 512 ), zoom = 0.7 )
+#       rgl.snapshot( filename )
+#
+#       filename <- paste0( 'figs/temp_female_network_L_', age, '.png' )
+#       par3d( userMatrix = id, windowRect = c( 0, 0, 512, 512 ), zoom = 0.7 )
+#       par3d( userMatrix = lateralLeft, windowRect = c( 0, 0, 512, 512 ), zoom = 0.7 )
+#       rgl.snapshot( filename )
+#       filename <- paste0( 'figs/temp_female_network_R_', age, '.png' )
+#
+#       par3d( userMatrix = id, windowRect = c( 0, 0, 512, 512 ), zoom = 0.7 )
+#       par3d( userMatrix = lateralRight, windowRect = c( 0, 0, 512, 512 ), zoom = 0.7 )
+#       rgl.snapshot( filename )
+#       rgl.pop()
       }
-    
+
     if( permutation == 0 )
       {
       initialNetworkDifference <- networkDifference
-      mysign<-as.numeric( initialNetworkDifference > 0 )
-      mysign[ mysign == 0 ] <- -1 
+      mysign <- as.numeric( initialNetworkDifference > 0 )
+      mysign[mysign == 0] <- -1
       } else {
-      permutationCount <- permutationCount + as.numeric( (networkDifference*mysign) > initialNetworkDifference )
+      permutationCount <- permutationCount + as.numeric( ( networkDifference*mysign ) > initialNetworkDifference )
       }
-    setTxtProgressBar(pb, permutation )
+    setTxtProgressBar( pb, permutation )
   }
 
-  pvalueMatrixNet[ , count ] <-  permutationCount / maximumNumberOfPermutations
-  netdiffMatrixNet[ , count ] <-  initialNetworkDifference
-  cat( "Age: ", age, "\n", sep = '' );
-  for ( ff in 1:length(mysign) ) if (  pvalueMatrixNet[ff, count ] < 0.05 ) print(paste(corticalLabels[ff],initialNetworkDifference[ff],pvalueMatrixNet[ff, count ]))#  cat( "  p-value (permutation testing) =", permutationCount / maximumNumberOfPermutations, "\n", sep = ' ' )
-
-  
-  corrs[count] <- mean( cor( thicknessValues ) )
-
-  meanthicknessValues <- mean( apply( thicknessValues, FUN = mean, MARGIN = 2 ) )
-
+  pvalueMatrix[,count] <- permutationCount / maximumNumberOfPermutations
+  networkDifferenceMatrix[,count] <- initialNetworkDifference
+  cat( "Age: ", age, "\n", sep = '' )
+  for( ff in 1:length( mysign ) )
+    {
+    if( pvalueMatrix[ff, count] < 0.05 )
+      {
+      print( paste( corticalLabels[ff], initialNetworkDifference[ff], pvalueMatrix[ff, count] ) )  #  cat( "  p-value (permutation testing) =", permutationCount / maximumNumberOfPermutations, "\n", sep = ' ' )
+      }
+    }
   count <- count+1
-} # end age network permutation loop
-
-
+  }
 
 ##################################
 #
@@ -287,11 +297,8 @@ corrsPlot <- ggplot( corrsPlotData, aes( x = weightedAges, y = correlationValues
              ggtitle( "Average thickness network correlation vs. age" )
 ggsave( filename = paste( "averageThicknessNetworkWithAge.pdf", sep = "" ), plot = corrsPlot, width = 8, height = 6, units = 'in' )
 
-# (weighted) age vs. average thickness network plot
 
-qvalueMatrix <- p.adjust( pvalueMatrix, method = "bonferroni" )
-qvalueMatrix <- matrix( as.numeric( qvalueMatrix < 0.01 ) , nrow = nrow( tstatisticMatrix ) )
-qvalueMatrix[ ( qvalueMatrix == 1 ) & ( tstatisticMatrix < 0 ) ] <- ( -1 )
+qvalueMatrix <- matrix( p.adjust( pvalueMatrix, method = "bonferroni" ), nrow = nrow( pvalueMatrix ), ncol = ncol( pvalueMatrix ) )
 
 qvalueData <- data.frame( qvalueMatrix )
 colnames( qvalueData ) <- ages
@@ -304,26 +311,13 @@ qvaluePlot <- ggplot( melt( qvalueData ), aes( x = variable, y = CorticalLabels,
               scale_y_discrete( 'Cortical Labels' )
 ggsave( filename = "qvalueHeatMap.pdf", plot = qvaluePlot, width = 10, height = 6, units = 'in' )
 
-
-tstatisticData <- data.frame( tstatisticMatrix )
-colnames( tstatisticData ) <- ages
-tstatisticData$CorticalLabels <- factor( corticalLabels, levels = rev( corticalLabels ) )
-
-tstatisticPlot <- ggplot( melt( tstatisticData ) ) +
-              geom_tile( aes( x = variable, y = CorticalLabels, fill = value ), colour = "gray50", size = 0 ) +
-              scale_fill_gradientn( name = "t-statistic", colours = heat.colors( 7 ) ) +
-              scale_x_discrete( 'Age', labels = seq( from = ages[1], to = ages[length( ages )], by = 5 ), breaks = seq( from = ages[1], to = ages[length( ages )], by = 5 ) ) +
-              scale_y_discrete( 'Cortical Labels' )
-ggsave( filename = "tstatisticHeatMap.pdf", plot = tstatisticPlot, width = 10, height = 6, units = 'in' )
-
-
 networkMaleData <- data.frame( networkMales )
 colnames( networkMaleData ) <- ages
 networkMaleData$CorticalLabels <- factor( corticalLabels, levels = rev( corticalLabels ) )
 
 networkMalePlot <- ggplot( melt( networkMaleData ) ) +
                geom_tile( aes( x = variable, y = CorticalLabels, fill = value ), colour = "gray50", size = 0 ) +
-               scale_fill_gradientn( name = "correlation\nvalues", colours = heat.colors( 7 ) ) +
+               scale_fill_gradientn( name = "transitivity\nvalues", colours = heat.colors( 7 ) ) +
                scale_x_discrete( 'Age', labels = seq( from = ages[1], to = ages[length( ages )], by = 5 ), breaks = seq( from = ages[1], to = ages[length( ages )], by = 5 ) ) +
                scale_y_discrete( 'Cortical Labels' ) +
                ggtitle( "Male network" )
@@ -336,7 +330,7 @@ networkFemaleData$CorticalLabels <- factor( corticalLabels, levels = rev( cortic
 
 networkFemalePlot <- ggplot( melt( networkFemaleData ) ) +
                geom_tile( aes( x = variable, y = CorticalLabels, fill = value ), colour = "gray50", size = 0 ) +
-               scale_fill_gradientn( name = "correlation\nvalues", colours = heat.colors( 7 ) ) +
+               scale_fill_gradientn( name = "transitivity\nvalues", colours = heat.colors( 7 ) ) +
                scale_x_discrete( 'Age', labels = seq( from = ages[1], to = ages[length( ages )], by = 5 ), breaks = seq( from = ages[1], to = ages[length( ages )], by = 5 ) ) +
                scale_y_discrete( 'Cortical Labels' ) +
                ggtitle( "Female network" )
@@ -348,7 +342,7 @@ networkAllData$CorticalLabels <- factor( corticalLabels, levels = rev( corticalL
 
 networkAllPlot <- ggplot( melt( networkAllData ) ) +
                geom_tile( aes( x = variable, y = CorticalLabels, fill = value ), colour = "gray50", size = 0 ) +
-               scale_fill_gradientn( name = "correlation\nvalues", colours = heat.colors( 7 ) ) +
+               scale_fill_gradientn( name = "transitivity\nvalues", colours = heat.colors( 7 ) ) +
                scale_x_discrete( 'Age', labels = seq( from = ages[1], to = ages[length( ages )], by = 5 ), breaks = seq( from = ages[1], to = ages[length( ages )], by = 5 ) ) +
                scale_y_discrete( 'Cortical Labels' ) +
                ggtitle( "Both genders network" )
@@ -367,3 +361,130 @@ ggsave( filename = "allNetwork.pdf", plot = networkAllPlot, width = 10, height =
 # print( "transitivity with age" )
 # print( p.adjust( pvals, method = 'BH' ) )
 #
+
+
+
+
+
+
+
+
+
+# > source( "gender_study2.R")
+#   |===========================================================================================| 100%
+# No functional images--only plotting surface images.
+#   |===========================================================================================| 100%Age: 10
+# [1] "L insula 0 0.002"
+# [1] "R insula 0 0.003"
+# [1] "L infero temporal 0.247740563530037 0.033"
+# [1] "L parahippocampal 0 0.025"
+# [1] "R parahippocampal 0 0.015"
+#   |===========================================================================================| 100%Age: 15
+# [1] "L insula 0 0"
+# [1] "R insula 0 0"
+# [1] "L infero temporal 0.406463102115276 0"
+# [1] "R infero temporal 0.307692307692308 0.014"
+# [1] "R postcentral 0.555555555555556 0.041"
+#   |===========================================================================================| 100%Age: 20
+# [1] "L insula 0 0"
+# [1] "R insula 0 0"
+# [1] "L infero temporal 0.231829573934837 0.016"
+# [1] "L inferior 0.336996336996337 0.017"
+#   |===========================================================================================| 100%Age: 25
+# [1] "L insula 0 0"
+# [1] "R insula 0 0"
+# [1] "L superior temporal 1 0"
+#   |===========================================================================================| 100%Age: 30
+# [1] "L cingulate 0 0.016"
+# [1] "R cingulate 0 0.025"
+# [1] "L insula 0 0"
+# [1] "R insula 0 0"
+# [1] "L middle frontal 0.218623481781377 0.041"
+# [1] "L superior parietal 0.399350649350649 0.021"
+#   |===========================================================================================| 100%Age: 35
+# [1] "L cingulate 0 0.015"
+# [1] "R cingulate 0 0.027"
+# [1] "L insula 0 0"
+# [1] "R insula 0 0"
+# [1] "L superior frontal 0.43947963800905 0.018"
+# [1] "L middle frontal 0.478632478632479 0.008"
+# [1] "R middle frontal 0.370695970695971 0.013"
+# [1] "L postcentral 0.278632478632479 0.032"
+#   |===========================================================================================| 100%Age: 40
+# [1] "L insula 0 0"
+# [1] "R insula 0 0"
+# [1] "R infero temporal 0.409803921568627 0.016"
+# [1] "L middle frontal 0.282051282051282 0.04"
+# [1] "R middle frontal 0.395360195360195 0.005"
+#   |===========================================================================================| 100%Age: 45
+# [1] "L cingulate 0 0.036"
+# [1] "R cingulate 0 0.014"
+# [1] "L insula 0 0"
+# [1] "R insula 0 0"
+# [1] "R temporal pole 0.619047619047619 0.02"
+#   |===========================================================================================| 100%Age: 50
+# [1] "L cingulate 0 0.046"
+# [1] "R cingulate 0 0.045"
+# [1] "L insula 0 0.012"
+# [1] "R insula 0 0.017"
+# [1] "L temporal pole 1 0"
+# [1] "L superior temporal 0.380952380952381 0.033"
+# [1] "L parahippocampal 1 0"
+# [1] "R parahippocampal 0.666666666666667 0.037"
+#   |===========================================================================================| 100%Age: 55
+# [1] "L cingulate 0 0.002"
+# [1] "R cingulate 0 0.002"
+# [1] "L insula 0 0.001"
+# [1] "R insula 0 0.002"
+# [1] "L superior temporal 0.380952380952381 0.017"
+# [1] "L parahippocampal 0 0.008"
+# [1] "R parahippocampal 0 0.007"
+# [1] "L precentral 0.348484848484849 0.019"
+# [1] "L postcentral 0.400649350649351 0.028"
+#   |===========================================================================================| 100%Age: 60
+# [1] "L cingulate 0 0"
+# [1] "R cingulate 0 0"
+# [1] "L insula 0 0"
+# [1] "R insula 0 0"
+# [1] "R superior temporal 0.642857142857143 0.031"
+# [1] "L parahippocampal 0 0.027"
+# [1] "R parahippocampal 0 0.02"
+# [1] "L postcentral 0.355042016806723 0.023"
+#   |===========================================================================================| 100%Age: 65
+# [1] "L cingulate 0 0"
+# [1] "R cingulate 0 0"
+# [1] "L insula 0 0"
+# [1] "R insula 0 0"
+# [1] "L postcentral 0.324603174603175 0.008"
+#   |===========================================================================================| 100%Age: 70
+# [1] "L cingulate 0 0"
+# [1] "R cingulate 0 0"
+# [1] "L insula 0 0"
+# [1] "R insula 0 0"
+# [1] "R parahippocampal 0 0.027"
+# [1] "R orbital frontal 0.666666666666667 0.003"
+#   |===========================================================================================| 100%Age: 75
+# [1] "L cingulate 0 0"
+# [1] "R cingulate 0 0"
+# [1] "L insula 0 0"
+# [1] "R insula 0 0"
+# [1] "L parahippocampal 1 0"
+# [1] "R parahippocampal 0 0.041"
+# [1] "R orbital frontal 0.714285714285714 0.045"
+# [1] "L superior parietal 1 0"
+# [1] "R superior parietal 0.6 0.009"
+#   |===========================================================================================| 100%Age: 80
+# [1] "L cingulate 0 0"
+# [1] "R cingulate 0 0"
+# [1] "L insula 0 0"
+# [1] "R insula 0 0"
+# [1] "R orbital frontal 1 0"
+
+
+
+
+
+
+
+
+
