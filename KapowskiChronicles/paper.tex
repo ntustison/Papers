@@ -183,14 +183,15 @@
 
 \begin{abstract} 
 Numerous studies have explored the relationship between cortical
-structure and brain development, cognitive 
-function and functional connectivity.
+structure, brain development, cognitive 
+function, and functional connectivity.
 The highly convoluted cortical topography makes manual measurements
 arduous and often impractical given the population sizes necessary 
-for sufficient statistical power.  Computational techniques 
+for inferring statistical trends.  Computational techniques 
 have permitted large-scale studies as they
-provide robust and reliable localized measurements characterizing
-the cortex with little or no human intervention.  Particularly useful
+provide reproducible localized measurements characterizing
+the cortex with little or no human intervention.  
+Particularly useful
 to the neuroscience community are publicly available tools, such as the popular 
 surface-based Freesurfer, which facilitate the testing and refinement of 
 hypotheses.  In this paper, we introduce the volume-based 
@@ -198,10 +199,11 @@ Advanced Normalization Tools (ANTs) cortical thickness automated pipeline
 comprising well-vetted components such as SyGN (multivariate template construction),
 SyN (image registration), N4 (bias correction), Atropos ($n$-tissue segmentation), 
 and DiReCT (cortical thickness) all developed as part of the ANTs open science effort.  
-Four open data sets (IXI, Kirby, NKI, and Oasis), comprising approximately 
-1200 subjects, were processed using the proposed pipeline.  Reproducibility scores
+Four open data sets (IXI, Kirby, NKI, and Oasis), consisting of approximately 
+1200 images, were processed using the proposed pipeline (with only two processing
+failures).  Reproducibility scores
 from a subset of these data, along with a complementary age prediction
-evaluation, demonstrate robust performance.  Additionally, we present novel
+evaluation, demonstrate good performance.  Additionally, we present novel
 gender differences in predicting structural connectivity across the lifespan.
 To further promote open science and use of the proposed tools,
 all scripts and templates used to produce the results
@@ -254,7 +256,7 @@ advanced normalization tools \sep cortical thickness \sep open science
 
 %% References with bibTeX database:
 
-\section*{Acknowledgments}
+%\section*{Acknowledgments}
 
 \section*{References}
 

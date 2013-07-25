@@ -170,7 +170,7 @@ for( age in ages )
 
     networkDifference <- ( ( networkFemales[,count] ) - ( networkMales[,count] ) )
 
-    if( permutation == 0 & TRUE )
+    if( permutation == 0 & FALSE )
       {
       locations <- list( vertices = centroids$vertices )
 
@@ -261,10 +261,10 @@ for( age in ages )
       mysign <- as.numeric( initialNetworkDifference > 0 )
       mysign[mysign == 0] <- -1
       } else {
-      permutationCount <- permutationCount + as.numeric( ( networkDifference*mysign ) > initialNetworkDifference )
+      permutationCount <- permutationCount + as.numeric( ( networkDifference * mysign ) > initialNetworkDifference )
       }
     setTxtProgressBar( pb, permutation )
-  }
+    }
 
   pvalueMatrix[,count] <- permutationCount / maximumNumberOfPermutations
   networkDifferenceMatrix[,count] <- initialNetworkDifference
